@@ -32,3 +32,7 @@ Route::get('/usuario/{id}/role', function($id){
 	}
 
 });
+
+Auth::routes();
+
+Route::get('/inicio', 'HomeController@index')->name('inicio');

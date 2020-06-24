@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+
                     <form method="POST" action="{{ route('login')}}"> 
 						{{csrf_field()}}
 						<div class="form-group {{ $errors->has('nombre_rol')? 'has-error': ''}}">
@@ -27,7 +28,8 @@
 									
 						</div>
 						<button class="btn btn-primary btn-block"> Acceder </button>
-					</form> 
+					</form>
+
                 </div>
             </div>
         </div>

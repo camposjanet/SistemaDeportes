@@ -24,6 +24,6 @@ class LoginController extends Controller
 					 ->withInput(request(['email']));
 		*/
 
-
 	}
+
 }
