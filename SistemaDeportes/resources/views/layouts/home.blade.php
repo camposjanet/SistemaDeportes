@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
 </head>
   <body class="hold-transition  sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper bg-dark" >
         
         <header class="main-header" >
             <a href="#" class="sidebar-toggle text-white" data-toggle="offcanvas" role="button">
@@ -50,7 +50,7 @@
                 </div>
             </nav>
         </header>
-        <aside class="main-sidebar  bg-dark" style="height: 625px;">
+        <aside class="main-sidebar  bg-dark" style=" width: 230px;">
             <section class="sidebar">
                 <ul class="sidebar-menu">
                     <li class="header text-white" style="font-size: 15px; ">
