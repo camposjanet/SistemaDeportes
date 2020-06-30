@@ -21,7 +21,7 @@
                 
                     <div class="card-header bg-primary text-white">Socios</div>
                     <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                        <a href="/" class="text-primary">
+                        <a href="socio/create" class="text-primary">
                             <i class="fa fa-users"></i>
                         </a>
                         
