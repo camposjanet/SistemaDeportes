@@ -21,7 +21,6 @@ class UserTableSeeder extends Seeder
 		$user->name="nico rojas";
 		$user->email="nicorojas@email.com";
 		$user->password= bcrypt('12345678');
-		$user->role_id=3; // ESTA LINEA VA SOLO SI EL CAMPO ROLE_ID ES NOT NULL
 		$user->save();
 		$user->roles()->attach($role_profesor);
 
