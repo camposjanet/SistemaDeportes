@@ -1,38 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<div class="container" style="height:100%; align-content:center;"> 
+				<div style="display: flex; align-items:center; justify-content: center; min-height: 100vh;">
+				    	<div class="card" style="height: 370px;margin-top: auto;margin-bottom:auto;width: 400px;background-color: rgba(0,0,0,0.5) !important;">
+				        	<div class="card-header"> <h3 align="center" style="color:white"> {{ __('Secretaría de Educación Física y Deportes') }}</h3> </div>
 
-                <div class="card-body">
+				       		 	<div class="card-body">
 
-                    <form method="POST" action="{{ route('login')}}"> 
-						{{csrf_field()}}
-						<div class="form-group {{ $errors->has('nombre_rol')? 'has-error': ''}}">
-							{!! $errors->first('nombre_rol','<span class="help-block">:message </span>') !!}
-							<input class="form-control" 
-									type="string" 
-									name="nombre_rol" 
-									placeholder="Ingrese Usuario">
+				            		<form method="POST" action="{{ route('login')}}"> 
+										{{csrf_field()}}
+									<div class="form-group {{ $errors->has('name')? 'has-error': ''}}">
+										{!! $errors->first('name','<span class="help-block">:message </span>') !!}
+										<input class="form-control"
+												name="name"
+												value="{{ old('name')}}" 
+												placeholder="Ingrese su Usuario">
+									</div>
+						
+									<div class="form-group {{ $errors->has('password')? 'has-error': ''}}">
+										{!! $errors->first('password','<span class="help-block">:message </span>') !!}
+										<input class="form-control" 
+												type="password" 
+												name="password" 
+												placeholder="Ingrese su contraseña">
 									
-						</div>
-						<div class="form-group {{ $errors->has('password')? 'has-error': ''}}">
-							{!! $errors->first('password','<span class="help-block">:message </span>') !!}
-							<input class="form-control" 
-									type="password" 
-									name="password" 
-									placeholder="Ingresa tu password">
-									
-						</div>
-						<button class="btn btn-primary btn-block"> Acceder </button>
-					</form>
+									</div>
+									<div>
+										<button class="btn btn-primary btn-block"> Acceder </button>
+									</div>
+								</form>
 
-                </div>
-            </div>
-        </div>
-    </div>
+				        	</div>
+							<div class="card-footer">
+								<div class="d-flex justify-content-center">
+									<a href="#"> ¿Ha olvidado su contraseña?</a> 
+								</div>
+							</div>
+				</div>
+    	</div>
 </div>
 @endsection

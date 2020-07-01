@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\Http\Controllers\Controller;
-use Auht;
 
 class LoginController extends Controller
 {
+	public function __construct(){
+		$this->middleware('guest',['only'=>'showLoginForm']);
+	}
+	public function showLoginForm(){
+		return view('auth.login');
+	}
     public function login()
 	{
-		$credentials=$this->validate(request(),[
-			'Usuario'=> 'nombre_rol|required|string',
-			'Password' => 'required|string'
+		$credentials= $this->validate(request(),[
+			'name'=> 'required|string',
+			'password' => 'required|string'
 		]);
 		
-		return $credentials;
-		/*if(Auth::attempt($credentials))
+		if(Auth::attempt($credentials))
 		{
-			return redirect()->route('dashboard');
+			return redirect()->route('inicio');
 		}
 		
-		return back()->withErrors(['email'=>'El correo ingresado no se encuentra '])
-					 ->withInput(request(['email']));
-		*/
+		return back()
+			->withErrors(['name'=>'No se encuentra registo del nombre de ususario ingresado'])
+			->withInput(request(['name']));
 
+
+	}
+	
+	public function logout(){
+		Auth::logout();
+		return redirect('/');
 	}
 
 }

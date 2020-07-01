@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-App\Http\Controllers\App;
+
+use App\User;
+use App\Role;
 
 class AdministradorController extends Controller
 {
@@ -17,8 +19,10 @@ class AdministradorController extends Controller
 	}
 
 	public function index(){
-		$user=User; 
-	
-		return "Si has llegado hasta aqui tienes rol de ".$user->roles->nombre_rol;
+		$user= user::find(1);
+		if($user && $user->roles->nombre_rol="Profesor"){
+					
+					return "si llegamos hasta aqui es porque sos un usuario ".$user->roles->nombre_rol;
+		}	
 	}
 }

@@ -1,5 +1,6 @@
 <?php
-
+use App\User;
+use App\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,10 +13,7 @@
 |
 */
 
-Route::get('/', function () {
-
-    return view('auth.login');
-});
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 Auth::routes();
 
@@ -23,16 +21,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin','AdministradorController@index');
 
-Route::get('/usuario/{id}/role', function($id){
-
-	$user=user::find($id);
-
-	foreach($user->roles as $role){
-		return $role->nombre_rol;
-	}
-
-});
-
 Auth::routes();
 
 Route::get('/inicio', 'HomeController@index')->name('inicio');
+
+Route::post('login','Auth\LoginController@login')->name('login');
+Route::post('logout','Auth\LoginController@logout')->name('logout');
