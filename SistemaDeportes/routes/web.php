@@ -36,3 +36,8 @@ Route::get('/usuario/{id}/role', function($id){
 Auth::routes();
 
 Route::get('/inicio', 'HomeController@index')->name('inicio');
+
+// * SOCIOS
+Route::get('socio/create','SocioController@create');
+Route::post('socio/create','SocioController@store')->name('socio.store');
+//Route::resource('socio','SocioController');
