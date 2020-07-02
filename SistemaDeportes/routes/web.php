@@ -1,4 +1,6 @@
 <?php
+use App\User;
+use App\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,9 +13,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Auth\LoginController@showLoginForm');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/admin','AdministradorController@index');
 
 Auth::routes();
 
@@ -23,3 +29,5 @@ Route::get('/inicio', 'HomeController@index')->name('inicio');
 Route::get('socio/create','SocioController@create');
 Route::post('socio/create','SocioController@store')->name('socio.store');
 //Route::resource('socio','SocioController');
+Route::post('login','Auth\LoginController@login')->name('login');
+Route::post('logout','Auth\LoginController@logout')->name('logout');
