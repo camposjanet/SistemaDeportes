@@ -32,7 +32,7 @@ class SocioRequest extends FormRequest
             'telefono_celular'=>'required|max:45',
             'telefono_de_emergencia'=>'required|max:45',
             'email'=>'email|max:100',
-            'estado'=>'required',
+            'estado_documentacion'=>'required',
             'foto' => 'required'
         ];
     }

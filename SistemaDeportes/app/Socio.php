@@ -20,13 +20,14 @@ class Socio extends Model
     	'telefono_celular',
     	'telefono_de_emergencia',
         'email',
-        'estado',
+        'id_estado',
         'id_tipo_socio',
         'certificado_de_alumno',
         'id_facultad',
         'lugar_de_trabajo',
         'foto',
-        'fecha_de_nacimiento'
+        'fecha_de_nacimiento',
+        'estado_documentacion'
         
     ];
 

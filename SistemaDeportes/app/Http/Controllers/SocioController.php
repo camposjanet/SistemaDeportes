@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\SocioRequest;
 use App\Socio;
 use App\TipoSocio;
+use App\Estados;
 
 use DB;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+
+use Yajra\Datatables\Datatables;
 
 class SocioController extends Controller
 {
@@ -25,7 +28,8 @@ class SocioController extends Controller
 
 	public function store(SocioRequest $request)
 	{
-        
+        $idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
+
         $socio = new Socio($request->all());
         $mytime1 = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_nacimiento'));
         $socio->fecha_de_nacimiento = $mytime1->toDateString();
@@ -39,11 +43,28 @@ class SocioController extends Controller
             $file->move($path,$extension);//guardar imagen
             $socio->foto=$extension;
         }
-		
+		$socio->id_estado = $idEstado;
         if ( $socio->save())
         {
-            return Redirect::to('inicio/');
+            return Redirect::to('socios');
         } 
         
     }
+    public function index()
+    {
+        $socios=DB::table('socios as s')
+        ->join('estados as e','s.id_estado','=','e.id')
+        ->select('s.id','nombre_apellido','dni','email','telefono_celular','e.estado as estado','estado_documentacion')
+        ->get();
+
+        if(request()->ajax()) {
+            return datatables()->of($socios)
+            ->addColumn('action', 'socio.action_buton')
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('socio.index');
+    }
+
+    
 }

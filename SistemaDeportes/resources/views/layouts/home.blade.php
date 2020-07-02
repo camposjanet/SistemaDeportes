@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{{asset('style.css')}}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
-</head>
+
+    <link rel="stylesheet" href="{{asset('DataTables-1.10.21/css/jquery.dataTables.min.css')}}">
+ </head>
   <body class="hold-transition  sidebar-mini">
     <div class="wrapper bg-dark" >
         
@@ -63,7 +65,7 @@
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="#" class="text-white">
+                        <a href="{{url('socios/')}}" class="text-white">
                             <i class="fa fa-users"></i>
                             <span>Socios</span>
                         </a>
@@ -107,5 +109,10 @@
     <script src="{{asset('js/jquery-3.5.1.slim.min.js')}}"></script>
     <script src="{{asset('bootstrap-4.5.0/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/app.min.js')}}"></script>
+    <!-- jQuery DataTables-1.10.21-->
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <!-- DataTables DataTables-1.10.21-->
+    <script src="{{asset('DataTables-1.10.21/js/jquery.dataTables.min.js')}}"></script>
+    @stack('scripts')
   </body>
 </html>

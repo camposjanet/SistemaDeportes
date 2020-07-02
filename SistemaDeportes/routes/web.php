@@ -22,4 +22,4 @@ Route::get('/inicio', 'HomeController@index')->name('inicio');
 // * SOCIOS
 Route::get('socio/create','SocioController@create');
 Route::post('socio/create','SocioController@store')->name('socio.store');
-//Route::resource('socio','SocioController');
+Route::get('socios','SocioController@index')->name('socio.index');

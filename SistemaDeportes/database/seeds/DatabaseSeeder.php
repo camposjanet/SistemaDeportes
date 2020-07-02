@@ -47,5 +47,14 @@ class DatabaseSeeder extends Seeder
                 "nombre" => 'Facultad de Cs. de la Salud'
             ]
         ]);
+
+        DB::table('estados')->insert([
+            [
+                "estado" => 'ACTIVO'
+            ],
+            [
+                "estado" => 'INACTIVO'
+            ]
+        ]);
     }
 }
