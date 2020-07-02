@@ -45,9 +45,17 @@ class DatabaseSeeder extends Seeder
             [
                 "nombre" => 'Facultad de Cs. de la Salud'
             ]
+        ]);
         DB::table('estados')->insert([
+            [
+                "estado" => 'ACTIVO'
+            ],
+            [
+                "estado" => 'INACTIVO'
+            ]
         ]);	
-		$this->call(RoleTableSeeder::class);
+        
+        $this->call(RoleTableSeeder::class);
 		$this->call(UserTableSeeder::class);
 	}
 }
