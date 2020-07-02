@@ -39,13 +39,17 @@
                     <div class="nav navbar-nav">
                         <li class="dropdown">
                             <button class="btn bg-dark dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                NOMBRE DE USUARIO   <i class="fa fa-user"></i> <span class="caret"></span>
+                                {{ auth()->user()->name }}   <i class="fa fa-user"></i> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton">
-                                <li><h6 class="dropdown-header">PERFIL DE USUARIO</h6></li>
+                                <li><h6 class="dropdown-header">{{ Auth::user()->roles->first()->nombre_rol }}</h6></li>
                                 <div class="dropdown-divider"></div>
                                 <li class="dropdown-item" ><a href="#"><i class="fa fa-btn fa-pencil"></i>  Modificar Contraseña</a></li>
-                                <li class="dropdown-item"><a href="#"><i class="fa fa-btn fa-power-off"></i>  Cerrar Sesión</a></li>
+                                <li class="dropdown-item"><a href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-power-off"></i>  Cerrar Sesión </a>  
+															<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            					{{ csrf_field() }}
+                                        					</form>
+                                 </li>
                             </ul>
                         </li>
                     </div>

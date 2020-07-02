@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
         DB::table('tipo_de_socio')->insert([
             [
                 "tipo" => 'Estudiante'
@@ -46,15 +45,9 @@ class DatabaseSeeder extends Seeder
             [
                 "nombre" => 'Facultad de Cs. de la Salud'
             ]
-        ]);
-
         DB::table('estados')->insert([
-            [
-                "estado" => 'ACTIVO'
-            ],
-            [
-                "estado" => 'INACTIVO'
-            ]
-        ]);
-    }
+        ]);	
+		$this->call(RoleTableSeeder::class);
+		$this->call(UserTableSeeder::class);
+	}
 }
