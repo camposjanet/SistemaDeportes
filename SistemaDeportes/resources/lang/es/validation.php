@@ -190,5 +190,6 @@ return [
         'telefono_de_emergencia'   => 'contacto de emergencia *',
         'lu_legajo'             => 'LU/Legajo Nº',
         'foto'                  => 'foto *',
+        'estado_documentacion'  => 'estado de la documentación *',
     ],
 ];

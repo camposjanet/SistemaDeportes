@@ -105,8 +105,8 @@
         </div>
         <div class="col-md-4">
             <div class= "form-group">
-                {!! Form::label('estado','Estado de la documentación')!!}
-                {!! Form::select('estado', ['INCOMPLETA'=>'INCOMPLETA','COMPLETA'=>'COMPLETA'],null,['class'=>'form-control'])!!} 
+                {!! Form::label('estado_documentacion','Estado de la documentación')!!}
+                {!! Form::select('estado_documentacion', ['INCOMPLETA'=>'INCOMPLETA','COMPLETA'=>'COMPLETA','VENCIDA'=>'VENCIDA'],null,['class'=>'form-control'])!!} 
             </div>
         </div>
         
