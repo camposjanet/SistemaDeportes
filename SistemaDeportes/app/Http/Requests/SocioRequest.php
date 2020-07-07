@@ -24,8 +24,8 @@ class SocioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_apellido'=>'required',
-            'dni'=>'required|max:9|unique:socios',
+            'nombre_apellido'=>'required|regex:/^[\pL\s\-]+$/u',
+            'dni'=>'required|numeric|unique:socios',
             'fecha_de_nacimiento'=>'date|required|before:tomorrow',
             'id_tipo_socio'=>'required',
             'domicilio'=>'required',
