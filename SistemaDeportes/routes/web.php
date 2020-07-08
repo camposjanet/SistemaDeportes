@@ -33,3 +33,6 @@ Route::get('socios','SocioController@index')->name('socio.index');
 //Route::resource('socio','SocioController');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('logout','Auth\LoginController@logout')->name('logout');
+
+// USUARIOS
+Route::get('users','UserController@index')->name('user.index');
