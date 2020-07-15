@@ -49,7 +49,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {!! Field::text('dni',null, ['class'=>'form-control'])!!}
+                {!! Field::number('dni',null, ['class'=>'form-control'])!!}
             </div>
         </div>
         <div class="col-md-4">

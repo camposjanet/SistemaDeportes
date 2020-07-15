@@ -20,7 +20,7 @@
             </a>
             <a href="/inicio" class="logo logo-lg" style=" padding-left: 7px; padding-right: 3px; max-width: 240px">
                 <!-- <span class="logo-mini text-white" ><b>SD</b></span> ; min-width: 40px-->
-                <span class="logo-lg text-white" style="font-size: 18px; ">Sistema Deportes</span>
+                <span class="logo-lg text-white" style="font-size: 18px; ">Sistema de Deportes</span>
             
             </a>
             
@@ -30,7 +30,7 @@
                     <span class="sr-only">Navegación</span>
                 </a> -->
                 <p class="t text-white mt-2" style="float: left;">
-                    SECRETARIA DE EDUCACIÓN FÍSICA y DEPORTES
+                    SECRETARÍA DE EDUCACIÓN FÍSICA Y DEPORTES
                     <br>
                     Universidad Nacional de Salta
                 </p>
@@ -57,13 +57,13 @@
             </nav>
         </header>
         <aside class="main-sidebar  bg-dark" style=" width: 230px;">
-            <section class="sidebar">
+            <section class="sidebar" style="padding-top: 15px">
                 <ul class="sidebar-menu">
                     <li class="header text-white" style="font-size: 15px; ">
-                        Menú del sistema
+                        Menú del Sistema
                     </li>
                     <li class="treeview">
-                        <a href="/inicio" class="text-white">
+                        <a href="{{url('inicio/')}}" class="text-white">
                             <i class="fa fa-home fa-fw"></i>
                             <span>Inicio</span>
                         </a>
@@ -78,7 +78,7 @@
                     <li class="treeview">
                         <a href="#" class="text-white">
                             <i class="fa fa-calendar"></i>
-                            <span>Control de asistencia</span>
+                            <span>Control de Asistencia</span>
                         </a>
                     </li>
                     <li class="treeview" >
@@ -98,7 +98,7 @@
                 </ul>
             </section>
         </aside>
-      <div class="content-wrapper">
+      <div class="content-wrapper  bg-white">
         <section class="content bg-white" >
           <div class="row">
             <div class="col-lg-12">
@@ -112,11 +112,13 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="{{asset('js/jquery-3.5.1.slim.min.js')}}"></script>
     <script src="{{asset('bootstrap-4.5.0/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/app.min.js')}}"></script>
+    
     <!-- jQuery DataTables-1.10.21-->
     <script src="{{asset('js/jquery.js')}}"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/datatables.min.js"></script> -->
     <!-- DataTables DataTables-1.10.21-->
     <script src="{{asset('DataTables-1.10.21/js/jquery.dataTables.min.js')}}"></script>
     @stack('scripts')
+    <script src="{{asset('js/app.min.js')}}"></script>
   </body>
 </html>
