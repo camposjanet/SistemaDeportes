@@ -89,7 +89,7 @@
                     </li>
                     </li>
                     <li class="treeview">
-                        <a href="#"  class="text-white">
+                        <a href="{{url('users/')}}"  class="text-white">
                             <i class="fa fa-user"></i>
                             <span>Usuarios</span>
                         </a>

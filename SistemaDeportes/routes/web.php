@@ -19,10 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin','AdministradorController@index');
-
-Auth::routes();
-
 Route::get('/inicio', 'HomeController@index')->name('inicio');
 
 // * SOCIOS
@@ -33,3 +29,8 @@ Route::get('socios','SocioController@index')->name('socio.index');
 //Route::resource('socio','SocioController');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('logout','Auth\LoginController@logout')->name('logout');
+
+// USUARIOS
+Route::get('users','UserController@index')->name('user.index');
+Route::get('user/create','UserController@create');
+Route::post('user/create','SocioController@store')->name('user.store');
