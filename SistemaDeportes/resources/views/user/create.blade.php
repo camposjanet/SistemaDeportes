@@ -6,7 +6,7 @@
 		
 		{!! Form::open(['route'=>'user.store','method'=>'POST', 'files'=>true])!!}
 		{{Form::token()}}
-		<h1 align="center">REGISTRAR USUARIO</h1> 
+		<h1 align="center">REGISTRAR PERSONAL DEFyD</h1> 
 		<hr sytle="size: 0px; border: none;"> 
 		<table align="center">
 			<tr> 
@@ -23,9 +23,9 @@
 				
 			<tr> 
 				<td> <div class="form-group">
-						<label for="id_tipo_socio">Tipo de Usuario</label>
+						<label for="role_id">Tipo de Operario</label>
 						<select name="role_id" class="form-control">
-							<option value=0>Seleccione el tipo de Usuario</option>
+							<option value=0>Seleccione el tipo de Operario</option>
 						    	@foreach ($roles as $rol)
 						        	<option value="{{$rol->id}}">{{$rol->nombre_rol}}</option>
 						        @endforeach

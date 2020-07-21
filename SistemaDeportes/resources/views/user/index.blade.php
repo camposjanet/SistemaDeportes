@@ -3,7 +3,7 @@
 @section('content')
  <div class="container">
     <div class="row d-flex justify-content-center mt-4">
-        <h1>USUARIO</h1>            
+        <h1>PERSONAL DEFyD</h1>            
     </div>
     
     <div class="row">

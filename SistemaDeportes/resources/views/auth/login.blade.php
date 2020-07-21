@@ -4,14 +4,14 @@
 <div class="container" style="height:100%; align-content:center;"> 
 				<div style="display: flex; align-items:center; justify-content: center; min-height: 100vh;">
 				    	<div class="card" style="height: 370px;margin-top: auto;margin-bottom:auto;width: 400px;background-color: rgba(0,0,0,0.5) !important;">
-				        	<div class="card-header"> <h3 align="center" style="color:white"> {{ __('Secretaría de Educación Física y Deportes') }}</h3> </div>
+				        	<div class="card-header"> <h3 align="center" style="color:white"> {{ __('Dirección de Educación Física y Deportes') }}</h3> </div>
 
 				       		 	<div class="card-body">
 
 				            		<form method="POST" action="{{ route('login')}}"> 
 										{{csrf_field()}}
-									<div class="form-group {{ $errors->has('name')? 'has-error': ''}}">
-										{!! $errors->first('name','<span class="help-block">:message </span>') !!}
+									<div class="form-group {{ $errors->has('name')? 'has-error': ''}} ">
+										<font color="red">{!! $errors->first('name','<span class="help-block">:message </span>') !!} </font>
 										<input class="form-control"
 												name="name"
 												value="{{ old('name')}}" 
@@ -19,7 +19,7 @@
 									</div>
 						
 									<div class="form-group {{ $errors->has('password')? 'has-error': ''}}">
-										{!! $errors->first('password','<span class="help-block">:message </span>') !!}
+										<font color="red"> {!! $errors->first('password','<span class="help-block">:message </span>') !!} </font>
 										<input class="form-control" 
 												type="password" 
 												name="password" 
