@@ -91,7 +91,7 @@
                     <li class="treeview">
                         <a href="{{url('users/')}}"  class="text-white">
                             <i class="fa fa-user"></i>
-                            <span>Usuarios</span>
+                            <span>Personal DEFyD</span>
                         </a>
                     </li>   
                                 

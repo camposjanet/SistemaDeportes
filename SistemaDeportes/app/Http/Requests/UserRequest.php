@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             'name'=>'required | alpha',
 			'email'=>'email | required',
 			'password'=> 'required | string | min:6',
-			'nombre_rol'=> 'requerid'
+			'role_id'=> 'required'
 			
         ];
     }
@@ -35,20 +35,20 @@ class UserRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'name.required'=> 'El :attribute es un campo obligatorio',
-			'name.alpha'=> 'El :attribute no puede contener espacios, ni números o carácteres especiales',
-			'email.required'=> 'El :attribute es un campo obligatorio',
-			'email.email'=> 'El :attribute debe contener formato ejemplo@dominio.com',
-			'password.required'=> 'La :attribute es una campo obligatorio',
-			'password.min'=> 'La :attribute debe contener por lo menos 6 carácteres'
+			'name.required'=> 'El Usuario es un campo obligatorio',
+			'name.alpha'=> 'El Usuario no puede contener espacios, ni números o carácteres especiales',
+			'email.required'=> 'El Correo es un campo obligatorio',
+			'email.email'=> 'El Correo debe contener formato ejemplo@dominio.com',
+			'password.required'=> 'La Contraseña es una campo obligatorio',
+			'password.min'=> 'La Contraseña debe contener por lo menos 6 carácteres'
 		];
 	}
 
-	public function attributes()
+	/*public function attributes()
 	{
-		'name'=> 'Nombre de Usuario',
-		'email'=> 'Correo',
+		'name'=> 'Usuario';
+		'email'=> 'Correo';
 		'password'=> 'Contraseña'
 
-	}
+	}*/
 }

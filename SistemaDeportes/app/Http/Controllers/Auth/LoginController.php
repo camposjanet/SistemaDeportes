@@ -26,8 +26,8 @@ class LoginController extends Controller
 		}
 		
 		return back()
-			->withErrors(['name'=>'No se encuentra registo del nombre de ususario ingresado'])
-			->withInput(request(['name']));
+			->withErrors(['name'=>'Usuario Incorrecto','password'=>'constraseña Incorrecta'])
+			->withInput(request(['name','password']));
 
 
 	}
