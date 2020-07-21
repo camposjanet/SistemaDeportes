@@ -49,8 +49,8 @@ class User extends Authenticatable
 		return false;
 	}
 
-	public function esAdministrativo(){
-		if($this->role->nombre_rol=='Administrativo'){
+	public function esOperario(){
+		if($this->role->nombre_rol=='Operario'){
 			return true;
 		}
 

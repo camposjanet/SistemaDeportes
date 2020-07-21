@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\UserRequest;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Collection;
 
@@ -64,14 +64,33 @@ class UserController extends Controller
     {
 		$idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
 
-		$user=new User($request->all());
+		$user= new User;
+		$user->name= $request->get('name');
+		$user->email= $request->get('email');
+		$user->password= bcrypt($request->get('password'));
 
-		$role_id = $request->get('role_id');
-        if ($role_id==0) $user->role->first()->role_id=null;
-        else $user->role->first()->role_id== $role_id;
-		$user->id_estado = $idEstado;
+		$role_id= $request->get('role_id');
+
+		$user->id_estado= $idEstado;
+
 		if($user->save()){
+
+			if($role_id=1){
+				$rol_admin= Role::where('nombre_rol','Administrador')->first();
+				$user->roles()->attach($rol_admin);
+			}else{
+				if($role_id=2){		
+					$rol_oper= Role::where('nombre_rol','Operario')->first();
+					$user->roles()->attach($rol_oper);
+				}else{
+					if($role_id = 3){
+						$rol_prof= Role::where('nombre_rol','Profesor')->first();
+						$user->roles()->attach($rol_prof);
+					}
+				}					
+			}
+
 			return Redirect::to('users');
 		}
-    }
+	}
 }

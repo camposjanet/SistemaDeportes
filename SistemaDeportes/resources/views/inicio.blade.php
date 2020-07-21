@@ -52,7 +52,7 @@
         <div class="col-md-3">
             <a role="button" href="users" style="padding:0px;">
                     <div class="card border-secondary mb-2 mr-2" style="width:100%; ">
-                        <div class="card-header bg-secondary text-white">Usuarios</div>
+                        <div class="card-header bg-secondary text-white">Personal DEFyD</div>
                         <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
                             <a href="users" class="text-secondary">
                                 <i class="fa fa-user"></i>
