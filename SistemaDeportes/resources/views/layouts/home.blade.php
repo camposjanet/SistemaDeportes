@@ -30,7 +30,7 @@
                     <span class="sr-only">Navegación</span>
                 </a> -->
                 <p class="t text-white mt-2" style="float: left;">
-                    SECRETARÍA DE EDUCACIÓN FÍSICA Y DEPORTES
+                    DIRECCIÓN DE EDUCACIÓN FÍSICA Y DEPORTES
                     <br>
                     Universidad Nacional de Salta
                 </p>
@@ -69,9 +69,9 @@
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="{{url('socios/')}}" class="text-white">
+                        <a href="{{url('usuarios/')}}" class="text-white">
                             <i class="fa fa-users"></i>
-                            <span>Socios</span>
+                            <span>Usuarios</span>
                         </a>
                     </li>
                     

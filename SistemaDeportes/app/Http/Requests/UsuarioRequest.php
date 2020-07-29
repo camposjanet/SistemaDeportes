@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SocioRequest extends FormRequest
+class UsuarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,16 @@ class SocioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_apellido'=>'required|regex:/^[\pL\s\-]+$/u',
-            'dni'=>'required|numeric|unique:socios',
+            'apellido'=>'required|regex:/^[\pL\s\-]+$/u',
+            'nombre'=>'required|regex:/^[\pL\s\-]+$/u',
+            'dni'=>'required|numeric|unique:usuarios',
             'fecha_de_nacimiento'=>'date|required|before:tomorrow',
-            'id_tipo_socio'=>'required',
             'domicilio'=>'required',
             'telefono_celular'=>'required|max:45',
+            'id_linea_telefono'=>'required',
             'telefono_de_emergencia'=>'required|max:45',
+            'id_linea_telefono_emergencia'=>'required',
             'email'=>'email|max:100',
-            'estado_documentacion'=>'required',
             'foto' => 'required'
         ];
     }
