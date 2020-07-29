@@ -5,5 +5,5 @@
     <i class="fa fa-times"></i>
 </a>
 <a href="javascript:void(0);"  data-original-title="carnet" data-id="{{ $id }}" class="carnet btn btn-success text-dark" disabled>
-    <i class="fa fa-credit-card"></i>
+    <i class="fa fa-file"></i>
 </a>

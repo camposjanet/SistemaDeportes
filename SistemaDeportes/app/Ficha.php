@@ -14,7 +14,7 @@ class Ficha extends Model
 
     protected $fillable = [
         'id_usuario',
-        'id_tipo_usuario',
+        'id_categoria',
         'lu_legajo',
         'id_unidad_academica',
         'lugar_de_trabajo',

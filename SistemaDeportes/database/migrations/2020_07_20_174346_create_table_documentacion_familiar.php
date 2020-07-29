@@ -19,7 +19,9 @@ class CreateTableDocumentacionFamiliar extends Migration
             $table->string('nombre_documentacion')->nullable();
             $table->unsignedBigInteger('id_ficha');
             $table->unsignedBigInteger('id_estado_documento');
-
+            $table->string('nombre_familiar')->nullable();
+            $table->string('legajo_familiar')->nullable();
+            
             $table->foreign('id_ficha')->references('id')->on('fichas')->onDelete('cascade');
             $table->foreign('id_estado_documento')->references('id')->on('estados_de_documento')->onDelete('cascade');
             

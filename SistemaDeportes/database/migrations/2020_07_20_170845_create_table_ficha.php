@@ -19,12 +19,12 @@ class CreateTableFicha extends Migration
             $table->enum('estado_documentacion', ['COMPLETA','INCOMPLETA','VENCIDA'])->default('INCOMPLETA');
             $table->unsignedBigInteger('id_unidad_academica')->nullable();
             $table->string('lugar_de_trabajo')->nullable();
-            $table->unsignedBigInteger('id_tipo_usuario');
+            $table->unsignedBigInteger('id_categoria');
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_estado');
 
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('id_tipo_usuario')->references('id')->on('tipos_de_usuario')->onDelete('cascade');
+            $table->foreign('id_categoria')->references('id')->on('categorias')->onDelete('cascade');
             $table->foreign('id_unidad_academica')->references('id')->on('unidades_academicas')->onDelete('cascade');
             $table->foreign('id_estado')->references('id')->on('estados')->onDelete('cascade');
            

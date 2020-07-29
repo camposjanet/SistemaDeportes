@@ -20,7 +20,8 @@ class Usuario extends Model
         'email',
         'id_estado',
         'foto',
-        'fecha_de_nacimiento'
+        'fecha_de_nacimiento',
+        'categoria'
         
     ];
 

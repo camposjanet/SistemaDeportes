@@ -12,18 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tipos_de_usuario')->insert([
+        DB::table('categorias')->insert([
             [
-                "tipo" => 'Estudiante'
+                "categoria" => 'Estudiante'
             ],
             [
-                "tipo" => 'Docente'
+                "categoria" => 'Docente'
             ],
             [
-                "tipo" => 'PAU'
+                "categoria" => 'PAU'
             ],
             [
-                "tipo" => 'Familiar'
+                "categoria" => 'Familiar'
             ]
         ]);
         DB::table('unidades_academicas')->insert([
@@ -84,7 +84,8 @@ class DatabaseSeeder extends Seeder
             ["linea" => 'Unifon'],
             ["linea" => 'NEXTEL'],
             ["linea" => 'SKYTEL'],
-            ["linea" => 'CTI']
+            ["linea" => 'CTI'],
+            ["linea" => 'Otra']
         ]);
 
         DB::table('estados_de_documento')->insert([
@@ -93,9 +94,5 @@ class DatabaseSeeder extends Seeder
             ["estado" => 'VENCIDO']
         ]);
 
-        DB::table('tipos_de_telefono')->insert([
-            ["tipo" => 'TELEFONO'],
-            ["tipo" => 'CONTACTO DE EMERGENCIA']
-        ]);
 	}
 }

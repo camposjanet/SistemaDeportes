@@ -22,6 +22,7 @@ class CreateTableUsuario extends Migration
             $table->string('domicilio');
             $table->string('email')->nullable();
             $table->string('foto')->nullable();
+            $table->string('categoria')->default('SIN CATEGORIA');;
             $table->unsignedBigInteger('id_estado');
 
             $table->foreign('id_estado')->references('id')->on('estados')->onDelete('cascade');
@@ -29,12 +30,12 @@ class CreateTableUsuario extends Migration
 
         Schema::create('telefonos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('numero');
             $table->unsignedBigInteger('id_linea_telefonica');
-            $table->unsignedBigInteger('id_tipo_telefono');
+            $table->enum('tipo_telefono', ['TELEFONO','CONTACTO DE EMERGENCIA'])->default('TELEFONO');
             $table->unsignedBigInteger('id_usuario');
 
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreign('id_tipo_telefono')->references('id')->on('tipos_de_telefono')->onDelete('cascade');
             $table->foreign('id_linea_telefonica')->references('id')->on('lineas_telefonica')->onDelete('cascade');
         });
     }

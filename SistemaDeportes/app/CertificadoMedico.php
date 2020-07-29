@@ -16,12 +16,13 @@ class CertificadoMedico extends Model
         'id_ficha',
         'id_estado_documento',
         'fecha_de_emision',
+        'fecha_de_vencimiento',
         'nombre_medico'
         
     ];
 
     protected $dates = [
         
-        'fecha_de_emision'
+        'fecha_de_emision','fecha_de_vencimiento'
     ];
 }

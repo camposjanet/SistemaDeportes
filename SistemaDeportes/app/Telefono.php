@@ -14,7 +14,8 @@ class Telefono extends Model
 
     protected $fillable = [
         'id_usuario',
+        'numero',
         'id_linea_telefonica',
-        'id_tipo_telefono'
+        'tipo_telefono'
     ];
 }

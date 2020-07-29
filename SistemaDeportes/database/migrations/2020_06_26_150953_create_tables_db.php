@@ -18,11 +18,6 @@ class CreateTablesDb extends Migration
             $table->string('linea');
         });
 
-        Schema::create('tipos_de_telefono', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('tipo');
-        });
-
         Schema::create('estados', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('estado');
@@ -33,9 +28,9 @@ class CreateTablesDb extends Migration
             $table->string('unidad');
         });
 
-        Schema::create('tipos_de_usuario', function (Blueprint $table) {
+        Schema::create('categorias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tipo');
+            $table->string('categoria');
         });
 
         Schema::create('estados_de_documento', function (Blueprint $table) {
@@ -53,8 +48,7 @@ class CreateTablesDb extends Migration
     {
         Schema::dropIfExists('unidades_academicas');
         Schema::dropIfExists('lineas_telefonica');
-        Schema::dropIfExists('tipos_de_telefono');
-        Schema::dropIfExists('tipos_de_usuario');
+        Schema::dropIfExists('categorias');
         Schema::dropIfExists('estados');
         Schema::dropIfExists('estados_de_documento');
     }

@@ -16,7 +16,9 @@ class DocumentacionFamiliar extends Model
         'id_ficha',
         'id_estado_documento',
         'nombre_documentacion',
-        'fecha_de_presentacion'
+        'fecha_de_presentacion',
+        'nombre_familiar',
+        'legajo_familiar'
         
     ];
 
