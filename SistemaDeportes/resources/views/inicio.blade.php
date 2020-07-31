@@ -10,12 +10,12 @@
     
     <div class="row justify-content-center">
         <div class="col-md-3">
-            <a role="button" href="socios" style="padding:0px;">
+            <a role="button" href="usuarios" style="padding:0px;">
                 <div class="card border-primary mb-2 mr-2"  style="width:100%;">
                 
-                    <div class="card-header bg-primary text-white">Socios</div>
+                    <div class="card-header bg-primary text-white">Usuarios</div>
                     <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                        <a href="socios" class="text-primary">
+                        <a href="usuarios" class="text-primary">
                             <i class="fa fa-users"></i>
                         </a>
                         

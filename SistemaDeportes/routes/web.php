@@ -21,10 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/inicio', 'HomeController@index')->name('inicio');
 
-// * SOCIOS
-Route::get('socio/create','SocioController@create');
-Route::post('socio/create','SocioController@store')->name('socio.store');
-Route::get('socios','SocioController@index')->name('socio.index');
+//  USUARIOS (antes era socios)
+Route::get('usuario/create','UsuarioController@create');
+Route::post('usuario/create','UsuarioController@store')->name('usuario.store');
+Route::get('usuarios','UsuarioController@index')->name('usuario.index');
 
 //Route::resource('socio','SocioController');
 Route::post('login','Auth\LoginController@login')->name('login');
@@ -38,3 +38,7 @@ Route::post('user/create','UserController@store')->name('user.store');
 //Route::post('user/{id}','UserController@update')->name('user.update');
 Route::post('user/actualiza','UserController@actualizar')->name('user.actualizar');
 //Route::resource('/user','UserController');
+
+//  FICHAS DE USUARIO 
+Route::get('ficha/create/{idUsuario}','FichaController@create');
+Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
