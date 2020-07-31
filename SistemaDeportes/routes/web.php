@@ -33,4 +33,4 @@ Route::post('logout','Auth\LoginController@logout')->name('logout');
 // USUARIOS
 Route::get('users','UserController@index')->name('user.index');
 Route::get('user/create','UserController@create');
-Route::post('user/create','SocioController@store')->name('user.store');
+Route::post('user/create','UserController@store')->name('user.store');
