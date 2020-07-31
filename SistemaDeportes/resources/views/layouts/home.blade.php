@@ -30,7 +30,7 @@
                     <span class="sr-only">Navegación</span>
                 </a> -->
                 <p class="t text-white mt-2" style="float: left;">
-                    SECRETARÍA DE EDUCACIÓN FÍSICA Y DEPORTES
+                    DIRECCIÓN DE EDUCACIÓN FÍSICA Y DEPORTES
                     <br>
                     Universidad Nacional de Salta
                 </p>
