@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+
 
 use Illuminate\Support\Collection;
 
@@ -75,21 +76,42 @@ class UserController extends Controller
 
 		if($user->save()){
 
-			if($role_id=1){
+			if($role_id == 1){
 				$rol_admin= Role::where('nombre_rol','Administrador')->first();
-				$user->roles()->attach($rol_admin);
-			}else{
-				if($role_id=2){		
-					$rol_oper= Role::where('nombre_rol','Operario')->first();
-					$user->roles()->attach($rol_oper);
-				}else{
-					if($role_id = 3){
+				$user->roles()->attach($rol_admin);}
+			else{
+				if($role_id == 2){		
+					$rol_oper == Role::where('nombre_rol','Operario')->first();
+					$user->roles()->attach($rol_oper);}
+				else{
+					if($role_id == 3){
 						$rol_prof= Role::where('nombre_rol','Profesor')->first();
-						$user->roles()->attach($rol_prof);
-					}
-				}					
+						$user->roles()->attach($rol_prof);}
+				}
 			}
+			return Redirect::to('users');
+		}else{return "no se guardo el usuario";}
+	}
 
+	public function edit($id){
+
+			$user= User::findOrFail($id);
+			return view("user.edit", compact("user"));
+	}
+
+	/*public function update(UserRequest $request, $id){
+		$user= User::findOrFaild($id);
+		$user->update($request->all()); 
+		return Redirect::to('users');
+		
+		
+	} */
+	public function actualizar(UserRequest $request){
+		$user= User::findOrFaild($request->id);
+		$user->name=$request->get('name');
+		$user->email=$request->get('email');
+
+		if($user->save()){
 			return Redirect::to('users');
 		}
 	}
