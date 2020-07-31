@@ -4,30 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Socio extends Model
+class Usuario extends Model
 {
-    protected $table='socios'; 
+    protected $table='usuarios'; 
 
     protected $primaryKey='id';
     
     public $timestamps=false;
 
     protected $fillable = [
-    	'nombre_apellido',
+        'nombre',
+        'apellido',
         'dni',
-        'lu_legajo',
     	'domicilio',
-    	'telefono_celular',
-    	'telefono_de_emergencia',
         'email',
         'id_estado',
-        'id_tipo_socio',
-        'certificado_de_alumno',
-        'id_facultad',
-        'lugar_de_trabajo',
         'foto',
         'fecha_de_nacimiento',
-        'estado_documentacion'
+        'categoria'
         
     ];
 

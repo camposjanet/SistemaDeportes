@@ -12,38 +12,56 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tipo_de_socio')->insert([
+        DB::table('categorias')->insert([
             [
-                "tipo" => 'Estudiante'
+                "categoria" => 'Estudiante'
             ],
             [
-                "tipo" => 'Docente'
+                "categoria" => 'Docente'
             ],
             [
-                "tipo" => 'PAU'
+                "categoria" => 'PAU'
             ],
             [
-                "tipo" => 'Familiar'
+                "categoria" => 'Familiar'
             ]
         ]);
-        DB::table('facultad')->insert([
+        DB::table('unidades_academicas')->insert([
             [
-                "nombre" => 'Facultad de Cs. Exactas'
+                "unidad" => 'Facultad de Cs. Exactas'
             ],
             [
-                "nombre" => 'Facultad de Cs. Económicas '
+                "unidad" => 'Facultad de Cs. Económicas '
             ],
             [
-                "nombre" => 'Facultad de Humanidades'
+                "unidad" => 'Facultad de Humanidades'
             ],
             [
-                "nombre" => 'Facultad de Ingeniería'
+                "unidad" => 'Facultad de Ingeniería'
             ],
             [
-                "nombre" => 'Facultad de Cs. Naturales'
+                "unidad" => 'Facultad de Cs. Naturales'
             ],
             [
-                "nombre" => 'Facultad de Cs. de la Salud'
+                "unidad" => 'Facultad de Cs. de la Salud'
+            ],
+            [
+                "unidad" => 'Sede Regional Orán'
+            ],
+            [
+                "unidad" => 'Sede Regional Tartagal'
+            ],
+            [
+                "unidad" => 'Sede Regional Metan - Rosario de la Frontera'
+            ],
+            [
+                "unidad" => 'Sede Regional Tartagal - SVE'
+            ],
+            [
+                "unidad" => 'IEM - Salta'
+            ],
+            [
+                "unidad" => 'IEM - Tartagal'
             ]
         ]);
         DB::table('estados')->insert([
@@ -56,6 +74,25 @@ class DatabaseSeeder extends Seeder
         ]);	
         
         $this->call(RoleTableSeeder::class);
-		$this->call(UserTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        
+        DB::table('lineas_telefonica')->insert([
+            ["linea" => 'Personal'],
+            ["linea" => 'Claro'],
+            ["linea" => 'Movistar'],
+            ["linea" => 'Movicom'],
+            ["linea" => 'Unifon'],
+            ["linea" => 'NEXTEL'],
+            ["linea" => 'SKYTEL'],
+            ["linea" => 'CTI'],
+            ["linea" => 'Otra']
+        ]);
+
+        DB::table('estados_de_documento')->insert([
+            ["estado" => 'PRESENTO'],
+            ["estado" => 'NO PRESENTO'],
+            ["estado" => 'VENCIDO']
+        ]);
+
 	}
 }
