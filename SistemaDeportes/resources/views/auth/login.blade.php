@@ -9,27 +9,27 @@
 				       		 	<div class="card-body">
 
 				            		<form method="POST" action="{{ route('login')}}"> 
-										{{csrf_field()}}
-									<div class="form-group {{ $errors->has('name')? 'has-error': ''}} ">
-										<font color="red">{!! $errors->first('name','<span class="help-block">:message </span>') !!} </font>
-										<input class="form-control"
-												name="name"
-												value="{{ old('name')}}" 
-												placeholder="Ingrese su Usuario">
-									</div>
+											{{csrf_field()}}
+										<div class="form-group {{ $errors->has('name')? 'has-error': ''}} ">
+											<font color="red">{!! $errors->first('name','<span class="help-block">:message </span>') !!} </font>
+											<input class="form-control"
+													name="name"
+													value="{{ old('name')}}" 
+													placeholder="Ingrese su Usuario">
+										</div>
 						
-									<div class="form-group {{ $errors->has('password')? 'has-error': ''}}">
-										<font color="red"> {!! $errors->first('password','<span class="help-block">:message </span>') !!} </font>
-										<input class="form-control" 
-												type="password" 
-												name="password" 
-												placeholder="Ingrese su contraseña">
+										<div class="form-group {{ $errors->has('password')? 'has-error': ''}}">
+											<font color="red"> {!! $errors->first('password','<span class="help-block">:message </span>') !!} </font>
+											<input class="form-control" 
+													type="password" 
+													name="password" 
+													placeholder="Ingrese su contraseña">
 									
-									</div>
-									<div>
-										<button class="btn btn-primary btn-block"> Acceder </button>
-									</div>
-								</form>
+										</div>
+										<div>
+											<button class="btn btn-primary btn-block"> Acceder </button>
+										</div>
+									</form>
 
 				        	</div>
 							<div class="card-footer">
