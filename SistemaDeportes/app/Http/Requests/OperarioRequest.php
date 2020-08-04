@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-//use Illuminate\Support\Facades\Hash;
 
-class UserRequest extends FormRequest
+class OperarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,24 +24,14 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required | alpha',
-			'email'=>'email | required',
+            'name'=>'required | alpha ',
+			'email'=>'email | required |unique:users,email',
 			'password'=> 'required_with:password_confirmation | confirmed | string | min:6',
-			//'current_password'=> 'required',
-			'role_id'=> 'required',
+			'role_id'=>'required',
 			'nombre_rol'=> 'required',
-			
+
         ];
     }
-
-	/*public function verifica_password($validator){
-		$validator->after(function($validator){
-			if(!Hash::check($this->current_password, $this->user()->password)){
-				$validator->errors()->add('current_password','Las contraseñas no son las mismas');
-			}
-		});
-		return;	
-	} */
 
 	public function messages()
 	{
@@ -53,7 +42,8 @@ class UserRequest extends FormRequest
 			'email.email'=> 'El Correo debe contener formato ejemplo@dominio.com',
 			'password.required'=> 'La Contraseña es una campo obligatorio',
 			'password.min'=> 'La Contraseña debe contener por lo menos 6 carácteres',
-			'nombre_rol'=> 'El Rol de Usuario es un campo obligatorio'
+			'nombre_rol'=> 'El Rol de Personal es un campo obligatorio',
+			'role_id'=> 'El Rol de Personal es un campo obligatorio'
 		];
-	} 
+	}
 }
