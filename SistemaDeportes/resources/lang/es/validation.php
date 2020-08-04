@@ -158,7 +158,7 @@ return [
         'date'                  => 'fecha',
         'day'                   => 'día',
         'description'           => 'descripción',
-        'email'                 => 'correo electrónico',
+        'email'                 => 'correo electrónico*',
         'excerpt'               => 'extracto',
         'first_name'            => 'nombre',
         'gender'                => 'género',
@@ -168,9 +168,9 @@ return [
         'minute'                => 'minuto',
         'mobile'                => 'móvil',
         'month'                 => 'mes',
-        'name'                  => 'nombre',
-        'password'              => 'contraseña',
-        'password_confirmation' => 'confirmación de la contraseña',
+        'name'                  => 'nombre de Usuario(de acceso al Sistema)*',
+        'password'              => 'contraseña*',
+        'password_confirmation' => 'confirmación de la contraseña*',
         'phone'                 => 'teléfono',
         'price'                 => 'precio',
         'second'                => 'segundo',
@@ -208,6 +208,10 @@ return [
         'nombre_documentacion'                      => 'Documento',
         'certificado_medico_familiar'               => 'certificado médico',
         'fecha_de_emision_certificado_familiar'   => 'fecha de emisión ',
-
+		/*'name_user' =>'Nombre de Usuario(de acceso al Sistema)*',
+		'correo'=> 'Correo*',
+		'pass'=> 'Contraseña*',
+		'pass_conf'=> 'Confirmar Contraseña*',
+		'nombre_rol' => 'nombre_rol',*/
     ],
 ];

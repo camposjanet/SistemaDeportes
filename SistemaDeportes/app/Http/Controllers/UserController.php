@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\UserRequest;
-//use Illuminate\Http\Request;
+use App\Http\Requests\OperarioRequest;
+use Illuminate\Http\Request;
 
 
 use Illuminate\Support\Collection;
@@ -61,36 +62,38 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(OperarioRequest $request)
     {
 		$idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
 
-		$user= new User;
+		$user= new User();
 		$user->name= $request->get('name');
 		$user->email= $request->get('email');
-		$user->password= bcrypt($request->get('password'));
+		$user->password= bcrypt($request->get('password')); 
 
-		$role_id= $request->get('role_id');
+		$role_id= $request->get('role_id'); 
 
 		$user->id_estado= $idEstado;
 
 		if($user->save()){
-
 			if($role_id == 1){
 				$rol_admin= Role::where('nombre_rol','Administrador')->first();
-				$user->roles()->attach($rol_admin);}
+				$user->roles()->attach($rol_admin);
+			}
 			else{
 				if($role_id == 2){		
-					$rol_oper == Role::where('nombre_rol','Operario')->first();
-					$user->roles()->attach($rol_oper);}
+					$rol_oper = Role::where('nombre_rol','Operario')->first();
+					$user->roles()->attach($rol_oper);
+				}
 				else{
 					if($role_id == 3){
 						$rol_prof= Role::where('nombre_rol','Profesor')->first();
-						$user->roles()->attach($rol_prof);}
+						$user->roles()->attach($rol_prof);
+					}
 				}
 			}
 			return Redirect::to('users');
-		}else{return "no se guardo el usuario";}
+		} 
 	}
 
 	public function edit($id){
@@ -99,20 +102,16 @@ class UserController extends Controller
 			return view("user.edit", compact("user"));
 	}
 
-	/*public function update(UserRequest $request, $id){
+	public function update(OperarioRequest $request, $id){
 		$user= User::findOrFaild($id);
 		$user->update($request->all()); 
+		/*$user->name= $request->name;
+		$user->email= $request->email;
+		if ($user->save()){
+			return Redirect::to('users');
+		}*/
+
 		return Redirect::to('users');
 		
-		
-	} */
-	public function actualizar(UserRequest $request){
-		$user= User::findOrFaild($request->id);
-		$user->name=$request->get('name');
-		$user->email=$request->get('email');
-
-		if($user->save()){
-			return Redirect::to('users');
-		}
 	}
 }
