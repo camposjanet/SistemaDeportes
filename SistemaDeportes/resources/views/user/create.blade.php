@@ -26,7 +26,7 @@
 				
 						<tr> 
 							<td> <div class="form-group">
-								<label for="role_id">Tipo de Operario</label>
+								<label for="role_id">Tipo de Operario* </label>
 								<select name="role_id" class="form-control">
 									<option value=0>Seleccione el tipo de Operario</option>
 									@foreach ($roles as $rol)

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\UserRequest;
+//use App\Http\Requests\UserRequest;
 use App\Http\Requests\OperarioRequest;
 use Illuminate\Http\Request;
 
@@ -104,14 +104,20 @@ class UserController extends Controller
 
 	public function update(OperarioRequest $request, $id){
 		$user= User::findOrFaild($id);
-		$user->update($request->all()); 
-		/*$user->name= $request->name;
+		$user->name= $request->name;
 		$user->email= $request->email;
 		if ($user->save()){
 			return Redirect::to('users');
-		}*/
+		}
+		/*$user->update(['name'=>$request->name, 'email'=>$request->email]); 
+		$user->name= $request->name;
+		$user->email= $request->email;
+		if ($user->save()){
+			return Redirect::to('users');
+		}
 
-		return Redirect::to('users');
+		return Redirect::to('users');*/
+		return $request;
 		
 	}
 }
