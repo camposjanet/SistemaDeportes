@@ -104,7 +104,7 @@ class FichaController extends Controller
                 $this->validate($request,[
                     'lugar_de_trabajo'=>'required',
                     'legajo'=>'required',
-                    'nro_recibo'=>'required',
+                    // 'nro_recibo'=>'required',
                     'fecha_de_emision_certificado_profesional'=>'required',
                 ]);
                 
@@ -114,7 +114,7 @@ class FichaController extends Controller
                 $this->validate($request,[
                     'lugar_de_trabajo'=>'required',
                     'legajo'=>'required',
-                    'nro_recibo'=>'required',
+                    // 'nro_recibo'=>'required',
                 ]);
                 
                 $ficha->estado_documentacion = 'INCOMPLETA';

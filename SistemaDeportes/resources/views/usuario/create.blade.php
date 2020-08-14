@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     
-    {!! Form::open(['route'=>'usuario.store', 'method'=>'POST','files'=>true])!!}
+    {!! Form::open(['route'=>'usuario.store', 'method'=>'POST','files'=>true,'autocomplete'=>'off'])!!}
     {{Form::token()}}
     <div class="row d-flex justify-content-start">
         <div class="media col-md-12" >

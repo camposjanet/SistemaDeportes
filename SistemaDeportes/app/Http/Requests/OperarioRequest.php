@@ -27,8 +27,7 @@ class OperarioRequest extends FormRequest
             'name'=>'required | alpha ',
 			'email'=>'email | required |unique:users,email',
 			'password'=> 'required_with:password_confirmation | confirmed | string | min:6',
-			'role_id'=>'required',
-			'nombre_rol'=> 'required',
+			'role_id'=>'required'
 
         ];
     }

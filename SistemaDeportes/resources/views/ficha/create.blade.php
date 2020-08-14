@@ -169,7 +169,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Field::text('nombre_documentacion',['class'=>'form-control', 'name'=>'nombre_documentacion','placeholder'=>'Ingrese informacion necesaria...', 'value'=>'old(nombre_documentacion)'])!!}
+                    {!! Field::text('nombre_documentacion',['class'=>'form-control', 'name'=>'nombre_documentacion', 'value'=>'old(nombre_documentacion)'])!!}
                 </div>
             </div>
             <div class="col-md-6">

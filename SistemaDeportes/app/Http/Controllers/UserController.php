@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles=DB::table('roles')->get();
+		$roles=DB::table('roles')->get();
 		return view("user.create")->with('roles',$roles);
 
 
