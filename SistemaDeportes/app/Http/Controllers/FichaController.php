@@ -223,4 +223,25 @@ class FichaController extends Controller
         }
         
     }
+
+    public function mostrarFichasDeUsuario($id){
+        $usuario =Usuario::findOrFail($id);
+        $fichas = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id','e.estado as estado','c.categoria as categoria','f.estado_documentacion as documentacion')
+        ->where('f.id_usuario',$id)
+        ->get();
+        
+
+        if(request()->ajax()) {
+            return datatables()->of($fichas)
+            ->addColumn('action', 'ficha.acciones')
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+
+        return view('ficha.mostrarFichas')->with('usuario',$usuario);
+    }
 }
