@@ -15,7 +15,7 @@ class CreateTableDocumentacionFamiliar extends Migration
     {
         Schema::create('documentacion_familiar', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha_de_presentacion');
+            $table->date('fecha_de_presentacion')->nullable();
             $table->string('nombre_documentacion')->nullable();
             $table->unsignedBigInteger('id_ficha');
             $table->unsignedBigInteger('id_estado_documento');
