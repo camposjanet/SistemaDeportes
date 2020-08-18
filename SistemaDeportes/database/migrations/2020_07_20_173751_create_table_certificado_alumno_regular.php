@@ -15,8 +15,8 @@ class CreateTableCertificadoAlumnoRegular extends Migration
     {
         Schema::create('certificado_alumno_regular', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha_de_presentacion');
-            $table->date('fecha_de_vencimiento');
+            $table->date('fecha_de_presentacion')->nullable();
+            $table->date('fecha_de_vencimiento')->nullable();
             $table->unsignedBigInteger('id_ficha');
             $table->unsignedBigInteger('id_estado_documento');
 
