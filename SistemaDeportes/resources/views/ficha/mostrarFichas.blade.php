@@ -36,7 +36,8 @@
     <div class="row">
         <div class="col-lg-12">
             <div align="left">
-                <a href="{{URL::action('FichaController@create',$usuario->id)}}"><button class="btn  btn-primary"><i class="fa fa-plus"></i> Agregar Ficha</button></a>
+                <a class="btn btn-info" href="{{ URL::previous() }}" name="regresar"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Regresar</a>
+                <a href="{{URL::action('FichaController@create',$usuario->id)}}"><button class="btn  btn-primary"><i class="fa fa-file"></i> Agregar</button></a>
             </div>
         </div>
     </div>
@@ -47,11 +48,27 @@
                 <table class="table table-borderless table-hover text-center" id="data-table-fichas" cellspacing="0" width="100%" style="border-bottom:2px solid #D8D8D8; border-top:2px solid #D8D8D8 ">
                     <thead class="thead-dark">
                         <th>Nº</th>
+                        <th>Fecha</th>
                         <th>Categoría</th>
                         <th>Documentación</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </thead>
+                    @foreach ($fichas as $ficha)
+                        <tr>
+                            <td>{{ $ficha->id }}</td>
+                            <td><?php $f = new DateTime($ficha->fecha); echo $f->format('d-m-Y');?></td>
+                            <td>{{ $ficha-> categoria }}</td>
+                            <td>{{ $ficha -> documentacion }}</td>
+                            <td>{{ $ficha -> estado }}</td>
+                            <td>
+                                <button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                                @if($ficha->documentacion=='COMPLETA')
+                                    <a href="#"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 </table>
             </div>
         </div>
@@ -60,31 +77,3 @@
 </div>
 @endsection
 
-@push('scripts')
-<script >
-    $(function () {
-        $('#data-table-fichas').DataTable({
-            processing: true,
-            serverSide: true,
-            info: false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-            },
-            ajax: {
-                
-                url: "{{ route('fichas.mostrar', $usuario->id) }}"
-            },
-            columns: [
-                    {  data: 'id', name: 'id', 'visible': true},
-                    
-                    {  data: 'categoria', name: 'categoria' },
-                    {  data: 'documentacion', name: 'documentacion'},
-                    {  data: 'estado', name: 'estado'},
-                    
-                    {  data: 'action', name: 'action', orderable: false}
-                ],
-            order: [[0, 'desc']]
-        });
-    });
-</script>
-@endpush

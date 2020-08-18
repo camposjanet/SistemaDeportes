@@ -56,7 +56,7 @@ class FichaController extends Controller
         $ficha->id_usuario = $idUsuario;
         $ficha->id_categoria = $categoria;
         $ficha->id_estado = $idEstado;
-
+        $ficha->fecha = $fechaActual->toDateString();
         if ($categoria == 1){
             $this->validate($request,[
                 'id_unidad_academica'=>'required',
@@ -68,9 +68,6 @@ class FichaController extends Controller
 
             $presento_cert_alum = $request->get('certificado_alumno');
             $presento_cert_med = $request->get('certificado_estudiante');
-
-            /* if (($presento_cert_alum==1) and ($presento_cert_med==1)) $ficha->estado_documentacion = 'COMPLETA';
-            else $ficha->estado_documentacion = 'INCOMPLETA'; */
 
             if ($ficha->save()){
                
@@ -233,18 +230,19 @@ class FichaController extends Controller
         ->join('usuarios as u','f.id_usuario','=','u.id')
         ->join('categorias as c','f.id_categoria','=','c.id')
         ->join('estados as e','f.id_estado','=','e.id')
-        ->select('f.id','e.estado as estado','c.categoria as categoria','f.estado_documentacion as documentacion')
+        ->select('f.id','f.fecha as fecha','e.estado as estado','c.categoria as categoria','f.estado_documentacion as documentacion')
         ->where('f.id_usuario',$id)
+        ->orderBy('f.id','desc')
         ->get();
         
 
-        if(request()->ajax()) {
+        /*if(request()->ajax()) {
             return datatables()->of($fichas)
             ->addColumn('action', 'ficha.acciones')
             ->rawColumns(['action'])
             ->make(true);
-        }
+        }*/
 
-        return view('ficha.mostrarFichas')->with('usuario',$usuario);
+        return view('ficha.mostrarFichas')->with('usuario',$usuario)->with('fichas',$fichas);
     }
 }

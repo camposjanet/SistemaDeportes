@@ -5,5 +5,5 @@
     <i class="fa fa-times"></i>
 </a>
 <a href="{{ route('fichas.mostrar', $id) }}"  data-original-title="fichas" data-id="{{ $id }}" class="fichas btn btn-success text-dark" >
-    <i class="fa fa-file"></i>
+    <i class="fa fa-files-o"></i>
 </a>
