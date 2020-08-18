@@ -52,12 +52,17 @@ class FichaController extends Controller
         $idcategoria = $request->get('id_categoria');
         $categoria = $request->get('categoria');
         $nombreCategoria = DB::table('categorias as c')->where('c.id','=',$categoria)->value('categoria');
+        $idCategoriaEstudiante=DB::table('categorias as c')->where('c.categoria','=','Estudiante')->value('id');
+        $idCategoriaDocente=DB::table('categorias as c')->where('c.categoria','=','Docente')->value('id');
+        $idCategoriaPAU=DB::table('categorias as c')->where('c.categoria','=','PAU')->value('id');
+        $idCategoriaFamiliar=DB::table('categorias as c')->where('c.categoria','=','Familiar')->value('id');
+
         $ficha = new Ficha;
         $ficha->id_usuario = $idUsuario;
         $ficha->id_categoria = $categoria;
         $ficha->id_estado = $idEstado;
-
-        if ($categoria == 1){
+        $ficha->fecha = $fechaActual->toDateString();
+        if ($categoria == $idCategoriaEstudiante){
             $this->validate($request,[
                 'id_unidad_academica'=>'required',
                 'lu'=>'required',
@@ -97,7 +102,7 @@ class FichaController extends Controller
                 $cert->save();
                 return Redirect::to('usuarios');
             };
-        } elseif (($categoria == 2) or ($categoria == 3)) {
+        } elseif (($categoria == $idCategoriaDocente) or ($categoria == $idCategoriaPAU)) {
             $ficha->lu_legajo = $request->get('legajo');
             $ficha->lugar_de_trabajo = $request->get('lugar_de_trabajo');
             
@@ -161,7 +166,7 @@ class FichaController extends Controller
             }
             
         } else {
-            if ($categoria == 4){
+            if ($categoria == $idCategoriaFamiliar){
             
                 $cert_med = $request->get('certificado_familiar');
                 $documentacion = $request->get('documentacion_probatoria');
