@@ -43,5 +43,4 @@ Route::put('user/{id}','UserController@update')->name('user.update');
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
-Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
 Route::get('fichas/{id}','FichaController@mostrarFichasDeUsuario')->name('fichas.mostrar');

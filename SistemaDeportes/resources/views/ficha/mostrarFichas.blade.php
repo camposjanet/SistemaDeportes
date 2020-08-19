@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div align="left">
-                <a class="btn btn-info" href="{{ URL::previous() }}" name="regresar"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Regresar</a>
+                <a class="btn btn-info" href="{{url('usuarios/')}}" name="regresar"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Regresar</a>
                 <a href="{{URL::action('FichaController@create',$usuario->id)}}"><button class="btn  btn-primary"><i class="fa fa-file"></i> Agregar</button></a>
             </div>
         </div>
@@ -62,6 +62,7 @@
                             <td>{{ $ficha -> documentacion }}</td>
                             <td>{{ $ficha -> estado }}</td>
                             <td>
+                                <a><button name="visualizar" class="btn btn-secondary"><i class="fa fa-eye text-dark"></i></button></a>
                                 <button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button>
                                 @if($ficha->documentacion=='COMPLETA')
                                     <a href="#"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>

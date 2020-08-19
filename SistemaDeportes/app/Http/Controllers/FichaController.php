@@ -62,7 +62,7 @@ class FichaController extends Controller
         $ficha->id_categoria = $categoria;
         $ficha->id_estado = $idEstado;
         $ficha->fecha = $fechaActual->toDateString();
-        if ($categoria == 1){
+        if ($categoria == $idCategoriaEstudiante){
             $this->validate($request,[
                 'id_unidad_academica'=>'required',
                 'lu'=>'required',
@@ -97,7 +97,7 @@ class FichaController extends Controller
                     $cert ->nombre_medico = $request->get('certificado_medico_estudiante');
                 } else  $cert ->id_estado_documento = $idEstadoNoPresento;
                 $cert->save();
-                return Redirect::to('usuarios');
+                return Redirect::to('fichas/'.$idUsuario);
             };
         } elseif (($categoria == $idCategoriaDocente) or ($categoria == $idCategoriaPAU)) {
             $ficha->lu_legajo = $request->get('legajo');
@@ -159,7 +159,7 @@ class FichaController extends Controller
                 } else $cert ->id_estado_documento = $idEstadoNoPresento;
                 $cert->save();
 
-                return Redirect::to('usuarios');
+                return Redirect::to('fichas/'.$idUsuario);
             }
             
         } else {
@@ -218,10 +218,10 @@ class FichaController extends Controller
                         $cert ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->toDateString();
                         $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->addYear()->toDateString();
                         $cert ->nombre_medico = $request->get('certificado_medico_familiar');
-                    }else $cert_med ->id_estado_documento = $idEstadoNoPresento;
+                    }else $cert ->id_estado_documento = $idEstadoNoPresento;
                     $cert->save();
 
-                    return Redirect::to('usuarios');
+                    return Redirect::to('fichas/'.$idUsuario);
                 }
             
             }
@@ -239,14 +239,6 @@ class FichaController extends Controller
         ->where('f.id_usuario',$id)
         ->orderBy('f.id','desc')
         ->get();
-        
-
-        /*if(request()->ajax()) {
-            return datatables()->of($fichas)
-            ->addColumn('action', 'ficha.acciones')
-            ->rawColumns(['action'])
-            ->make(true);
-        }*/
 
         return view('ficha.mostrarFichas')->with('usuario',$usuario)->with('fichas',$fichas);
     }
