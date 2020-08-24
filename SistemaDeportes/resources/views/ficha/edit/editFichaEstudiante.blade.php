@@ -16,7 +16,6 @@
             </div>
             <br>
         </div>
-        
         <div class="col-md-5" >
             <h5 name="nombre_usuario"><b>Usuario:</b> {{$usuario->apellido}}, {{$usuario->nombre}} </h5>    
         </div>
