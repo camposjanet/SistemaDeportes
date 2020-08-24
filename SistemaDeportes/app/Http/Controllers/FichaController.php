@@ -74,9 +74,6 @@ class FichaController extends Controller
             $presento_cert_alum = $request->get('certificado_alumno');
             $presento_cert_med = $request->get('certificado_estudiante');
 
-            /* if (($presento_cert_alum==1) and ($presento_cert_med==1)) $ficha->estado_documentacion = 'COMPLETA';
-            else $ficha->estado_documentacion = 'INCOMPLETA'; */
-
             if ($ficha->save()){
                
                 $usuario->categoria = $nombreCategoria;
@@ -100,7 +97,7 @@ class FichaController extends Controller
                     $cert ->nombre_medico = $request->get('certificado_medico_estudiante');
                 } else  $cert ->id_estado_documento = $idEstadoNoPresento;
                 $cert->save();
-                return Redirect::to('usuarios');
+                return Redirect::to('fichas/'.$idUsuario);
             };
         } elseif (($categoria == $idCategoriaDocente) or ($categoria == $idCategoriaPAU)) {
             $ficha->lu_legajo = $request->get('legajo');
@@ -162,7 +159,7 @@ class FichaController extends Controller
                 } else $cert ->id_estado_documento = $idEstadoNoPresento;
                 $cert->save();
 
-                return Redirect::to('usuarios');
+                return Redirect::to('fichas/'.$idUsuario);
             }
             
         } else {
@@ -221,14 +218,28 @@ class FichaController extends Controller
                         $cert ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->toDateString();
                         $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->addYear()->toDateString();
                         $cert ->nombre_medico = $request->get('certificado_medico_familiar');
-                    }else $cert_med ->id_estado_documento = $idEstadoNoPresento;
+                    }else $cert ->id_estado_documento = $idEstadoNoPresento;
                     $cert->save();
 
-                    return Redirect::to('usuarios');
+                    return Redirect::to('fichas/'.$idUsuario);
                 }
             
             }
         }
         
+    }
+
+    public function mostrarFichasDeUsuario($id){
+        $usuario =Usuario::findOrFail($id);
+        $fichas = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id','f.fecha as fecha','e.estado as estado','c.categoria as categoria','f.estado_documentacion as documentacion')
+        ->where('f.id_usuario',$id)
+        ->orderBy('f.id','desc')
+        ->get();
+
+        return view('ficha.mostrarFichas')->with('usuario',$usuario)->with('fichas',$fichas);
     }
 }
