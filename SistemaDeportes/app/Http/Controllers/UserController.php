@@ -102,16 +102,33 @@ class UserController extends Controller
 			return view("user.edit", compact("user"));
 	}
 
-	public function update(OperarioRequest $request, $id){
-		$user= User::findOrFaild($id);
-		$user->update($request->all()); 
-		/*$user->name= $request->name;
-		$user->email= $request->email;
-		if ($user->save()){
-			return Redirect::to('users');
-		}*/
-
+	public function update(Request $request, $id){
+		$user=User::findOrFail($id);
+		$user->update([
+			'name'=>$request->input('name'), 
+			'email'=>$request->input('email'),
+		]);
 		return Redirect::to('users');
+		
+	}
+	
+	/*public function borrar_operario(OperarioRequest $request, $id){
+		$idEstado=DB::table('estados as e')->where('e.estado','=','INACTIVO')->value('id');		
+		$user=User::findOrFail($id);
+		$user->id_estado= $idEstado;
+
+		if($user->save()){
+			return Redirect::to('users');
+		}
+	} */
+
+	public function actualiza_password(Request $request, $id){
+		$user=User::findOrFail($id);
+
+		$user->password=bcrypt($request->get('password'));
+		if($user->save()){
+			return Redirect::to('users');
+		}
 		
 	}
 }
