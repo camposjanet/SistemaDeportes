@@ -62,8 +62,15 @@
                             <td>{{ $ficha -> documentacion }}</td>
                             <td>{{ $ficha -> estado }}</td>
                             <td>
-                                <a><button name="visualizar" class="btn btn-secondary"><i class="fa fa-eye text-dark"></i></button></a>
-                                <button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                                <a><button name="visualizar" class="btn " style="background-color:#45B39D;"><i class="fa fa-eye text-dark"></i></button></a>
+                                @if($ficha->categoria=='Estudiante')
+                                    <a href="{{URL::action('FichaController@editFichaEstudiante',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                @elseif ($ficha->categoria=='Familiar')
+                                    <a href="{{URL::action('FichaController@editFichaFamiliar',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                @else
+                                    <a href="{{URL::action('FichaController@editFichaProfesional',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                @endif
+                                
                                 @if($ficha->documentacion=='COMPLETA')
                                     <a href="{{URL::action('CarnetController@generarReporteDelCarnet',$ficha->id)}}"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
                                 @endif

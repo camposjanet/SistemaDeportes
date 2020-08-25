@@ -154,7 +154,7 @@ class FichaController extends Controller
                 if ($presento_cert_med==1){
                     $cert ->id_estado_documento = $idEstadoPresento;
                     $cert ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_profesional'))->toDateString();
-                    $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->addYear()->toDateString();
+                    $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_profesional'))->addYear()->toDateString();
                     $cert ->nombre_medico = $request->get('certificado_medico_profesional');
                 } else $cert ->id_estado_documento = $idEstadoNoPresento;
                 $cert->save();
@@ -216,7 +216,7 @@ class FichaController extends Controller
                     if ($cert_med==1){
                         $cert ->id_estado_documento = $idEstadoPresento;
                         $cert ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->toDateString();
-                        $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->addYear()->toDateString();
+                        $cert ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->addYear()->toDateString();
                         $cert ->nombre_medico = $request->get('certificado_medico_familiar');
                     }else $cert ->id_estado_documento = $idEstadoNoPresento;
                     $cert->save();
@@ -241,5 +241,174 @@ class FichaController extends Controller
         ->get();
 
         return view('ficha.mostrarFichas')->with('usuario',$usuario)->with('fichas',$fichas);
+    }
+
+    public function editFichaEstudiante($idFicha){
+        $ficha = Ficha::findOrFail($idFicha);
+        $usuario =Usuario::findOrFail($ficha->id_usuario);
+        $unidad = UnidadAcademica::where('id', '=' ,$ficha->id_unidad_academica)->firstOrFail();
+        $anio = date("Y");
+        $fecha=Carbon::createFromDate($anio,'03','31')->addYear();
+
+        $car=DB::table('certificado_alumno_regular as car')
+        ->join('estados_de_documento as e','e.id','=','car.id_estado_documento')
+        ->select('car.id','fecha_de_vencimiento','car.id_estado_documento as presentoCAR')
+        ->where('car.id_ficha',$idFicha)
+        ->first();
+        $certificado = DB::table('certificado_medico as cm')
+        ->join('estados_de_documento as e','e.id','=','cm.id_estado_documento')
+        ->select('cm.id','fecha_de_emision','nombre_medico','cm.id_estado_documento as presentoCM')
+        ->where('cm.id_ficha',$idFicha)
+        ->first();
+        return view('ficha.edit.editFichaEstudiante')->with('usuario',$usuario)
+                                                    ->with('ficha',$ficha)
+                                                    ->with('unidad',$unidad)
+                                                    ->with('certificado',$certificado)
+                                                    ->with('car',$car)
+                                                    ->with('fecha',$fecha);
+    }
+
+    public function editFichaProfesional($idFicha){
+        $ficha = Ficha::findOrFail($idFicha);
+        $usuario =Usuario::findOrFail($ficha->id_usuario);
+
+        $recibo = DB::table('recibo_sueldo as r')
+        ->join('estados_de_documento as e','e.id','=','r.id_estado_documento')
+        ->select('r.id','nro_recibo','r.id_estado_documento as presentoR')
+        ->where('r.id_ficha',$idFicha)
+        ->first();
+
+        $certificado = DB::table('certificado_medico as cm')
+        ->join('estados_de_documento as e','e.id','=','cm.id_estado_documento')
+        ->select('cm.id','fecha_de_emision','nombre_medico','cm.id_estado_documento as presentoCM')
+        ->where('cm.id_ficha',$idFicha)
+        ->first();
+        return view('ficha.edit.editFichaProfesional')->with('usuario',$usuario)
+                                                    ->with('ficha',$ficha)
+                                                    ->with('recibo',$recibo)
+                                                    ->with('certificado',$certificado);
+    }
+
+    public function editFichaFamiliar($idFicha){
+
+        $ficha = Ficha::findOrFail($idFicha);
+
+        $documentacion = DB::table('documentacion_familiar as df')
+        ->join('estados_de_documento as e','e.id','=','df.id_estado_documento')
+        ->select('df.id','nombre_documentacion','nombre_familiar','legajo_familiar','df.id_estado_documento as presentoDF')
+        ->where('df.id_ficha',$idFicha)
+        ->first();
+
+        $certificado = DB::table('certificado_medico as cm')
+        ->join('estados_de_documento as e','e.id','=','cm.id_estado_documento')
+        ->select('cm.id','fecha_de_emision','nombre_medico','cm.id_estado_documento as presentoCM')
+        ->where('cm.id_ficha',$idFicha)
+        ->first();
+
+        $usuario =Usuario::findOrFail($ficha->id_usuario);
+
+        return view('ficha.edit.editFichaFamiliar')->with('usuario',$usuario)
+                                                ->with('ficha',$ficha)
+                                                ->with('documentacion',$documentacion)
+                                                ->with('certificado',$certificado);
+    }
+
+    public function updateFichaProfesional(Request $request,$idFicha){
+        $ficha = Ficha::findOrFail($idFicha);
+        $fechaActual = Carbon::now();
+        $idEstadoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','PRESENTO')->value('id');
+        $idEstadoNoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','NO PRESENTO')->value('id');
+        
+        $recibo = ReciboSueldo::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+        $certificado = CertificadoMedico::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+
+        $presento_recibo_sueldo = $request->get('recibo_sueldo');
+        $presento_cert_med = $request->get('certificado_profesional');
+
+        $this->validate($request,[
+            'lugar_de_trabajo'=>'required',
+        ]);
+        $ficha->lugar_de_trabajo=$request->get('lugar_de_trabajo');
+        $ficha->update();
+        
+        if ($presento_recibo_sueldo==1){
+            $recibo ->nro_recibo = $request->get('nro_recibo');
+            $recibo ->id_estado_documento = $idEstadoPresento;
+            $recibo ->fecha_de_presentacion = $fechaActual->toDateString();
+            $recibo->update();
+        }
+        if ($presento_cert_med==1){
+            $certificado ->id_estado_documento = $idEstadoPresento;
+            $certificado ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_profesional'))->toDateString();
+            $certificado ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_profesional'))->addYear()->toDateString();
+            $certificado ->nombre_medico = $request->get('certificado_medico_profesional');
+            $certificado->update();
+        }
+
+        return Redirect::to('fichas/'.$ficha->id_usuario);
+    }
+    public function updateFichaFamiliar(Request $request,$idFicha){
+        $presento_cert_med = $request->get('certificado_familiar');
+        $presento_documentacion = $request->get('documentacion_probatoria');
+        if($presento_documentacion==1){
+            $this->validate($request,[
+                'nombre_familiar'=>'required',
+                'legajo_familiar'=>'required',
+                'nombre_documentacion'=>'required',
+              ]);
+        } 
+        
+        $ficha = Ficha::findOrFail($idFicha);
+        $fechaActual = Carbon::now();
+        $idEstadoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','PRESENTO')->value('id');
+        $idEstadoNoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','NO PRESENTO')->value('id');
+        
+        $documentacion = DocumentacionFamiliar::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+        $certificado = CertificadoMedico::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+
+        if ($presento_documentacion==1){
+            $documentacion ->nombre_documentacion = $request->get('nombre_documentacion');
+            $documentacion ->fecha_de_presentacion = $fechaActual->toDateString();
+            $documentacion ->nombre_familiar = $request->get('nombre_familiar');
+            $documentacion ->legajo_familiar = $request->get('legajo_familiar');
+            $documentacion ->id_estado_documento = $idEstadoPresento;
+            $documentacion->update();
+        }
+        if ($presento_cert_med==1){
+            $certificado ->id_estado_documento = $idEstadoPresento;
+            $certificado ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->toDateString();
+            $certificado ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_familiar'))->addYear()->toDateString();
+            $certificado ->nombre_medico = $request->get('certificado_medico_familiar');
+            $certificado->update();
+        }
+        return Redirect::to('fichas/'.$ficha->id_usuario);
+    }
+
+    public function updateFichaEstudiante(Request $request,$idFicha){
+        $ficha = Ficha::findOrFail($idFicha);
+        $fechaActual = Carbon::now();
+        $idEstadoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','PRESENTO')->value('id');
+        $idEstadoNoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','NO PRESENTO')->value('id');
+        
+        $certificado_alumno = CertificadoAlumnoRegular::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+        $certificado_medico = CertificadoMedico::where('id_ficha', '=' ,$idFicha)->firstOrFail();
+
+        $presento_cert_alum = $request->get('certificado_alumno');
+        $presento_cert_med = $request->get('certificado_estudiante');
+
+        if ($presento_cert_alum==1){
+            $certificado_alumno->id_estado_documento = $idEstadoPresento;
+            $certificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
+            $certificado_alumno->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_vencimiento'))->toDateString();     
+            $certificado_alumno->update();
+        }
+        if ($presento_cert_med==1){
+            $certificado_medico ->id_estado_documento = $idEstadoPresento;
+            $certificado_medico ->fecha_de_emision = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->toDateString();
+            $certificado_medico ->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_emision_certificado_estudiante'))->addYear()->toDateString();
+            $certificado_medico ->nombre_medico = $request->get('certificado_medico_estudiante');
+            $certificado_medico->update();
+        }
+        return Redirect::to('fichas/'.$ficha->id_usuario);
     }
 }
