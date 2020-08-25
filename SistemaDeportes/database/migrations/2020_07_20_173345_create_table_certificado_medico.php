@@ -15,8 +15,8 @@ class CreateTableCertificadoMedico extends Migration
     {
         Schema::create('certificado_medico', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha_de_emision');
-            $table->date('fecha_de_vencimiento');
+            $table->date('fecha_de_emision')->nullable();
+            $table->date('fecha_de_vencimiento')->nullable();
             $table->string('nombre_medico')->nullable();
             $table->unsignedBigInteger('id_ficha');
             $table->unsignedBigInteger('id_estado_documento');

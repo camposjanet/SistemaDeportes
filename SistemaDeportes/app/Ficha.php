@@ -19,12 +19,13 @@ class Ficha extends Model
         'id_unidad_academica',
         'lugar_de_trabajo',
         'estado_documentacion',
-        'id_estado'
+        'id_estado',
+        'fecha'
         
     ];
 
     protected $dates = [
         
-        
+        'fecha'
     ];
 }

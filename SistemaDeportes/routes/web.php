@@ -49,3 +49,10 @@ Route::get('user/delete/{id}',function($id){
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
+Route::get('fichas/{id}','FichaController@mostrarFichasDeUsuario')->name('fichas.mostrar');
+Route::get('ficha/edit/estudiante/{idFicha}','FichaController@editFichaEstudiante');
+Route::get('ficha/edit/familiar/{idFicha}','FichaController@editFichaFamiliar');
+Route::get('ficha/edit/profesional/{idFicha}','FichaController@editFichaProfesional');
+Route::patch('ficha/edit/familiar/{idFicha}','FichaController@updateFichaFamiliar')->name('ficha.familiar.update');
+Route::patch('ficha/edit/profesional/{idFicha}','FichaController@updateFichaProfesional')->name('ficha.profesional.update');
+Route::patch('ficha/edit/estudiante/{idFicha}','FichaController@updateFichaEstudiante')->name('ficha.estudiante.update');

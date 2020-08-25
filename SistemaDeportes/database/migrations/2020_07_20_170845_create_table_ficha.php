@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Carbon\Carbon;
 
 class CreateTableFicha extends Migration
 {
@@ -22,6 +23,7 @@ class CreateTableFicha extends Migration
             $table->unsignedBigInteger('id_categoria');
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_estado');
+            $table->date('fecha')->default(Carbon::now());
 
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('id_categoria')->references('id')->on('categorias')->onDelete('cascade');
