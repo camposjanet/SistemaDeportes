@@ -65,7 +65,7 @@
                                 <a><button name="visualizar" class="btn btn-secondary"><i class="fa fa-eye text-dark"></i></button></a>
                                 <button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button>
                                 @if($ficha->documentacion=='COMPLETA')
-                                    <a href="#"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                    <a href="{{URL::action('CarnetController@generarReporteDelCarnet',$ficha->id)}}"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
                                 @endif
                             </td>
                         </tr>
