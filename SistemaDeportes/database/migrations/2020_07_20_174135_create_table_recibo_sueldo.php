@@ -15,7 +15,7 @@ class CreateTableReciboSueldo extends Migration
     {
         Schema::create('recibo_sueldo', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('fecha_de_presentacion');
+            $table->date('fecha_de_presentacion')->nullable();
             $table->string('nro_recibo')->nullable();
             $table->unsignedBigInteger('id_ficha');
             $table->unsignedBigInteger('id_estado_documento');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Support\Facades\Redirect;
-//use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\OperarioRequest;
 use Illuminate\Http\Request;
 
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles=DB::table('roles')->get();
+		$roles=DB::table('roles')->get();
 		return view("user.create")->with('roles',$roles);
 
 
@@ -102,22 +102,33 @@ class UserController extends Controller
 			return view("user.edit", compact("user"));
 	}
 
-	public function update(OperarioRequest $request, $id){
-		$user= User::findOrFaild($id);
-		$user->name= $request->name;
-		$user->email= $request->email;
-		if ($user->save()){
-			return Redirect::to('users');
-		}
-		/*$user->update(['name'=>$request->name, 'email'=>$request->email]); 
-		$user->name= $request->name;
-		$user->email= $request->email;
-		if ($user->save()){
-			return Redirect::to('users');
-		}
+	public function update(Request $request, $id){
+		$user=User::findOrFail($id);
+		$user->update([
+			'name'=>$request->input('name'), 
+			'email'=>$request->input('email'),
+		]);
+		return Redirect::to('users');
+		
+	}
+	
+	/*public function borrar_operario(OperarioRequest $request, $id){
+		$idEstado=DB::table('estados as e')->where('e.estado','=','INACTIVO')->value('id');		
+		$user=User::findOrFail($id);
+		$user->id_estado= $idEstado;
 
-		return Redirect::to('users');*/
-		return $request;
+		if($user->save()){
+			return Redirect::to('users');
+		}
+	} */
+
+	public function actualiza_password(Request $request, $id){
+		$user=User::findOrFail($id);
+
+		$user->password=bcrypt($request->get('password'));
+		if($user->save()){
+			return Redirect::to('users');
+		}
 		
 	}
 }
