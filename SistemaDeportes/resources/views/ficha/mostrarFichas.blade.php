@@ -72,7 +72,14 @@
                                 @endif
                                 
                                 @if($ficha->documentacion=='COMPLETA')
-                                    <a href="#"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                    @if($ficha->categoria=='Estudiante')
+                                        <a href="{{URL::action('CarnetController@generarCarnetEstudiante',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                    @elseif ($ficha->categoria=='Familiar')
+                                        <a href="{{URL::action('CarnetController@generarCarnetFamiliar',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                    @else
+                                        <a href="{{URL::action('CarnetController@generarCarnetProfesional',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                    @endif
+                                    
                                 @endif
                             </td>
                         </tr>
