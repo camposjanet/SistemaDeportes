@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container" style="height:100%; align-content:center;"> 
+				@if(Session::has('no_valido'))
+					<div style="display: flex; align-items:center; justify-content: center;"> <!-- display: flex; -->
+						<div class="card" style="height: 100px; width: 900px;background-color: rgba(63,146,81,0.5) !important;">
+							<div class="card-body">
+								<p 	class="text-white text-center"> {{session('no_valido')}} </p>
+							</div>
+						</div>
+					</div>
+				@endif
 				<div style="display: flex; align-items:center; justify-content: center; min-height: 100vh;">
 				    	<div class="card" style="height: 370px;margin-top: auto;margin-bottom:auto;width: 400px;background-color: rgba(0,0,0,0.5) !important;">
 				        	<div class="card-header"> <h3 align="center" style="color:white"> {{ __('Dirección de Educación Física y Deportes') }}</h3> </div>

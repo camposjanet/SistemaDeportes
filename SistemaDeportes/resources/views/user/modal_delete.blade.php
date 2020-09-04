@@ -9,8 +9,9 @@
 				<p>¿Está seguro que desea Dar de Baja al Personal seleccionado?. Una vez dado de baja, ¡El usuario no podrá acceder al Sistema de Deportes! </p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"> Confrimar</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button type="submit" class="btn btn-primary">Confirmar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+				
 			</div>
 		</div>	
 	</div>

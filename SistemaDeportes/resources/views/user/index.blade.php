@@ -2,7 +2,6 @@
  
 @section('content')
  <div class="container">
-    @include('user.create_modal_elimina')
     <div class="row d-flex justify-content-center mt-4">
         <h1>PERSONAL DEFyD</h1>            
     </div>
