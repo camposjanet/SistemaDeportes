@@ -1,5 +1,5 @@
 @extends('layouts.home')
-
+ 
 @section('content')
  <div class="container">
     <div class="row d-flex justify-content-center mt-4">
@@ -60,5 +60,6 @@
         });
     });
 </script>
+
 @endpush 
 
