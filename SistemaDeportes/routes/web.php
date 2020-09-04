@@ -52,3 +52,5 @@ Route::patch('ficha/edit/estudiante/{idFicha}','FichaController@updateFichaEstud
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
 Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional')->name('carnet.profesional');
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
+//DAR DE BAJA USUARIO
+Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
