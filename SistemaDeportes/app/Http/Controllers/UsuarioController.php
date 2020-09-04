@@ -78,4 +78,13 @@ class UsuarioController extends Controller
         }
         return view('usuario.index');
     }
+
+    public function deleteUsuario($id)
+    {
+        $usuario =Usuario::findOrFail($id);
+        $idEstadoInactivo=DB::table('estados as e')->where('e.estado','=','INACTIVO')->value('id');
+    	$usuario->id_estado=$idEstadoInactivo;
+    	$usuario->update();
+    	return Redirect::to('usuarios');
+    }
 }
