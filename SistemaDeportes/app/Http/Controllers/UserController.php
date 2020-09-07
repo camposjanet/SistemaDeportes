@@ -112,15 +112,14 @@ class UserController extends Controller
 		
 	}
 	
-	/*public function borrar_operario(OperarioRequest $request, $id){
+	public function delete($id){
 		$idEstado=DB::table('estados as e')->where('e.estado','=','INACTIVO')->value('id');		
 		$user=User::findOrFail($id);
 		$user->id_estado= $idEstado;
 
-		if($user->save()){
-			return Redirect::to('users');
-		}
-	} */
+		$user->update();
+		return Redirect::to('users');
+	} 
 
 	public function actualiza_password(Request $request, $id){
 		$user=User::findOrFail($id);
