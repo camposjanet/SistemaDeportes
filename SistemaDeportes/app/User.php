@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Role;
 
 class User extends Authenticatable
 {
@@ -44,8 +45,7 @@ class User extends Authenticatable
 	public function esAdmin(){
 		if($this->role->nombre_rol=='Administrador'){
 			return true;
-		}
-
+s
 		return false;
 	}
 
