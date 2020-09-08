@@ -62,38 +62,49 @@
                     <li class="header text-white" style="font-size: 15px; ">
                         Menú del Sistema
                     </li>
+
                     <li class="treeview">
                         <a href="{{url('inicio/')}}" class="text-white">
                             <i class="fa fa-home fa-fw"></i>
                             <span>Inicio</span>
                         </a>
                     </li>
-                    <li class="treeview">
-                        <a href="{{url('usuarios/')}}" class="text-white">
-                            <i class="fa fa-users"></i>
-                            <span>Usuarios</span>
-                        </a>
-                    </li>
                     
-                    <li class="treeview">
-                        <a href="#" class="text-white">
-                            <i class="fa fa-calendar"></i>
-                            <span>Control de Asistencia</span>
-                        </a>
-                    </li>
-                    <li class="treeview" >
-                        <a href="#"  class="text-white">
-                            <i class="fa fa-usd"></i>
-                            <span>Pagos</span>
-                        </a>
-                    </li>
-                    </li>
-                    <li class="treeview">
-                        <a href="{{url('users/')}}"  class="text-white">
-                            <i class="fa fa-user"></i>
-                            <span>Personal DEFyD</span>
-                        </a>
-                    </li>   
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
+                        <li class="treeview">
+                            <a href="{{url('usuarios/')}}" class="text-white">
+                                <i class="fa fa-users"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Profesor")
+                        <li class="treeview">
+                            <a href="#" class="text-white">
+                                <i class="fa fa-calendar"></i>
+                                <span>Control de Asistencia</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
+                        <li class="treeview" >
+                            <a href="#"  class="text-white">
+                                <i class="fa fa-usd"></i>
+                                <span>Pagos</span>
+                            </a>
+                        </li>
+                    @endif
+                    
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador")   
+                        <li class="treeview">
+                            <a href="{{url('users/')}}"  class="text-white">
+                                <i class="fa fa-user"></i>
+                                <span>Personal DEFyD</span>
+                            </a>
+                        </li>
+                    @endif   
                                 
                 </ul>
             </section>
