@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\OperarioRequest;
 use Illuminate\Http\Request;
-
-
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\session;
 
 use App\Estados;
 use App\Role;
@@ -17,6 +16,8 @@ use App\Role;
 use DB;
 
 use Yajra\Datatables\Datatables;
+
+//use Hash; esta librería se usara para el modificar contraseña(Operario)
 
 class UserController extends Controller
 {
@@ -121,13 +122,31 @@ class UserController extends Controller
 		return Redirect::to('users');
 	} 
 
-	public function actualiza_password(Request $request, $id){
-		$user=User::findOrFail($id);
+	public function password($id){
+		$user= User::findOrFail($id);
+		return view('user.password', compact("user"));
+	}
 
-		$user->password=bcrypt($request->get('password'));
-		if($user->save()){
-			return Redirect::to('users');
+	public function updatePassword(Request $request, $id){
+		$rules=[
+			'password'=> 'required_with:password_confirmation | confirmed | string | min:6'
+		];
+
+		$messages=[
+			'password.required'=> 'La Contraseña es una campo obligatorio',
+			'password.min'=> 'La Contraseña debe contener por lo menos 6 carácteres'
+		];
+
+		$validator= \Validator::make($request->all(),$rules, $messages);
+
+		if ($validator->fails()){
+			return redirect()->action('UserController@password',compact("id"))->withErrors($validator);
 		}
-		
+		else{
+			$user=User::findOrFail($id);
+			$user->update(['password'=>bcrypt($request->input('password'))]);
+			Session::flash('update_password','¡Se ha actualizado la contraseña con éxito!.');
+			return redirect('users');
+		}
 	}
 }

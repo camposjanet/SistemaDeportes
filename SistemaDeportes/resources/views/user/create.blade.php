@@ -40,9 +40,9 @@
 							<td> <div class="form-group mx-auto">
 								{!! Form::reset(' Limpiar datos',['class'=>'btn btn-danger btn-lg'])!!}
 								<button type="button " class="btn btn-primary btn-lg" type="submit"> <i class="fa fa-save"></i> Guardar</button>
-							</div> 
-						</td>
-					</tr>
+								</div> 
+							</td>
+						</tr>
 				</table>
 			{!!Form::close()!!}
 		</div>			

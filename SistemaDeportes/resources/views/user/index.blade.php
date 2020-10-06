@@ -2,6 +2,12 @@
  
 @section('content')
  <div class="container">
+
+    @if(Session::has('update_password'))
+        <div class="alert alert-success">
+            <p  class="text-center"> <strong>Éxitos!!</strong> {{ session('update_password') }} </p>
+        </div>
+    @endif
     <div class="row d-flex justify-content-center mt-4">
         <h1>PERSONAL DEFyD</h1>            
     </div>
