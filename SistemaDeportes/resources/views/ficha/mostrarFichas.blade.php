@@ -62,27 +62,31 @@
                             <td>{{ $ficha -> documentacion }}</td>
                             <td>{{ $ficha -> estado }}</td>
                             <td>
-                                <a><button name="visualizar" class="btn " style="background-color:#45B39D;"><i class="fa fa-eye text-dark"></i></button></a>
+                                <a><button title="Ver Ficha" name="visualizar" class="btn " style="background-color:#45B39D;"><i class="fa fa-eye text-dark"></i></button></a>
                                 @if($ficha->categoria=='Estudiante')
-                                    <a href="{{URL::action('FichaController@editFichaEstudiante',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                    <a href="{{URL::action('FichaController@editFichaEstudiante',$ficha->id)}}"><button title="Modificar Ficha" name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
                                 @elseif ($ficha->categoria=='Familiar')
-                                    <a href="{{URL::action('FichaController@editFichaFamiliar',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                    <a href="{{URL::action('FichaController@editFichaFamiliar',$ficha->id)}}"><button title="Modificar Ficha" name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
                                 @else
-                                    <a href="{{URL::action('FichaController@editFichaProfesional',$ficha->id)}}"><button name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
+                                    <a href="{{URL::action('FichaController@editFichaProfesional',$ficha->id)}}"><button title="Modificar Ficha" name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
                                 @endif
-                                
+                                @if($ficha->estado=='ACTIVO')
+                                    <button title="Registrar Pago" name="arancel" class="btn btn-success" data-toggle="modal" id="arancel-ficha-{{$ficha->id}}" data-target="#modal-pago-arancel-{{$ficha->id}}"><i class="fa fa-usd text-dark"></i></button>
+                                @endif 
                                 @if($ficha->documentacion=='COMPLETA')
                                     @if($ficha->categoria=='Estudiante')
-                                        <a href="{{URL::action('CarnetController@generarCarnetEstudiante',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                        <a href="{{URL::action('CarnetController@generarCarnetEstudiante',$ficha->id)}}" target="_blank"><button title="Generar Carnet" name="carnet" type="submit" class="btn" style="background-color:#5C6BC0;"><i class="fa fa-credit-card text-dark"></i></button></a>
                                     @elseif ($ficha->categoria=='Familiar')
-                                        <a href="{{URL::action('CarnetController@generarCarnetFamiliar',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                        <a href="{{URL::action('CarnetController@generarCarnetFamiliar',$ficha->id)}}" target="_blank"><button title="Generar Carnet" name="carnet" type="submit" class="btn" style="background-color:#5C6BC0;"><i class="fa fa-credit-card text-dark"></i></button></a>
                                     @else
-                                        <a href="{{URL::action('CarnetController@generarCarnetProfesional',$ficha->id)}}" target="_blank"><button name="carnet" type="submit" class="btn btn-success"><i class="fa fa-credit-card text-dark"></i></button></a>
+                                        <a href="{{URL::action('CarnetController@generarCarnetProfesional',$ficha->id)}}" target="_blank"><button title="Generar Carnet" name="carnet" type="submit" class="btn" style="background-color:#5C6BC0;"><i class="fa fa-credit-card text-dark"></i></button></a>
                                     @endif
                                     
                                 @endif
+                                
                             </td>
                         </tr>
+                        @include('arancel.create')
                     @endforeach
                 </table>
             </div>

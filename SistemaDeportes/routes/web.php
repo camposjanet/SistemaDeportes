@@ -54,3 +54,6 @@ Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional'
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
 //DAR DE BAJA USUARIO
 Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
+
+//ARANCELES
+Route::post('ficha/arancel/create/{idUser}/{idFicha}','ArancelController@store')->name('arancel.store');
