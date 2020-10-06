@@ -1,4 +1,4 @@
-<a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{ $id }}" data-original-title="Password" class="password btn btn btn-success text-dark" disabled>
+<a href="{{ route('user.password', $id) }}" data-toggle="tooltip"  data-id="{{ $id }}" data-original-title="Password" class="password btn btn btn-success text-dark" disabled>
 	<i class="fa fa-key" aria-hidden="true"></i>
 </a>
 <a href="{{ route('user.edit', $id) }}" data-toggle="tooltip"  data-id="{{ $id }}" data-original-title="Edit" class="edit btn btn-warning edit-user" disabled>
