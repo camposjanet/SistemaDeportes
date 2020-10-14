@@ -40,6 +40,8 @@ Route::put('user/{id}','UserController@update')->name('user.update');
 Route::delete('user/delete/{id}','UserController@delete');
 Route::get('user/{id}/password', 'UserController@password')->name('user.password');
 Route::post('user/{id}/updatepassword', 'UserController@updatePassword')->name('user.updatepassword');
+Route::get('user/recoverpassword','EmailController@create')->name('email.create');
+Route::post('user/sendemail','EmailController@sendEmail')->name('recuperar.contraseña');
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
