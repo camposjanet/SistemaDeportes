@@ -411,4 +411,51 @@ class FichaController extends Controller
         }
         return Redirect::to('fichas/'.$ficha->id_usuario);
     }
+
+    public function show($id){
+        
+        $ficha = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id as idficha','f.fecha as fecha','f.lu_legajo','f.lugar_de_trabajo','f.ultimo_arancel','f.id_usuario as idusuario','f.id_unidad_academica',
+                    'e.estado as estado','c.categoria as categoria',
+                    DB::raw('CONCAT(u.apellido," ",u.nombre)AS nombre_usuario'), 'u.dni', 'u.fecha_de_nacimiento', 'u.email','u.domicilio','u.foto')
+        ->where('f.id',$id)
+        ->first();
+
+        if ($ficha->id_unidad_academica != null){
+            $unidad =  DB::table('unidades_academicas as ua')->where('ua.id','=',$ficha->id_unidad_academica)->value('unidad');
+        } else $unidad = "";
+
+        if ($ficha->categoria == 'Estudiante'){
+            $certificado_alumno = CertificadoAlumnoRegular::where('id_ficha', '=' ,$id)->firstOrFail();
+            if ($certificado_alumno->fecha_de_vencimiento != null ) $vencimiento_certificado_alumno =  Carbon::parse($certificado_alumno->fecha_de_vencimiento)->format('d-m-Y');
+            else $vencimiento_certificado_alumno =  $vencimiento_certificado_alumno = "NO PRESENTO";
+        } else $vencimiento_certificado_alumno = "";
+
+        if ($ficha->ultimo_arancel != null){
+            $vencimiento_ultimo_arancel =  Carbon::parse($ficha->ultimo_arancel)->format('d-m-Y');
+        } else $vencimiento_ultimo_arancel = "NO REGISTRA PAGOS DE ARANCEL";
+        
+        $v_cm= CertificadoMedico::where('id_ficha', '=' ,$id)->firstOrFail();
+        if ($v_cm->fecha_de_vencimiento != null ) $vencimiento_certificado_medico = Carbon::parse($v_cm->fecha_de_vencimiento)->format('d-m-Y');
+        else $vencimiento_certificado_medico = "NO PRESENTO";
+
+        $lineas=DB::table('telefonos as t')
+        ->join('lineas_telefonica as l','t.id_linea_telefonica','=','l.id')
+        ->select('t.numero','t.tipo_telefono','l.linea as linea')
+        ->where('t.id_usuario','=',$ficha->idusuario)
+        ->get();
+
+        return response()->json([
+            'ficha' => $ficha,
+            'unidad' => $unidad,
+            'lineas' => $lineas,
+            'vencimientoCertificadoM' => $vencimiento_certificado_medico,
+            'vencimientoCertificadoAR' => $vencimiento_certificado_alumno,
+            'ultimo_arancel' => $vencimiento_ultimo_arancel,
+            'fecha_de_nacimiento' => Carbon::parse($ficha->fecha_de_nacimiento)->format('d-m-Y')
+        ]);
+    }
 }
