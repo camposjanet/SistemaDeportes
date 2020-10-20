@@ -10,6 +10,13 @@
 			<div class="modal-body ">
                 <h2 class="text-center">REGISTRAR ARANCEL </h2>
                 <div class="row">
+                    <div class="col-lg-12 m-2">
+                        @if(Session::has('error_en_pago_arancel'))
+                            <small  class="form-text text-danger">{{session('error_en_pago_arancel')}}</small>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Fecha de pago</label>
@@ -41,8 +48,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-importe"><b>$</b></span>
                         </div>
-                        <input type="numeric" class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" name="importe">
-                        <!-- {!! Field::number('importe',['class'=>'form-control', 'name'=>'importe','placeholder'=>'0.00', 'value'=>'old(importe)','aria-describedby'=>'basic-importe'])!!} -->
+                        <input type="numeric" class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" name="importe" value="{{old('importe')}}">
                     </div>
                 </div>
                 

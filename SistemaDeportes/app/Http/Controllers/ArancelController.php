@@ -11,11 +11,22 @@ use App\Ficha;
 use DB;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class ArancelController extends Controller
 {
     public function store(Request $request,$idUser, $idFicha)
 	{
+       $validator = Validator::make($request->all(), [
+            'importe'=>'required|numeric|between:1,9999.99',
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque se ingresó un importe no válido.');
+            return Redirect::back();         
+        }
+
         $idCategoriaEstudiante=DB::table('categorias as c')->where('c.categoria','=','Estudiante')->value('id');
         $idCategoriaDocente=DB::table('categorias as c')->where('c.categoria','=','Docente')->value('id');
         $idCategoriaPAU=DB::table('categorias as c')->where('c.categoria','=','PAU')->value('id');
@@ -58,7 +69,7 @@ class ArancelController extends Controller
             }
         }
 
-        $ficha->ultimo_arancel = $fechaActual->toDateString();
+        $ficha->ultimo_arancel = $fechaActual->addDays(30)->toDateString();
         $ficha->update();
         
         $arancel = new Arancel;
@@ -71,8 +82,5 @@ class ArancelController extends Controller
         if ($arancel->save()){
             return Redirect::to('fichas/'.$ficha->id_usuario);
         }
-       
-        
-        
     }
 }
