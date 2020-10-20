@@ -41,7 +41,18 @@
             </div>
         </div>
     </div>
-    <br>
+    <div class="row">
+        <div class="col-lg-12 mt-2">
+            @if(Session::has('error_en_pago_arancel'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{session('error_en_pago_arancel')}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+			@endif
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
