@@ -56,3 +56,7 @@ Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional'
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
 //DAR DE BAJA USUARIO
 Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
+// ASISTENCIA
+Route::get('menuasistencia', 'AsistenciasController@index')->name('asistencia.index');
+Route::get('cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
+Route::get('buscarcarnet','AsistenciasController@create')->name('asistencia.create');
