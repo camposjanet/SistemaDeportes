@@ -19,7 +19,7 @@ class ArancelController extends Controller
     public function store(Request $request,$idUser, $idFicha)
 	{
        $validator = Validator::make($request->all(), [
-            'importe'=>'required|numeric|between:0,9999.99',
+            'importe'=>'required|numeric|between:1,9999.99',
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +69,7 @@ class ArancelController extends Controller
             }
         }
 
-        $ficha->ultimo_arancel = $fechaActual->toDateString();
+        $ficha->ultimo_arancel = $fechaActual->addDays(30)->toDateString();
         $ficha->update();
         
         $arancel = new Arancel;

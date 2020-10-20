@@ -48,8 +48,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-importe"><b>$</b></span>
                         </div>
-                        <input type="numeric" class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" id="importe" name="importe" value="{{old('importe')}}">
-                        <!-- {!! Field::number('importe',['class'=>'form-control', 'name'=>'importe','placeholder'=>'0.00', 'value'=>'old(importe)','aria-describedby'=>'basic-importe'])!!} -->
+                        <input type="numeric" class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" name="importe" value="{{old('importe')}}">
                     </div>
                 </div>
                 
