@@ -20,9 +20,11 @@
 	  		<div class="col-md-3"><p class="text-right"> <b>Fecha: </b> {{$asistencia->fecha_asistencia}} </p></div>
 		</div>
 		<div class="container">
-			<!--<form id="registrar_asistencia" method="get" action="buscarcarnet"> -->
-				{{Form::open['route'=>'asistencia.create', 'method'=>'POST']}}
+			<form id="registrar_asistencia" method="post">
 				<div class="row">
+					<div class="col-sm">
+						<input type="number" name="id_asistencia" value="{{$asistencia->id}}" style="display: none" disabled>
+					</div>
 					<div class="col-sm">
 						<input type="number" name="Nro Carnet" id="Carnet" placeholder="N° DE CARNET">
 					</div>
@@ -44,8 +46,7 @@
 						</button>
 					</div>
 				</div>
-			<!--</form> -->
-				{{Form::close()}}
+			</form> 
 			<div id="Contenido_extra">
 				
 			</div>
@@ -56,35 +57,24 @@
 @push('scripts')
 	<script>
 		$(document).ready(funtion(e)){
-			$("#registrar_asistencia").validate({
-
-				rules:{
-					Carnet: {
-						required:true,
-						number: true,
-						range:[1,1000]
-
-					}
-				},
-				messages:{
-					carnet:{
-						required:"Campo Obligatorio",
-						number:"Debe ser númerico",
-						range:"Debe ser un número entero entre [1-1000]"
-					}
-				}
-			});
 			var input=document.getElementId('Carnet');
-			var nro_carnet;
 			input.addEventListener("keyup", function(event){
 				if(event.keyCode === 13){
 					event.preventDefault();
+					var time= new Date();
+					document.getElementId('hora_ingreso').val()=time.getTime();
 					document.getElementById("guardar").click();
-					nro_carnet={
-						ficha_id:$("#Carnet").val();
-					}
-					$.get("buscarcarnet",nro_carnet,procesarDatos);
-					return false;
+					$.ajax({
+						type:"POST",
+						url: "asistencia.create"
+						dataType:"html",
+						data: "carnet"+input,
+						success:function(dato){
+							$("#resultados").empty();
+							$("#resultados").append(dato);
+						}
+					});
+					
 				}
 			}); 
 			/*$("#registrar_asistencia").ready(function(){
@@ -92,15 +82,28 @@
 					nro_carnet:document.getElementId('Carnet');
 				}
 				$.get("buscarcarnet",datosFormulario, procesarDatos);
-			});*/
-
+			});
 			function procesarDatos(datos_recibidos){
 				if(datos_recibidos== "exito"){
 					$("#Contenido_extra").html(<p> Registrar usuario </p>);
 				}else{
 					$("#Contenido_extra").html(<p> No se Encontro Usuario </p>);
 				}
-			}
+			}*/
 		}
+
+		function(){
+			$('#registrar_asistencia').DataTable({
+				ajax: {
+                url: "users",
+                type: 'GET',
+            	},
+            	columns:[
+            		{data: 'id', name:'id'},
+            		{data: 'nombre_apellido' name: nombre_apellido}
+            	]
+			});
+		}
+
 	</script>
 @endpush

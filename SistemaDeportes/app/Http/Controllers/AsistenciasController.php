@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Asistencia;
 use App\Ficha;
+use App\Planilla_asistencia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\session;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 class AsistenciasController extends Controller
 {
@@ -62,15 +64,27 @@ class AsistenciasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        $carnet=isset($_GET["nro_carnet"]) ? $_GET["nro_carnet"] : $_POST["nro_carnet"];
-        $verifica= Ficha::where("id", $carnet);
-
-        if(!empty($verifica)){
-            echo 'exito';
-        }else{
-            echo 'fracaso';
+        $carnet=$_POST['carnet'];
+        if(!empty($carnet)){
+            $ficha=DB::table('fichas as f')
+                    ->join('usuarios as u','f.id_usuario','=','u.id')
+                    ->select('f.id', DB::raw('CONCAT(u.apellido," ", u.nombre) AS nombre_apellido'))
+                    ->where('f.id','=',$carnet)
+                    ->get()
+                    ->first();
+            $asistencia= new Planilla_asistencia();
+            $asistencia->ficha_id= $ficha->id;
+            $asistencia->asitencia_id=3;
+            $now=Carbon::now();
+            $asistencia->hora_ingreso=$now->format('H:i');
+            $asistencia->nombre_apellido= $ficha->nombre_apellido;
+            $asistencia->save();
+            /*if(request()->ajax()){
+                return datatabels()->of($asistencia);
+            }*/
+            return view("Asistencia.CabeceraPlanilla");
         }
     }
 
@@ -82,7 +96,7 @@ class AsistenciasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -91,9 +105,17 @@ class AsistenciasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+         /*$registrar_asistencia= DB::table('planilla_asistencia as pa')
+                            ->join('asistencias as a','pa.asistencia_id','=','a.id')
+                            ->join('fichas as f', 'pa.id_ficha','=','f.id')
+                            ->join('usuarios as u','f.id_usuario','=','u.id')
+                            ->select('pa.id', 'a.id','f.id', DB::raw('CONCAT(u.apellido, " ",u.nombre) as nombre_apellido','f.ultimo_arancel as fecha_vto')
+                            ->get(); 
+        if(request()->ajax()){
+            return datatables()->on($registrar_asistencia);
+        }*/
     }
 
     /**
@@ -104,7 +126,7 @@ class AsistenciasController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
