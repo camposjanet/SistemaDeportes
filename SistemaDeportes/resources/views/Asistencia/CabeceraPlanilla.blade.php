@@ -23,9 +23,6 @@
 			<form id="registrar_asistencia" method="post">
 				<div class="row">
 					<div class="col-sm">
-						<input type="number" name="id_asistencia" value="{{$asistencia->id}}" style="display: none" disabled>
-					</div>
-					<div class="col-sm">
 						<input type="number" name="Nro Carnet" id="Carnet" placeholder="N° DE CARNET">
 					</div>
 					<div class="col-sm">
