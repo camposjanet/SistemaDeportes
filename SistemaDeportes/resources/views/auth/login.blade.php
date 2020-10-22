@@ -43,7 +43,7 @@
 				        	</div>
 							<div class="card-footer">
 								<div class="d-flex justify-content-center">
-									<a href="#"> ¿Ha olvidado su contraseña?</a> 
+									<a href="{{url('user/recoverpassword/')}}"> ¿Ha olvidado su contraseña?</a> 
 								</div>
 							</div>
 				</div>
