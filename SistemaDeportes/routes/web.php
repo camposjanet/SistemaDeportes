@@ -40,8 +40,6 @@ Route::put('user/{id}','UserController@update')->name('user.update');
 Route::delete('user/delete/{id}','UserController@delete');
 Route::get('user/{id}/password', 'UserController@password')->name('user.password');
 Route::post('user/{id}/updatepassword', 'UserController@updatePassword')->name('user.updatepassword');
-Route::get('user/recoverpassword','EmailController@create')->name('email.create');
-Route::post('user/sendemail','EmailController@sendEmail')->name('recuperar.contraseña');
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
@@ -52,13 +50,16 @@ Route::get('ficha/edit/profesional/{idFicha}','FichaController@editFichaProfesio
 Route::patch('ficha/edit/familiar/{idFicha}','FichaController@updateFichaFamiliar')->name('ficha.familiar.update');
 Route::patch('ficha/edit/profesional/{idFicha}','FichaController@updateFichaProfesional')->name('ficha.profesional.update');
 Route::patch('ficha/edit/estudiante/{idFicha}','FichaController@updateFichaEstudiante')->name('ficha.estudiante.update');
-Route::get('fichas/show/{id}','FichaController@show');
 //  CARNET DEL USUARIO
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
 Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional')->name('carnet.profesional');
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
 //DAR DE BAJA USUARIO
 Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
+// ASISTENCIA
+Route::get('menuasistencia', 'AsistenciasController@index')->name('asistencia.index');
+Route::get('cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
+Route::get('buscarcarnet/{id}','AsistenciasController@mostar_fichas');
 
 //ARANCELES
 Route::post('ficha/arancel/create/{idUser}/{idFicha}','ArancelController@store')->name('arancel.store');
