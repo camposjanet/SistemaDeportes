@@ -60,3 +60,6 @@ Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 Route::get('menuasistencia', 'AsistenciasController@index')->name('asistencia.index');
 Route::get('cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
 Route::get('buscarcarnet/{id}','AsistenciasController@mostar_fichas');
+
+//ARANCELES
+Route::post('ficha/arancel/create/{idUser}/{idFicha}','ArancelController@store')->name('arancel.store');
