@@ -20,12 +20,13 @@ class Ficha extends Model
         'lugar_de_trabajo',
         'estado_documentacion',
         'id_estado',
-        'fecha'
+        'fecha',
+        'ultimo_arancel'
         
     ];
 
     protected $dates = [
         
-        'fecha'
+        'fecha','ultimo_arancel'
     ];
 }

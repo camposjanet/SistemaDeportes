@@ -28,6 +28,7 @@
 							<td> <div class="form-group">
 								<label for="role_id">Rol del Personal</label>
 								<select name="role_id" class="form-control">
+									<!-- <option value=0>Seleccione el tipo de Operario</option> -->
 									@foreach ($roles as $rol)
 										<option value="{{$rol->id}}"> {{$rol->nombre_rol}}</option>
 									@endforeach
