@@ -35,7 +35,7 @@ class AsistenciasController extends Controller
             $nom_turno="Mañana";
          }
          else{
-            if($turno >=16 && $turno <=20){
+            if($turno >=16 && $turno <=24){
                 $nom_turno="Tarde";
             }else{
                 Session::flash('turno','¡¡Lo Sentimos!!. No está habilitado un horario de turno. Recuerde que el horario es 8 a 13 y de 16 a 21 hs');
@@ -107,15 +107,7 @@ class AsistenciasController extends Controller
      */
     public function show()
     {
-         /*$registrar_asistencia= DB::table('planilla_asistencia as pa')
-                            ->join('asistencias as a','pa.asistencia_id','=','a.id')
-                            ->join('fichas as f', 'pa.id_ficha','=','f.id')
-                            ->join('usuarios as u','f.id_usuario','=','u.id')
-                            ->select('pa.id', 'a.id','f.id', DB::raw('CONCAT(u.apellido, " ",u.nombre) as nombre_apellido','f.ultimo_arancel as fecha_vto')
-                            ->get(); 
-        if(request()->ajax()){
-            return datatables()->on($registrar_asistencia);
-        }*/
+             
     }
 
     /**

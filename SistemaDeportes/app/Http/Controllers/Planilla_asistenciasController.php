@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Asistencia;
+use App\Ficha;
+use App\Planilla_asistencia;
 
 class Planilla_asistenciasController extends Controller
 {
@@ -21,9 +24,31 @@ class Planilla_asistenciasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function mostar_fichas($id){
+        $usuario =Usuario::findOrFail($id);
+        $now=Carbon::now();
+        $hora=$now->hour;
+        $fecha_ingreso=$now->format('Y-m-d');
+        $fichas = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->select('f.id AS id',raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni')
+        ->where('f.id_usuario',$usuario->id)
+        ->first()
+        ->get();
+
+       if(request()->ajax()){
+            return reponse()->json([
+                'id'=> $fichas->id,
+                'nombre_usuario'=> $fichas->nombre_usuario,
+                'dni'=> $fichas->dni,
+                'fecha'=>$fecha_ingreso,
+                'hora_ingreso'=>$hora
+            ]);
+        }
+    }
+    public function create($id)
     {
-        //
+        
     }
 
     /**

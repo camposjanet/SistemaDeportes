@@ -24,7 +24,6 @@ class CreateTableFicha extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->unsignedBigInteger('id_estado');
             $table->date('fecha')->default(Carbon::now());
-            $table->date('fecha_vto')->default(Carbon::now());
 
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('id_categoria')->references('id')->on('categorias')->onDelete('cascade');

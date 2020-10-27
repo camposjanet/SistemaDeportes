@@ -59,4 +59,4 @@ Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 // ASISTENCIA
 Route::get('menuasistencia', 'AsistenciasController@index')->name('asistencia.index');
 Route::get('cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
-Route::post('buscarcarnet','AsistenciasController@create')->name('asistencia.create');
+Route::get('buscarcarnet/{id}','AsistenciasController@mostar_fichas');
