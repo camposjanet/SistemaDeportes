@@ -7,12 +7,6 @@
         <li class="breadcrumb-item active" aria-current="page">Inicio</li>
     </ol>
     </nav>
-
-    @if(Session::has('turno'))
-        <div class="alert alert-primary" role="alert">
-            {{session('turno')}}
-        </div>
-    @endif
     <div class="row justify-content-center">
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
             <div class="col-md-3">
@@ -34,11 +28,11 @@
 
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Profesor")
             <div class="col-md-3">
-                <a role="button" href="menuasistencia" style="padding:0px;">
+                <a role="button" href="#" style="padding:0px;">
                         <div class="card border-info mb-2 mr-2" style="width:100%; ">
                             <div class="card-header bg-info text-white">Control de Asistencia</div>
                             <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                                <a href="menuasistencia" class="text-info">
+                                <a href="#" class="text-info">
                                     <i class="fa fa-calendar"></i>
                                 </a>
                             </div>

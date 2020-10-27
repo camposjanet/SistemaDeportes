@@ -41,10 +41,6 @@ class User extends Authenticatable
 	public function roles(){
 		return $this->belongsToMany('App\Role');
 	}
-
-    public function asistencias(){
-        return $this->hasmany('App\Asistencia');
-    }
 	
 	public function esAdmin(){
 		if($this->role->nombre_rol=='Administrador'){
