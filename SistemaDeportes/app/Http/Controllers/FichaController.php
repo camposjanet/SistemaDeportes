@@ -344,7 +344,21 @@ class FichaController extends Controller
             $certificado ->nombre_medico = $request->get('certificado_medico_profesional');
             $certificado->update();
         }
-
+        if (($certificado->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (( $recibo->id_estado_documento== $idEstadoPresento) && ($presento_recibo_sueldo==0)){
+            $presento_recibo_sueldo = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO RECIBO DE SUELDO Y PRESENTO CERTIFICADO MEDICO
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_recibo_sueldo && $presento_cert_med){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
     }
     public function updateFichaFamiliar(Request $request,$idFicha){
@@ -381,6 +395,21 @@ class FichaController extends Controller
             $certificado ->nombre_medico = $request->get('certificado_medico_familiar');
             $certificado->update();
         }
+        if (($certificado->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (($documentacion->id_estado_documento== $idEstadoPresento) && ($presento_documentacion==0)){
+            $presento_documentacion = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel) ;
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO DOCUMENTACION FAMILIAR Y PRESENTO CERTIFICADO MEDICO
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_documentacion && $presento_cert_med){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
     }
 
@@ -398,7 +427,7 @@ class FichaController extends Controller
 
         if ($presento_cert_alum==1){
             $certificado_alumno->id_estado_documento = $idEstadoPresento;
-            $certificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
+            $certificado_alumno->id_estado_documentoertificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
             $certificado_alumno->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_vencimiento'))->toDateString();     
             $certificado_alumno->update();
         }
@@ -409,7 +438,23 @@ class FichaController extends Controller
             $certificado_medico ->nombre_medico = $request->get('certificado_medico_estudiante');
             $certificado_medico->update();
         }
+        if (($certificado_medico ->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (($certificado_alumno->id_estado_documento== $idEstadoPresento) && ($presento_cert_alum==0)){
+            $presento_cert_alum = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel) ;
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO CERTIFICADO MEDICO Y PRESENTO CERT DE ALUMNO REGULAR
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_cert_med && $presento_cert_alum){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
+
     }
 
     public function show($id){
