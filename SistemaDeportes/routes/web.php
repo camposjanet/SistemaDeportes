@@ -62,7 +62,3 @@ Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 
 //ARANCELES
 Route::post('ficha/arancel/create/{idUser}/{idFicha}','ArancelController@store')->name('arancel.store');
-// ASISTENCIA
-Route::get('menuasistencia', 'AsistenciasController@index')->name('asistencia.index');
-Route::get('cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
-Route::get('buscarcarnet','AsistenciasController@create')->name('asistencia.create');

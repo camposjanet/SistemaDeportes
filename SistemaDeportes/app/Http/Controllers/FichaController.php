@@ -344,7 +344,21 @@ class FichaController extends Controller
             $certificado ->nombre_medico = $request->get('certificado_medico_profesional');
             $certificado->update();
         }
-
+        if (($certificado->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (( $recibo->id_estado_documento== $idEstadoPresento) && ($presento_recibo_sueldo==0)){
+            $presento_recibo_sueldo = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO RECIBO DE SUELDO Y PRESENTO CERTIFICADO MEDICO
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_recibo_sueldo && $presento_cert_med){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
     }
     public function updateFichaFamiliar(Request $request,$idFicha){
@@ -381,6 +395,21 @@ class FichaController extends Controller
             $certificado ->nombre_medico = $request->get('certificado_medico_familiar');
             $certificado->update();
         }
+        if (($certificado->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (($documentacion->id_estado_documento== $idEstadoPresento) && ($presento_documentacion==0)){
+            $presento_documentacion = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel) ;
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO DOCUMENTACION FAMILIAR Y PRESENTO CERTIFICADO MEDICO
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_documentacion && $presento_cert_med){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
     }
 
@@ -398,7 +427,7 @@ class FichaController extends Controller
 
         if ($presento_cert_alum==1){
             $certificado_alumno->id_estado_documento = $idEstadoPresento;
-            $certificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
+            $certificado_alumno->id_estado_documentoertificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
             $certificado_alumno->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_vencimiento'))->toDateString();     
             $certificado_alumno->update();
         }
@@ -409,7 +438,70 @@ class FichaController extends Controller
             $certificado_medico ->nombre_medico = $request->get('certificado_medico_estudiante');
             $certificado_medico->update();
         }
+        if (($certificado_medico ->id_estado_documento == $idEstadoPresento) && ($presento_cert_med==0)){
+            $presento_cert_med = 1;
+        }
+        if (($certificado_alumno->id_estado_documento== $idEstadoPresento) && ($presento_cert_alum==0)){
+            $presento_cert_alum = 1;
+        }
+        // SI SE REGISTRO UN ARANCEL A LA FICHA
+        if ($ficha->ultimo_arancel!=null){
+            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel) ;
+            //SI FECHA DE ULTIMO ARANCEL ES MAYOR QUE FECHA ACTUAL Y PRESENTO CERTIFICADO MEDICO Y PRESENTO CERT DE ALUMNO REGULAR
+            if(($fechaUltimoArancel->gt($fechaActual)) && $presento_cert_med && $presento_cert_alum){
+                $ficha->estado_documentacion = 'COMPLETA';
+                $ficha->update();
+            }
+        }
         return Redirect::to('fichas/'.$ficha->id_usuario);
+
+    }
+
+    public function show($id){
+        
+        $ficha = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id as idficha','f.fecha as fecha','f.lu_legajo','f.lugar_de_trabajo','f.ultimo_arancel','f.id_usuario as idusuario','f.id_unidad_academica',
+                    'e.estado as estado','c.categoria as categoria',
+                    DB::raw('CONCAT(u.apellido," ",u.nombre)AS nombre_usuario'), 'u.dni', 'u.fecha_de_nacimiento', 'u.email','u.domicilio','u.foto')
+        ->where('f.id',$id)
+        ->first();
+
+        if ($ficha->id_unidad_academica != null){
+            $unidad =  DB::table('unidades_academicas as ua')->where('ua.id','=',$ficha->id_unidad_academica)->value('unidad');
+        } else $unidad = "";
+
+        if ($ficha->categoria == 'Estudiante'){
+            $certificado_alumno = CertificadoAlumnoRegular::where('id_ficha', '=' ,$id)->firstOrFail();
+            if ($certificado_alumno->fecha_de_vencimiento != null ) $vencimiento_certificado_alumno =  Carbon::parse($certificado_alumno->fecha_de_vencimiento)->format('d-m-Y');
+            else $vencimiento_certificado_alumno =  $vencimiento_certificado_alumno = "NO PRESENTO";
+        } else $vencimiento_certificado_alumno = "";
+
+        if ($ficha->ultimo_arancel != null){
+            $vencimiento_ultimo_arancel =  Carbon::parse($ficha->ultimo_arancel)->format('d-m-Y');
+        } else $vencimiento_ultimo_arancel = "NO REGISTRA PAGOS DE ARANCEL";
+        
+        $v_cm= CertificadoMedico::where('id_ficha', '=' ,$id)->firstOrFail();
+        if ($v_cm->fecha_de_vencimiento != null ) $vencimiento_certificado_medico = Carbon::parse($v_cm->fecha_de_vencimiento)->format('d-m-Y');
+        else $vencimiento_certificado_medico = "NO PRESENTO";
+
+        $lineas=DB::table('telefonos as t')
+        ->join('lineas_telefonica as l','t.id_linea_telefonica','=','l.id')
+        ->select('t.numero','t.tipo_telefono','l.linea as linea')
+        ->where('t.id_usuario','=',$ficha->idusuario)
+        ->get();
+
+        return response()->json([
+            'ficha' => $ficha,
+            'unidad' => $unidad,
+            'lineas' => $lineas,
+            'vencimientoCertificadoM' => $vencimiento_certificado_medico,
+            'vencimientoCertificadoAR' => $vencimiento_certificado_alumno,
+            'ultimo_arancel' => $vencimiento_ultimo_arancel,
+            'fecha_de_nacimiento' => Carbon::parse($ficha->fecha_de_nacimiento)->format('d-m-Y')
+        ]);
     }
 
     public function show($id){
