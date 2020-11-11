@@ -83,4 +83,8 @@ class ArancelController extends Controller
             return Redirect::to('fichas/'.$ficha->id_usuario);
         }
     }
+
+    public function index(){
+        return view("arancel.index");
+    }
 }
