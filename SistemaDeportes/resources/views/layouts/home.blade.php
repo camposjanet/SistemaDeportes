@@ -90,7 +90,7 @@
 
                     @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
                         <li class="treeview" >
-                            <a href="#"  class="text-white">
+                            <a href="{{url('arancel/index')}}"  class="text-white">
                                 <i class="fa fa-usd"></i>
                                 <span>Pagos</span>
                             </a>

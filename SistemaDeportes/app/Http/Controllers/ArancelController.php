@@ -75,8 +75,8 @@ class ArancelController extends Controller
         $arancel = new Arancel;
         $arancel->id_ficha = $idFicha;
         $arancel->id_user = $idUser;
-        $arancel->fecha_de_pago = $fechaActual->toDateString();
-        $arancel->fecha_de_vencimiento = $fechaActual->addDays(30)->toDateString();
+        $arancel->fecha_de_pago = Carbon::now()->toDateString();
+        $arancel->fecha_de_vencimiento = Carbon::now()->addDays(30)->toDateString();
         $arancel->importe = $request->get('importe');
         
         if ($arancel->save()){
@@ -86,5 +86,107 @@ class ArancelController extends Controller
 
     public function index(){
         return view("arancel.index");
+    }
+
+    public function buscarNroCarnet($nro){
+
+        $ficha = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id as idficha','f.fecha as fecha','f.lu_legajo','f.lugar_de_trabajo','f.ultimo_arancel','f.id_usuario as idusuario','f.id_unidad_academica',
+                    'e.estado as estado','c.categoria as categoria',
+                    DB::raw('CONCAT(u.apellido," ",u.nombre)AS nombre_usuario'), 'u.dni', 'u.fecha_de_nacimiento', 'u.email','u.domicilio','u.foto')
+        ->where('f.id',$nro)
+        ->first();
+
+        if ($ficha!=null) {
+            if ($ficha->estado == 'ACTIVO') $nroValido=true;
+            else {
+                $nroValido=false;
+                Session::flash('error_en_pago_arancel','La Ficha Nº '.$nro.' no se encuentra ACTIVA.');       
+            }
+        } else {
+            $nroValido=false;
+            Session::flash('error_en_pago_arancel','No se encontró la Ficha Nº '.$nro.' vuelva a ingresar un número.');       
+        }
+
+        return response()->json([
+            'nroValido' => $nroValido,
+            'ficha' => $ficha
+        ]);
+    }
+
+    public function registrarArancelDesdeModulo(Request $request,$idFicha){
+       $validator = Validator::make($request->all(), [
+            'importe'=>'required|numeric|between:1,9999.99',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque se ingresó un importe no válido.');       
+            return response()->json([
+                'mensaje' => 'importe no valido'
+            ]);
+        } else {
+            $idCategoriaEstudiante=DB::table('categorias as c')->where('c.categoria','=','Estudiante')->value('id');
+            $idCategoriaDocente=DB::table('categorias as c')->where('c.categoria','=','Docente')->value('id');
+            $idCategoriaPAU=DB::table('categorias as c')->where('c.categoria','=','PAU')->value('id');
+            $idCategoriaFamiliar=DB::table('categorias as c')->where('c.categoria','=','Familiar')->value('id');
+            $fechaActual = Carbon::now();
+    
+            $ficha =Ficha::findOrFail($idFicha);
+            $certificado = DB::table('certificado_medico as cm')
+                ->join('estados_de_documento as e','e.id','=','cm.id_estado_documento')
+                ->select('cm.id','e.estado as estadoCERT','cm.id_estado_documento as presentoCM')
+                ->where('cm.id_ficha',$idFicha)
+                ->first();
+            if ($ficha->id_categoria ==$idCategoriaEstudiante){
+                $car=DB::table('certificado_alumno_regular as car')
+                    ->join('estados_de_documento as e','e.id','=','car.id_estado_documento')
+                    ->select('car.id','e.estado as estadoCAR','car.id_estado_documento as presentoCAR')
+                    ->where('car.id_ficha',$idFicha)
+                    ->first();
+                if (($certificado->estadoCERT === 'PRESENTO') && ($car->estadoCAR === 'PRESENTO')){
+                    $ficha->estado_documentacion = 'COMPLETA';
+                }
+            } elseif (($ficha->id_categoria == $idCategoriaDocente) or ($ficha->id_categoria == $idCategoriaPAU)){
+                $recibo = DB::table('recibo_sueldo as r')
+                ->join('estados_de_documento as e','e.id','=','r.id_estado_documento')
+                ->select('r.id','e.estado as estadoREC','r.id_estado_documento as presentoR')
+                ->where('r.id_ficha',$idFicha)
+                ->first();
+    
+                if (($certificado->estadoCERT === 'PRESENTO') && ($recibo->estadoREC === 'PRESENTO')){
+                    $ficha->estado_documentacion = 'COMPLETA';
+                }
+            } else {
+                $documentacion = DB::table('documentacion_familiar as df')
+                ->join('estados_de_documento as e','e.id','=','df.id_estado_documento')
+                ->select('df.id','e.estado as estadoDOC','df.id_estado_documento as presentoDF')
+                ->where('df.id_ficha',$idFicha)
+                ->first();
+                if (($certificado->estadoCERT === 'PRESENTO') && ($documentacion->estadoDOC === 'PRESENTO')){
+                    $ficha->estado_documentacion = 'COMPLETA';
+                }
+            }
+    
+            $ficha->ultimo_arancel = $fechaActual->addDays(30)->toDateString();
+            $ficha->update();
+            
+            $arancel = new Arancel;
+            $arancel->id_ficha = $idFicha;
+            $arancel->id_user = auth()->user()->id;
+            $arancel->fecha_de_pago = Carbon::now()->toDateString();
+            $arancel->fecha_de_vencimiento = Carbon::now()->addDays(30)->toDateString();
+            $arancel->importe = $request->get('importe');
+            
+            if ($arancel->save()){
+                Session::flash('exito_en_pago_arancel','Se registró el pago del arancel a la Ficha Nº '.$idFicha.'.');
+                return response()->json([
+                    'mensaje' => 'éxito al registrar arancel'
+                ]);
+            }
+        }
+
+        
     }
 }

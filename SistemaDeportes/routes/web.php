@@ -63,3 +63,5 @@ Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 //ARANCELES
 Route::post('ficha/arancel/create/{idUser}/{idFicha}','ArancelController@store')->name('arancel.store');
 Route::get('arancel/index','ArancelController@index')->name('arancel.index');
+Route::get('arancel/index/{nro}','ArancelController@buscarNroCarnet')->name('arancel.buscar');
+Route::post('arancel/index/create/{idFicha}','ArancelController@registrarArancelDesdeModulo')->name('arancel.index.store');
