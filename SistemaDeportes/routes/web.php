@@ -69,4 +69,5 @@ Route::get('asistencia/menuasistencia', 'AsistenciasController@index')->name('as
 Route::get('asistencia/cabeceraplanilla','AsistenciasController@index_cabecera_planilla')->name('asistencia.cabecera');
 Route::get('asistencia/buscarcarnet/{id}','Planilla_asistenciasController@mostrar_fichas')->name('asistencia.mostrar');
 Route::get('asistencia/crear_asistencia/{idAsistencia}/{idficha}', 'Planilla_asistenciasController@create')->name('asistencia.registrar');
-Route::get('asistencia/estado_documentacion/{id]', 'Planilla_asistenciasController@estado_documentacion');
+Route::get('asistencia/estado_documentacion/{id}', 'Planilla_asistenciasController@estado_documentacion')->name('asistencia.estado');
+Route::get('asistencia/mostrar_asistencia_turno', 'Planilla_asistenciasController@mostrar_asistencia_turno');

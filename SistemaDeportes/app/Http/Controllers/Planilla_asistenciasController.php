@@ -54,7 +54,7 @@ class Planilla_asistenciasController extends Controller
                         ->where('f.id_estado','=',$idEstado)
                         ->where('f.estado_documentacion','=','COMPLETA')
                         ->first();
-        if(empty($verifica)){
+        if(!empty($verifica)){
             $fecha_actual=Carbon::now()->format('Y-m-d');
             if($fecha_actual <= $fichas->fecha_pago){
                 $esUsuarioValido=true;
@@ -72,129 +72,92 @@ class Planilla_asistenciasController extends Controller
         $ficha=Ficha::findOrFail($id);
         $fecha= Carbon::now()->format('Y-m-d');
         $categoria=" ";
-
         if(!empty($ficha)){
             if($ficha->id_categoria==1){
                 $categoria= "CONSTANCIA DE ALUMNO REGULAR";
                 $documentacion=CertificadoAlumnoRegular::where('id_ficha',$ficha->id)->first();
-                if($documentacion->fecha_vencimiento)== null){
-                    $estado= "NO PRESENTÓ";
-                } elseif ($docuemtacion->fecha_vencimiento< $fecha) {
-                    $estado="VENCIDA";
+                if(empty($documentacion->fecha_de_vencimiento)){
+                    $estado= "NO PRESENTO";
+                    $color_documentacion= "red";
+                } elseif ($documentacion->fecha_de_vencimiento< $fecha) {
+                    $estado=$documentacion->fecha_de_vencimiento->format('d-m-Y');
+                    $color_documentacion="red";
                 }else{
-                    $estado= "PRESENTÓ";
+                    $estado= $documentacion->fecha_de_vencimiento->format('d-m-Y');
+                    $color_documentacion="green";
                 }
                 
                 $certmedico=CertificadoMedico::where('id_ficha',$ficha->id)->first();
-                if($certmedico->fecha_vencimiento)== null){
-                    $estadomed= "NO PRESENTÓ";
-                } elseif ($certmedico->fecha_vencimiento< $fecha) {
-                    $estadomed="VENCIDA";
+                if(empty($certmedico->fecha_de_vencimiento)){
+                    $estadomed= "NO PRESENTO";
+                    $color_certmed="red";
+                } elseif ($certmedico->fecha_de_vencimiento< $fecha) {
+                    $estadomed=$certmedico->fecha_de_vencimiento->format('d-m-Y');
+                    $color_certmed="red";
                 }else{
-                    $estadomed= "PRESENTÓ";
+                    $estadomed= $certmedico->fecha_vencimiento->format('d-m-Y');
+                    $color_certmed="green";
                 }
 
                 if($ficha->ultimo_arancel== null){
                     $estadofecha="NO PRESENTO";
+                    $color_arancel="red";
                 }elseif ($ficha->ultimo_arancel < $fecha) {
-                    $estadofecha="VENCIDA";
+                    $estadofecha=$ficha->ultimo_arancel->format('d-m-Y');
+                    $color_arancel="red";
                 }else{
-                    $estadofecha= "PRESENTÓ";
+                    $estadofecha= $ficha->ultimo_arancel->format('d-m-Y');
+                    $color_arancel="green";
                 }
-            }elseif ($ficha->id_categoria==2) {
+            }elseif ($ficha->id_categoria==2 || $ficha->id_categoria==3 || $ficha->id_categoria==4) {
                 $categoria= "RECIBO DE SUELDO";
 
                 $documentacion=ReciboSueldo::where('id_ficha',$ficha->id)->first();
-                if($documentacion->fecha_vencimiento)== null){
-                    $estado= "NO PRESENTÓ";
-                } elseif ($docuemtacion->fecha_vencimiento< $fecha) {
-                    $estado="VENCIDA";
+                if(empty($documentacion->fecha_de_presentacion)){
+                    $estado= "NO PRESENTO";
+                    $color_documentacion="red";
+                } elseif ($docuemtacion->fecha_de_presentacion< $fecha) {
+                    $estado=$docuemtacion->fecha_de_presentacion->format('d-m-Y');
+                    $color_documentacion="red";
                 }else{
-                    $estado= "PRESENTÓ";
+                    $estado= "PRESENTO";
+                    $color_documentacion="green";
                 }
                 
                 $certmedico=CertificadoMedico::where('id_ficha',$ficha->id)->first();
-                if($certmedico->fecha_vencimiento)== null){
-                    $estadomed= "NO PRESENTÓ";
-                } elseif ($certmedico->fecha_vencimiento< $fecha) {
-                    $estadomed="VENCIDA";
+                if(empty($certmedico->fecha_de_vencimiento)){
+                    $estadomed= "NO PRESENTO";
+                    $color_certmed="red";
+                } elseif ($certmedico->fecha_de_vencimiento< $fecha) {
+                    $estadomed=$certmedico->fecha_de_vencimiento->format('d-m-Y');
+                    $color_certmed="red";
                 }else{
-                    $estadomed= "PRESENTÓ";
+                    $estadomed= $certmedico->fecha_de_vencimiento->format('d-m-Y');
+                    $color_certmed="green";
                 }
 
-                if($ficha->ultimo_arancel== null){
+                if(empty($ficha->ultimo_arancel)){
                     $estadofecha="NO PRESENTO";
+                    $color_arancel="red";
                 }elseif ($ficha->ultimo_arancel < $fecha) {
-                    $estadofecha="VENCIDA";
+                    $estadofecha=$ficha->ultimo_arancel->format('d-m-Y');
+                    $color_arancel="red";
                 }else{
-                    $estadofecha= "PRESENTÓ";
-                }
-
-            }elseif ($ficha->id_categoria==3) {
-                $categoria= "RECIBO DE SUELDO";
-
-                $documentacion=ReciboSueldo::where('id_ficha',$ficha->id)->first();
-                if($documentacion->fecha_vencimiento)== null){
-                    $estado= "NO PRESENTÓ";
-                } elseif ($docuemtacion->fecha_vencimiento< $fecha) {
-                    $estado="VENCIDA";
-                }else{
-                    $estado= "PRESENTÓ";
-                }
-                
-                $certmedico=CertificadoMedico::where('id_ficha',$ficha->id)->first();
-                if($certmedico->fecha_vencimiento)== null){
-                    $estadomed= "NO PRESENTÓ";
-                } elseif ($certmedico->fecha_vencimiento< $fecha) {
-                    $estadomed="VENCIDA";
-                }else{
-                    $estadomed= "PRESENTÓ";
-                }
-
-                if($ficha->ultimo_arancel== null){
-                    $estadofecha="NO PRESENTO";
-                }elseif ($ficha->ultimo_arancel < $fecha) {
-                    $estadofecha="VENCIDA";
-                }else{
-                    $estadofecha= "PRESENTÓ";
-                }
-            }elseif ($ficha->id_categoria==4) {
-                $categoria= "RECIBO DE SUELDO";
-
-                $documentacion=ReciboSueldo::where('id_ficha',$ficha->id)->first();
-                if($documentacion->fecha_vencimiento)== null){
-                    $estado= "NO PRESENTÓ";
-                } elseif ($docuemtacion->fecha_vencimiento< $fecha) {
-                    $estado="VENCIDA";
-                }else{
-                    $estado= "PRESENTÓ";
-                }
-                
-                $certmedico=CertificadoMedico::where('id_ficha',$ficha->id)->first();
-                if($certmedico->fecha_vencimiento)== null){
-                    $estadomed= "NO PRESENTÓ";
-                } elseif ($certmedico->fecha_vencimiento< $fecha) {
-                    $estadomed="VENCIDA";
-                }else{
-                    $estadomed= "PRESENTÓ";
-                }
-
-                if($ficha->ultimo_arancel== null){
-                    $estadofecha="NO PRESENTO";
-                }elseif ($ficha->ultimo_arancel < $fecha) {
-                    $estadofecha="VENCIDA";
-                }else{
-                    $estadofecha= "PRESENTÓ";
+                    $estadofecha= $ficha->ultimo_arancel->format('d-m-Y');
+                    $color_arancel="green";
                 }
             }
         }
 
         return response()->json([
+            'color_documentacion'=>$color_documentacion,
+            'color_certmed'=> $color_certmed,
+            'color_arancel'=>$color_arancel,
             'categoria'=> $categoria,
             'documentacion'=> $estado,
             'certificado_medico'=> $estadomed,
             'ultimo_arancel'=> $estadofecha
-        ]);
+        ]); 
     }
     public function create($idAsistencia, $idficha)
     {
@@ -206,9 +169,32 @@ class Planilla_asistenciasController extends Controller
         $Planilla_asistencia->hora_ingreso= $hora->format('H:m');
 
         $Planilla_asistencia->save();
-       
     }
+    public function mostrar_asistencia_turno(){
+        $fecha= Carbon::now()->format('Y-m-d');
+        //$fecha->format('Y-m-d');
+        $hora= Carbon::now()->hour;
+        $turno= " ";
+        if($hora>= 8 && $hora<=12){
+            $turno="Mañana";
+        }elseif ($hora>= 16 && $hora<=20) {
+            $turno="Tarde";
+        }
+        $asistencia=DB::table('planilla_asistencias as pa')
+                        ->join('asistencias as a','pa.asistencia_id','=','a.id')
+                        ->join('fichas as f','pa.ficha_id','=','f.id')
+                        ->join('usuarios as u','f.id_usuario','=','u.id')
+                        ->select('pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso','f.ultimo_arancel')
+                        ->where('a.turno','=',$turno)
+                        ->where('a.fecha_asistencia','=',$fecha)                        
+                        ->get(); 
+        if(request()->ajax()){
+            return datatables()->of($asistencia)
+                                ->make(true);
+        }
+                        
 
+    } 
     /**
      * Store a newly created resource in storage.
      *

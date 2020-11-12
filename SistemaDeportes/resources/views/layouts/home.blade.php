@@ -81,7 +81,7 @@
 
                     @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Profesor")
                         <li class="treeview">
-                            <a href="/menuasistencia" class="text-white">
+                            <a href="menuasistencia" class="text-white">
                                 <i class="fa fa-calendar"></i>
                                 <span>Control de Asistencia</span>
                             </a>
