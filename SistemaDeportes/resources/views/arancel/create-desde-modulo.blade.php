@@ -17,14 +17,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group row">
-                                    <label for="dni_familiar" class="col-form-label"><b>DNI: </b></label>
-                                    <div class="col">
-                                        <input type="text" readonly class="form-control-plaintext" name="dni_arancel" id="dni_arancel">
-                                    </div>
-                                </div>
-                            </div>  
+                             
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
@@ -39,7 +32,7 @@
                                 <div class="form-group row">
                                     <label for="dni_arancel" class="col-form-label"><b>DNI: </b></label>
                                     <div class="col">
-                                        <input type="text" readonly class="form-control-plaintext" name="dni_arancel_a" id="dni_arancel_a">
+                                        <input type="text" readonly class="form-control-plaintext" name="dni_arancel" id="dni_arancel">
                                     </div>
                                 </div>
                             </div>  

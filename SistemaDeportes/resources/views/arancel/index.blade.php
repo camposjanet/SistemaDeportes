@@ -3,14 +3,14 @@
 <div class="container">
     @include('arancel.create-desde-modulo')
     <div class="row d-flex justify-content-center mt-4">
-        <h1 >Registrar Arancel</h1>            
+        <h1 >ARANCELES</h1>            
     </div>
-    <div class="row d-flex justify-content-center ">
-        <div class="col-lg-8">
+    <div class="row d-flex justify-content-start ">
+        <div class="col-lg-6">
             <div class="form-group">
                 <label >Ingrese Nº de Carnet:</label>
                 <div class="input-group">
-                    <input type="number"  class="form-control" name="nro_carnet_arancel" id="nro_carnet_arancel" value="{{old('nro_carnet_arancel')}}">
+                    <input type="number"  class="form-control" name="nro_carnet_arancel" id="nro_carnet_arancel" value="{{old('nro_carnet_arancel')}}" placeholder="Ingrese un nro de carnet para registrar arancel...">
                     <span class="input-group-btn">
                         <button class="btn  btn-primary" name="buscar" id="buscar" onclick="buscar_nro_carnet()"> <i class="fa fa-search"></i> Buscar </button>
                     </span>
@@ -62,12 +62,11 @@
                             document.getElementById('num_ficha_arancel').value=respuesta.ficha.idficha;
                             document.getElementById('nombre_apellido_arancel').value=respuesta.ficha.nombre_usuario;
                             document.getElementById('dni_arancel').value=respuesta.ficha.dni;
-                            document.getElementById('dni_arancel_a').value=respuesta.ficha.dni;
                             $('#verModalRegistrarArancel').modal('show');
                         } else $(location).attr('href',"/arancel/index");
                         
                     }, fail: function(){
-                        console.log("error");
+                        console.log("error en buscar nro de carnet");
                     }
                 });
             }
@@ -93,7 +92,7 @@
                             $('#verModalRegistrarArancel').modal('hide');
                             $(location).attr('href',"/arancel/index");
                         }, fail: function(){
-                            console.log("error registrar arancel");
+                            console.log("error en registrar arancel");
                         }
                     });   
                 });

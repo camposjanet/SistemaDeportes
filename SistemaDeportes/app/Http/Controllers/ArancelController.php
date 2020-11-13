@@ -108,7 +108,7 @@ class ArancelController extends Controller
             }
         } else {
             $nroValido=false;
-            Session::flash('error_en_pago_arancel','No se encontró la Ficha Nº '.$nro.' vuelva a ingresar un número.');       
+            Session::flash('error_en_pago_arancel','No se encontró la Ficha Nº '.$nro.' por favor vuelva a ingresar un número.');       
         }
 
         return response()->json([
