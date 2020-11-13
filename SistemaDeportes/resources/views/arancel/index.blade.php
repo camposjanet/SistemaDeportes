@@ -43,11 +43,53 @@
 			@endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover text-center" id="data-table-aranceles" cellspacing="0" width="100%" style="border-bottom:2px solid #D8D8D8; border-top:2px solid #D8D8D8 ">
+                    <thead class="thead-dark">
+                        <th>Nº Pago</th>
+                        <th>Fecha de Pago</th>
+                        <th>Vencimiento</th>
+                        <th>Importe</th>
+                        <th>Nº de Ficha</th>
+                        <th>DNI</th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
     
     
 </div>
 @endsection
 @push('scripts')
+<script >
+    $(function () {
+        console.log("datatable");
+        $('#data-table-aranceles').DataTable({
+            processing: true,
+            serverSide: true,
+            info: false,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            },
+            ajax: {
+                url: "index",
+                type: 'GET',
+            },
+            columns: [
+                    {  data: 'id', name: 'id', 'visible': true},
+                    {  data: 'fecha_de_pago', name: 'fecha_de_pago'},
+                    {  data: 'fecha_de_vencimiento', name: 'fecha_de_vencimiento'},
+                    {  data: 'importe', name: 'importe', orderable: false},
+                    {  data: 'id_ficha', name: 'id_ficha'},
+                    {  data: 'dni', name: 'dni', orderable: false}
+                ],
+            order: [[0, 'desc']]
+        });
+    });
+</script>
     
     <script type="text/javascript">
     	function buscar_nro_carnet(){
