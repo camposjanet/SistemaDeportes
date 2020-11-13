@@ -73,3 +73,4 @@ Route::get('asistencia/buscarcarnet/{id}','Planilla_asistenciasController@mostra
 Route::get('asistencia/crear_asistencia/{idAsistencia}/{idficha}', 'Planilla_asistenciasController@create')->name('asistencia.registrar');
 Route::get('asistencia/estado_documentacion/{id}', 'Planilla_asistenciasController@estado_documentacion')->name('asistencia.estado');
 Route::get('asistencia/mostrar_asistencia_turno', 'Planilla_asistenciasController@mostrar_asistencia_turno');
+Route::get('asistencia/mostrar_planilla','AsistenciasController@show')->name('asistencia.mostrar_planilla');

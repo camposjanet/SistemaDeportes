@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Asistencia;
 use App\Ficha;
 use App\Planilla_asistencia;
+use App\user;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\session;
 use Carbon\Carbon;
 use Auth;
 use DB;
+use Yajra\Datatables\Datatables;
 
 class AsistenciasController extends Controller
 {
@@ -88,7 +90,18 @@ class AsistenciasController extends Controller
      */
     public function show()
     {
-             
+        $cabecera= DB::table('asistencias as a')
+                        ->join('users as u','a.user_id','=','u.id')
+                        ->select('a.id','u.name','a.turno','a.fecha_asistencia')  
+                        ->get();
+        if(request()->ajax()){
+            return datatables()->of($cabecera)
+                    ->addColumn('action','Asistencia.action_buton')
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }     
+        return view('Asistencia.MostrarPlanillaAsistencias');     
+
     }
 
     /**
