@@ -172,8 +172,8 @@ class Planilla_asistenciasController extends Controller
     }
     public function mostrar_asistencia_turno(){
         $fecha= Carbon::now()->format('Y-m-d');
-        //$fecha->format('Y-m-d');
         $hora= Carbon::now()->hour;
+        //$hora= 12;
         $turno= " ";
         if($hora>= 8 && $hora<=12){
             $turno="Mañana";
@@ -192,8 +192,6 @@ class Planilla_asistenciasController extends Controller
             return datatables()->of($asistencia)
                                 ->make(true);
         }
-                        
-
     } 
     /**
      * Store a newly created resource in storage.
