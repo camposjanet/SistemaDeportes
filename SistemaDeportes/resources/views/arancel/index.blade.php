@@ -49,11 +49,11 @@
                 <table class="table table-borderless table-hover text-center" id="data-table-aranceles" cellspacing="0" width="100%" style="border-bottom:2px solid #D8D8D8; border-top:2px solid #D8D8D8 ">
                     <thead class="thead-dark">
                         <th>Nº Pago</th>
-                        <th>Fecha de Pago</th>
-                        <th>Vencimiento</th>
-                        <th>Importe</th>
                         <th>Nº de Ficha</th>
                         <th>DNI</th>
+                        <th>Fecha de Pago</th>
+                        <th>Importe</th>
+                        <th>Vencimiento</th>
                     </thead>
                 </table>
             </div>
@@ -80,11 +80,11 @@
             },
             columns: [
                     {  data: 'id', name: 'id', 'visible': true},
-                    {  data: 'fecha_de_pago', name: 'fecha_de_pago'},
-                    {  data: 'fecha_de_vencimiento', name: 'fecha_de_vencimiento'},
-                    {  data: 'importe', name: 'importe', orderable: false},
                     {  data: 'id_ficha', name: 'id_ficha'},
-                    {  data: 'dni', name: 'dni', orderable: false}
+                    {  data: 'dni', name: 'dni', orderable: false},
+                    {  data: 'fecha_de_pago', name: 'fecha_de_pago'},
+                    {  data: 'importe', name: 'importe', orderable: false},
+                    {  data: 'fecha_de_vencimiento', name: 'fecha_de_vencimiento'}
                 ],
             order: [[0, 'desc']]
         });
