@@ -48,11 +48,11 @@
 
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario") 
             <div class="col-md-3">
-                    <a role="button" href="#" style="padding:0px;">
+                    <a role="button" href="arancel/index" style="padding:0px;">
                         <div class="card border-success mb-2 mr-2" style="width:100%;">
                             <div class="card-header bg-success text-white">Pagos</div>
                             <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                                <a href="#" class="text-success">
+                                <a href="arancel/index" class="text-success">
                                     <i class="fa fa-usd"></i>
                                 </a>
                             </div>
