@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Yajra\Datatables\Datatables;
 
 class ArancelController extends Controller
 {
@@ -85,7 +86,20 @@ class ArancelController extends Controller
     }
 
     public function index(){
+        $aranceles = DB::table('aranceles as a')
+        ->join('fichas as f','a.id_ficha','=','f.id')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->select('a.id','id_ficha','a.id_user',DB::raw('CONCAT("$",importe)AS importe'),DB::raw("DATE_FORMAT(fecha_de_pago,'%d/%m/%Y') as fecha_de_pago"),DB::raw("DATE_FORMAT(fecha_de_vencimiento,'%d/%m/%Y') as fecha_de_vencimiento"),'u.dni')
+        ->get();
+
+        if(request()->ajax()) {
+            return datatables()->of($aranceles)
+            ->rawColumns(['action'])
+            ->make(true);
+        };
+
         return view("arancel.index");
+        
     }
 
     public function buscarNroCarnet($nro){
