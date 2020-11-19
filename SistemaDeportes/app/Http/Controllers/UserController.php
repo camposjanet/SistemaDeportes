@@ -9,12 +9,11 @@ use App\Http\Requests\OperarioRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\session;
-
+use App\Http\Requests\ChangePasswordRequest;
 use App\Estados;
 use App\Role;
 
 use DB;
-
 use Yajra\Datatables\Datatables;
 
 //use Hash; esta librería se usara para el modificar contraseña(Operario)
@@ -144,9 +143,21 @@ class UserController extends Controller
 		}
 		else{
 			$user=User::findOrFail($id);
-			$user->update(['password'=>bcrypt($request->input('password'))]);
+			$user->update(['password'=>bcrypt($request->input('password')),'estado_contrasenia'=>false]);
 			Session::flash('update_password','¡Se ha actualizado la contraseña con éxito!.');
 			return redirect('users');
 		}
+	}
+
+	public function editDefaultPassword(){
+		return view('auth.passwords.change_default_password');
+	}
+
+	public function changeDefaultPassword(ChangePasswordRequest $request){
+		$user=User::findOrFail(auth()->user()->id);
+		$user->password=bcrypt($request->newpassword);
+		$user->estado_contrasenia=true;
+		$user->update();
+		return redirect()->route('inicio');
 	}
 }
