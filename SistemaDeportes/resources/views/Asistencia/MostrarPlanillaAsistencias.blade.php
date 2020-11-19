@@ -8,6 +8,14 @@
         <li class="breadcrumb-item active" aria-current="page"></li>
     </ol>
     </nav>
+    <div class="row">
+        <div class="col-lg-12">
+            <div align="left">
+                <a class="btn btn-info" href="{{route ('asistencia.index')}}" name="regresar"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Regresar</a>
+            </div>
+        </div>
+    </div>
+    <br>
 	<div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">

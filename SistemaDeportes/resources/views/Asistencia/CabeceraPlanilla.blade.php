@@ -153,7 +153,6 @@
 
 	<script type="text/javascript">
 		$(function(){
-			//var id= $("#idAsistencia").val();
 			$("#data-table-asistencia").DataTable({
 				processing: true,
 				serverSide: true,

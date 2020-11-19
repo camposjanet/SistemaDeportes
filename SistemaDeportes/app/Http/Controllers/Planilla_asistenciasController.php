@@ -40,7 +40,7 @@ class Planilla_asistenciasController extends Controller
     public function mostrar_fichas($id){
         $esUsuarioValido=false;
         $now=Carbon::now();
-        $hora=$now->format('H:m');
+        $hora=Carbon::now()->format('H:m');
         $fichas = DB::table('fichas as f')
         ->join('usuarios as u','f.id_usuario','=','u.id')
         ->select('f.id AS id',DB::raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni','f.ultimo_arancel AS fecha_pago')
@@ -161,12 +161,12 @@ class Planilla_asistenciasController extends Controller
     }
     public function create($idAsistencia, $idficha)
     {
-        $hora= Carbon::now();
+        //$hora= Carbon::now();
 
         $Planilla_asistencia= new Planilla_asistencia();
         $Planilla_asistencia->ficha_id= $idficha;
         $Planilla_asistencia->asistencia_id= $idAsistencia;
-        $Planilla_asistencia->hora_ingreso= $hora->format('H:m');
+        $Planilla_asistencia->hora_ingreso= Carbon::now()->format('H:m');
 
         $Planilla_asistencia->save();
     }
@@ -192,7 +192,35 @@ class Planilla_asistenciasController extends Controller
             return datatables()->of($asistencia)
                                 ->make(true);
         }
-    } 
+    }
+
+    public function mostrar_asistencia($id){
+        $asistencia= DB::table('planilla_asistencias as pa')
+                            ->join('asistencias as a','pa.asistencia_id','=','a.id')
+                            ->join('fichas as f', 'pa.ficha_id','=','f.id')
+                            ->join('usuarios as u','f.id_usuario','=','u.id')
+                            ->select('pa.asistencia_id','pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso','f.ultimo_arancel')
+                            ->where('pa.asistencia_id','=',$id)
+                            ->get();
+
+        if(request()->ajax()){
+            return datatables()->of($asistencia)
+                                ->make(true);
+        }
+        //return $asistencia;
+
+    }
+
+    public function buscar_asistencia($id){
+        $cabecera= DB::table('asistencias as a', 'pa.asistencia_id','=','a.id')
+                        ->join('users as u','a.user_id','=','u.id')
+                        ->select('a.id','u.name', 'a.turno','a.fecha_asistencia')
+                        ->where('a.id', $id)
+                        ->first(); 
+        if(!empty($cabecera)){
+            return view('Asistencia.verCabecera',compact('cabecera'));
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
