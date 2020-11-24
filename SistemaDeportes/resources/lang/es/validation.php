@@ -116,7 +116,7 @@ return [
     'uploaded'    => 'Subir :attribute ha fallado.',
     'url'         => 'El formato :attribute es inválido.',
     'uuid'        => 'El campo :attribute debe ser un UUID válido.',
-
+    'current_password'     => 'La contraseña no coincide',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -212,6 +212,9 @@ return [
 		'correo'=> 'Correo*',
 		'pass'=> 'Contraseña*',
 		'pass_conf'=> 'Confirmar Contraseña*',
-		'nombre_rol' => 'nombre_rol',*/
+        'nombre_rol' => 'nombre_rol',*/
+        'oldpassword'              => 'Contraseña anterior *',
+        'newpassword'   => 'Nueva contraseña * ',
+        'newpassword_confirmation' => 'Confirmar nueva contraseña'
     ],
 ];

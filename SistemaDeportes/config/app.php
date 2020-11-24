@@ -178,6 +178,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Styde\Html\HtmlServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        App\Providers\ValidatorServiceProvider::class,
     ],
 
     /*

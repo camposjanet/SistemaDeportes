@@ -35,7 +35,7 @@ class EmailController extends Controller
             $datos = new \stdClass();
             $datos->cadena_aleatoria = $this->generateRandomString();
             $users=User::findOrFail($user->id);
-            $users->update(['password'=>bcrypt($datos->cadena_aleatoria)]);
+            $users->update(['password'=>bcrypt($datos->cadena_aleatoria),'estado_contrasenia'=>false]);
             $datos->name = $user->name;
 
             Mail::to($user->email)->send(new SendEmailRecuperarPass($datos));
