@@ -160,4 +160,37 @@ class UserController extends Controller
 		$user->update();
 		return redirect()->route('inicio');
 	}
+	public function irmodificarcontrasenia(){
+		return view('user.modificar_contrasenia');
+	}
+
+	public function modificarcontrasenia(Request $request, $id){
+		$user=User::findOrFail($id);
+		$rules=[
+			'oldpassword'=>'required|current_password| string |min:6',
+            'newpassword'=> 'required|required_with:newpassword_confirmation|confirmed|min:6',
+		];
+
+		$messages=[
+			'oldpassword.required'=> 'La Actual Contraseña es una campo obligatorio',
+			'oldpassword.current_password'=> 'La contraseña actual es incorrecta',
+			'oldpassword.min'=> 'La Contraseña debe contener por lo menos 6 carácteres',
+
+			'newpassword.required'=>'La Nueva Contraseña es un campo obligatorio',
+			'newpassword.min'=> 'La Contraseña debe contener por lo menos 6 caracteres'
+		];
+
+		$validator= \Validator::make($request->all(),$rules, $messages);
+
+		if ($validator->fails()){
+			return redirect()->action('UserController@irmodificarcontrasenia',compact("id"))->withErrors($validator);
+		}
+		else{
+			$user=User::findOrFail($id);
+			$user->password=bcrypt($request->newpassword);
+			$user->update();
+			Session::flash('mod_password','¡Se ha actualizado la contraseña con éxito!.');
+			return redirect()->route('home');
+		}
+	}
 }
