@@ -42,6 +42,8 @@ Route::get('user/{id}/password', 'UserController@password')->name('user.password
 Route::post('user/{id}/updatepassword', 'UserController@updatePassword')->name('user.updatepassword');
 Route::get('user/recoverpassword','EmailController@create')->name('email.create');
 Route::post('user/sendemail','EmailController@sendEmail')->name('recuperar.contraseña');
+Route::get('user/edit/defaultpassword','UserController@editDefaultPassword')->name('user.edit.default.password');
+Route::post('user/defaultpassword','UserController@changeDefaultPassword')->name('user.defaultPassword');
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');

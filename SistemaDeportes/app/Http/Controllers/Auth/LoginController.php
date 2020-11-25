@@ -28,6 +28,8 @@ class LoginController extends Controller
 			if(Auth::user()->id_estado == $idEstado){
 				Session::flash('no_valido','¡¡Lo sentimos!! El usuario ya no pertenece al Sistema, contactese con los Administradores.');
 				return redirect('/');
+			} elseif ( (Auth::user()->roles->first()->nombre_rol!="Administrador") && (Auth::user()->estado_contrasenia == false)) {
+				return redirect()->route('user.edit.default.password');
 			}else{
 				return redirect()->route('inicio');
 			}
