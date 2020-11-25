@@ -44,7 +44,7 @@
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton">
                                 <li><h6 class="dropdown-header">{{ Auth::user()->roles->first()->nombre_rol }}</h6></li>
                                 <div class="dropdown-divider"></div>
-                                <li class="dropdown-item" ><a href="#"><i class="fa fa-btn fa-pencil"></i>  Modificar Contraseña</a></li>
+                                <li class="dropdown-item" ><a href="{{ route('user.irmodificarcontrasenia') }}"><i class="fa fa-btn fa-pencil"></i>  Modificar Contraseña</a></li>
                                 <li class="dropdown-item"><a href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-power-off"></i>  Cerrar Sesión </a>  
 															<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             					{{ csrf_field() }}
@@ -111,11 +111,16 @@
         </aside>
       <div class="content-wrapper  bg-white">
         <section class="content bg-white" >
-          <div class="row">
-            <div class="col-lg-12">
-                @yield('content')
+            @if(Session::has('mod_password'))
+                <div class="alert alert-success">
+                    <p  class="text-center"> {{ session('mod_password') }} </p>
+                </div>
+            @endif
+            <div class="row">
+                <div class="col-lg-12">
+                    @yield('content')
+                </div>
             </div>
-          </div>
         </section>
       </div>
     </div>
