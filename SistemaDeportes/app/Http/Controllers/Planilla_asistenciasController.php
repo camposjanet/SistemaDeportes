@@ -41,19 +41,19 @@ class Planilla_asistenciasController extends Controller
         $esUsuarioValido=false;
         $now=Carbon::now();
         $hora=Carbon::now()->format('H:m');
-        $fichas = DB::table('fichas as f')
+        $fichas=DB::table('fichas as f')
         ->join('usuarios as u','f.id_usuario','=','u.id')
-        ->select('f.id AS id',DB::raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni','f.ultimo_arancel AS fecha_pago')
+        ->select('f.id AS id',DB::raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni','f.ultimo_arancel AS fecha_pago','f.id_categoria')
         ->where('f.id',$id)
         ->first();
 
         //Comprueba el estado de la documentación y del Usuario
-        $idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
+        /*$idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
         $verifica= DB::table('fichas as f')
                         ->where('f.id','=',$id)
                         ->where('f.id_estado','=',$idEstado)
                         ->where('f.estado_documentacion','=','COMPLETA')
-                        ->first();
+                        ->first();         
         if(!empty($verifica)){
             $fecha_actual=Carbon::now()->format('Y-m-d');
             if($fecha_actual <= $fichas->fecha_pago){
@@ -61,11 +61,55 @@ class Planilla_asistenciasController extends Controller
             }else{
                 $esUsuarioValido=false;
             } 
+        }*/
+        $fecha_actual=Carbon::now()->format('Y-m-d');
+        if($fichas->id_categoria==1){
+            $documentacion= CertificadoAlumnoRegular::where('id_ficha',$fichas->id)->first();
+            if(!empty($docuemtacion->fecha_de_vencimiento)){
+                if($documentacion->fecha_de_vencimiento>= $fecha_actual){
+                    $esUsuarioValido=true;
+                }else{
+                    $esUsuarioValido=false;
+                } 
+            }else{
+                $esUsuarioValido=false;
+            }
+        }else{
+            if ($fichas->id_categoria==2 || $fichas->id_categoria==3 || $fichas->id_categoria==4){
+                $documentacion= ReciboSueldo::where('id_ficha',$fichas->id)->first();
+                //$anio = date("Y");
+                //$fecha_vto=Carbon::createFromDate($anio,'03','31')->addYear(); 
+                if(!empty($docuemtacion->fecha_de_presentacion)){
+                    /*if($fecha_actual<= $fecha_vto){
+                        $esUsuarioValido=true;
+                    }else{
+                        $esUsuarioValido=false;
+                    }*/
+                    $esUsuarioValido=true;
+                }else{
+                    $esUsuarioValido=false;
+                }
+            }
+        }
+        $cert_med= CertificadoMedico::where('id_ficha',$fichas->id)->first();
+        if(!empty($cert_med)){
+            if($cert_med->fecha_de_vencimiento>= $fecha_actual){
+                $esUsuarioValido=true;
+            }else{
+                $esUsuarioValido=false;
+            }
+        }else{
+            $esUsuarioValido=false;
+        }
+        if($fecha_actual<= $fichas->fecha_pago){
+            $esUsuarioValido=true;
+        }else{
+            $esUsuarioValido=false;
         }
         return response()->json([
-                'fichas'=> $fichas,
-                'hora_ingreso'=>$hora,
-                'UsuarioValido'=> $esUsuarioValido
+            'fichas'=> $fichas,
+            'hora_ingreso'=>$hora,
+            'UsuarioValido'=> $esUsuarioValido
         ]); 
     }
     public function estado_documentacion($id){
@@ -95,7 +139,7 @@ class Planilla_asistenciasController extends Controller
                     $estadomed=$certmedico->fecha_de_vencimiento->format('d-m-Y');
                     $color_certmed="red";
                 }else{
-                    $estadomed= $certmedico->fecha_vencimiento->format('d-m-Y');
+                    $estadomed= $certmedico->fecha_de_vencimiento->format('d-m-Y');
                     $color_certmed="green";
                 }
 
@@ -111,13 +155,12 @@ class Planilla_asistenciasController extends Controller
                 }
             }elseif ($ficha->id_categoria==2 || $ficha->id_categoria==3 || $ficha->id_categoria==4) {
                 $categoria= "RECIBO DE SUELDO";
-
                 $documentacion=ReciboSueldo::where('id_ficha',$ficha->id)->first();
                 if(empty($documentacion->fecha_de_presentacion)){
                     $estado= "NO PRESENTO";
                     $color_documentacion="red";
-                } elseif ($docuemtacion->fecha_de_presentacion< $fecha) {
-                    $estado=$docuemtacion->fecha_de_presentacion->format('d-m-Y');
+                } elseif ($documentacion->fecha_de_presentacion < $fecha) {
+                    $estado=$documentacion->fecha_de_presentacion->format('d-m-Y');
                     $color_documentacion="red";
                 }else{
                     $estado= "PRESENTO";
@@ -161,12 +204,12 @@ class Planilla_asistenciasController extends Controller
     }
     public function create($idAsistencia, $idficha)
     {
-        //$hora= Carbon::now();
+        $hora= Carbon::now()->format('H:m');
 
         $Planilla_asistencia= new Planilla_asistencia();
         $Planilla_asistencia->ficha_id= $idficha;
         $Planilla_asistencia->asistencia_id= $idAsistencia;
-        $Planilla_asistencia->hora_ingreso= Carbon::now()->format('H:m');
+        $Planilla_asistencia->hora_ingreso= $hora;
 
         $Planilla_asistencia->save();
     }
@@ -207,7 +250,7 @@ class Planilla_asistenciasController extends Controller
             return datatables()->of($asistencia)
                                 ->make(true);
         }
-        //return $asistencia;
+
 
     }
 

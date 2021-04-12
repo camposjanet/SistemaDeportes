@@ -33,7 +33,7 @@
 
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Profesor")
             <div class="col-md-3">
-                <a role="button" href="menuasistencia" style="padding:0px;">
+                <a role="button" href="asistencia/menuasistencia" style="padding:0px;">
                         <div class="card border-info mb-2 mr-2" style="width:100%; ">
                             <div class="card-header bg-info text-white">Control de Asistencia</div>
                             <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
