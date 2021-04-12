@@ -427,7 +427,7 @@ class FichaController extends Controller
 
         if ($presento_cert_alum==1){
             $certificado_alumno->id_estado_documento = $idEstadoPresento;
-            $certificado_alumno->id_estado_documentoertificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
+            $certificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
             $certificado_alumno->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_vencimiento'))->toDateString();     
             $certificado_alumno->update();
         }
