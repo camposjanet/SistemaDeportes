@@ -55,7 +55,7 @@
 				{data: 'fecha_asistencia', name:'fecha_asistencia'},
 				{data: 'action', nane:'action'},
 				],
-				order: [[0, 'asc']]
+				order: [[0, 'des']]
 			});
 		});
 	</script>

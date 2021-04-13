@@ -43,9 +43,10 @@ class Planilla_asistenciasController extends Controller
         $hora=Carbon::now()->format('H:m');
         $fichas=DB::table('fichas as f')
         ->join('usuarios as u','f.id_usuario','=','u.id')
-        ->select('f.id AS id',DB::raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni','f.ultimo_arancel AS fecha_pago','f.id_categoria')
+        ->select('f.id AS id',DB::raw('CONCAT(u.apellido, " ",u.nombre)AS nombre_usuario'),'u.dni AS dni',DB::raw("DATE_FORMAT(a.fecha_asistencia,'%d/%m/%Y') as fecha_asistencia"),'f.id_categoria')
         ->where('f.id',$id)
         ->first();
+
 
         //Comprueba el estado de la documentación y del Usuario
         /*$idEstado=DB::table('estados as e')->where('e.estado','=','ACTIVO')->value('id');
@@ -159,10 +160,10 @@ class Planilla_asistenciasController extends Controller
                 if(empty($documentacion->fecha_de_presentacion)){
                     $estado= "NO PRESENTO";
                     $color_documentacion="red";
-                } elseif ($documentacion->fecha_de_presentacion < $fecha) {
+                } /*elseif ($documentacion->fecha_de_presentacion < $fecha) {
                     $estado=$documentacion->fecha_de_presentacion->format('d-m-Y');
                     $color_documentacion="red";
-                }else{
+                }*/else{
                     $estado= "PRESENTO";
                     $color_documentacion="green";
                 }
@@ -227,7 +228,7 @@ class Planilla_asistenciasController extends Controller
                         ->join('asistencias as a','pa.asistencia_id','=','a.id')
                         ->join('fichas as f','pa.ficha_id','=','f.id')
                         ->join('usuarios as u','f.id_usuario','=','u.id')
-                        ->select('pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso','f.ultimo_arancel')
+                        ->select('pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso',DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"))
                         ->where('a.turno','=',$turno)
                         ->where('a.fecha_asistencia','=',$fecha)                        
                         ->get(); 
@@ -242,7 +243,7 @@ class Planilla_asistenciasController extends Controller
                             ->join('asistencias as a','pa.asistencia_id','=','a.id')
                             ->join('fichas as f', 'pa.ficha_id','=','f.id')
                             ->join('usuarios as u','f.id_usuario','=','u.id')
-                            ->select('pa.asistencia_id','pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso','f.ultimo_arancel')
+                            ->select('pa.asistencia_id','pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni','pa.hora_ingreso',DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"))
                             ->where('pa.asistencia_id','=',$id)
                             ->get();
 

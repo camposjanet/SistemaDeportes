@@ -17,7 +17,7 @@
 		<div class="row">
 	  		<div class="col-md-3"><p class="text-left"><b>Profesor: </b> {{Auth::user()->name}} </p></div> 
 	  		<div class="col-md-3"><p class="text-center"><b>Turno: </b> {{$asistencia->turno}} </p></div>
-	  		<div class="col-md-3"><p class="text-right"> <b>Fecha: </b> {{$asistencia->fecha_asistencia}} </p></div>
+	  		<div class="col-md-3"><p class="text-right"> <b>Fecha: </b> <?php $fv = new DateTime($asistencia->fecha_asistencia); echo $fv->format('d-m-Y');?> </p></div>
 		</div>
 		<div class="container">
 			<div class="row">

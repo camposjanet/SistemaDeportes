@@ -8,7 +8,7 @@
 		<div class="row">
 	  		<div class="col-md-3"><p class="text-left"><b>Profesor: </b> {{$cabecera->name}} </p></div> 
 	  		<div class="col-md-3"><p class="text-center"><b>Turno: </b> {{$cabecera->turno}} </p></div>
-	  		<div class="col-md-3"><p class="text-right"> <b>Fecha: </b> {{$cabecera->fecha_asistencia}} </p></div>
+	  		<div class="col-md-3"><p class="text-right"> <b>Fecha: </b> <?php $fv= new DateTime($cabecera->fecha_asistencia); echo $fv->format('d-m-Y'); ?></p></div>
 		</div>
 		<div class="container">
 			<div class="row">
