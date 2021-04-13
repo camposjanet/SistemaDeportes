@@ -19,6 +19,11 @@ use Yajra\Datatables\Datatables;
 
 class UsuarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function create()
 	{
         $lineas=LineaTelefonica::all()->pluck('linea','id')->ToArray();

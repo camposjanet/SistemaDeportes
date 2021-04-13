@@ -427,7 +427,7 @@ class FichaController extends Controller
 
         if ($presento_cert_alum==1){
             $certificado_alumno->id_estado_documento = $idEstadoPresento;
-            $certificado_alumno->id_estado_documentoertificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
+            $certificado_alumno->fecha_de_presentacion = $fechaActual->toDateString();
             $certificado_alumno->fecha_de_vencimiento = Carbon::createFromFormat('Y-m-d',$request->get('fecha_de_vencimiento'))->toDateString();     
             $certificado_alumno->update();
         }
@@ -475,16 +475,16 @@ class FichaController extends Controller
 
         if ($ficha->categoria == 'Estudiante'){
             $certificado_alumno = CertificadoAlumnoRegular::where('id_ficha', '=' ,$id)->firstOrFail();
-            if ($certificado_alumno->fecha_de_vencimiento != null ) $vencimiento_certificado_alumno =  Carbon::parse($certificado_alumno->fecha_de_vencimiento)->format('d-m-Y');
+            if ($certificado_alumno->fecha_de_vencimiento != null ) $vencimiento_certificado_alumno =  Carbon::parse($certificado_alumno->fecha_de_vencimiento)->format('d/m/Y');
             else $vencimiento_certificado_alumno =  $vencimiento_certificado_alumno = "NO PRESENTO";
         } else $vencimiento_certificado_alumno = "";
 
         if ($ficha->ultimo_arancel != null){
-            $vencimiento_ultimo_arancel =  Carbon::parse($ficha->ultimo_arancel)->format('d-m-Y');
+            $vencimiento_ultimo_arancel =  Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y');
         } else $vencimiento_ultimo_arancel = "NO REGISTRA PAGOS DE ARANCEL";
         
         $v_cm= CertificadoMedico::where('id_ficha', '=' ,$id)->firstOrFail();
-        if ($v_cm->fecha_de_vencimiento != null ) $vencimiento_certificado_medico = Carbon::parse($v_cm->fecha_de_vencimiento)->format('d-m-Y');
+        if ($v_cm->fecha_de_vencimiento != null ) $vencimiento_certificado_medico = Carbon::parse($v_cm->fecha_de_vencimiento)->format('d/m/Y');
         else $vencimiento_certificado_medico = "NO PRESENTO";
 
         $lineas=DB::table('telefonos as t')
@@ -500,7 +500,7 @@ class FichaController extends Controller
             'vencimientoCertificadoM' => $vencimiento_certificado_medico,
             'vencimientoCertificadoAR' => $vencimiento_certificado_alumno,
             'ultimo_arancel' => $vencimiento_ultimo_arancel,
-            'fecha_de_nacimiento' => Carbon::parse($ficha->fecha_de_nacimiento)->format('d-m-Y')
+            'fecha_de_nacimiento' => Carbon::parse($ficha->fecha_de_nacimiento)->format('d/m/Y')
         ]);
     }
 }

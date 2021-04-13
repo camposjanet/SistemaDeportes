@@ -25,7 +25,7 @@
                         <th> Profesor </th>
                         <th> Turno </th>
                         <th> Fecha </th>
-                       	<th> Accionese </th> 
+                       	<th> Acciones </th> 
                     </thead>
                 </table>
             </div>
