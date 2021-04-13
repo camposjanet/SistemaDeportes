@@ -92,7 +92,7 @@ class AsistenciasController extends Controller
     {
         $cabecera= DB::table('asistencias as a')
                         ->join('users as u','a.user_id','=','u.id')
-                        ->select('a.id','u.name','a.turno','a.fecha_asistencia')  
+                        ->select('a.id','u.name','a.turno',DB::raw("DATE_FORMAT(a.fecha_asistencia,'%d/%m/%Y') as fecha_asistencia"))  
                         ->get();
         if(request()->ajax()){
             return datatables()->of($cabecera)
