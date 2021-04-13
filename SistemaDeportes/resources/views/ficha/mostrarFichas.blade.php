@@ -33,7 +33,7 @@
             <h5 name="dni_usuario"><b>DNI:</b> {{$usuario->dni}}</b></h3>
         </div>
         <div class="col-md-4" >
-            <h5 name="fecha_nacimiento_usuario"><b>Fecha de Nacimiento:</b> <?php $fv = new DateTime($usuario->fecha_de_nacimiento); echo $fv->format('d-m-Y');?></h5>
+            <h5 name="fecha_nacimiento_usuario"><b>Fecha de Nacimiento:</b> <?php $fv = new DateTime($usuario->fecha_de_nacimiento); echo $fv->format('d/m/Y');?></h5>
         </div>     
     </div>
     
@@ -72,7 +72,7 @@
                     @foreach ($fichas as $ficha)
                         <tr>
                             <td>{{ $ficha->id }}</td>
-                            <td><?php $f = new DateTime($ficha->fecha); echo $f->format('d-m-Y');?></td>
+                            <td><?php $f = new DateTime($ficha->fecha); echo $f->format('d/m/Y');?></td>
                             <td>{{ $ficha-> categoria }}</td>
                             <td>{{ $ficha -> documentacion }}</td>
                             <td>{{ $ficha -> estado }}</td>
@@ -88,7 +88,7 @@
                                 @if($ficha->estado=='ACTIVO')
                                     <button title="Registrar Pago" name="arancel" class="btn btn-success" data-toggle="modal" id="arancel-ficha-{{$ficha->id}}" data-target="#modal-pago-arancel-{{$ficha->id}}"><i class="fa fa-usd text-dark"></i></button>
                                 @endif 
-                                @if($ficha->documentacion=='COMPLETA')
+                                @if($ficha->documentacion=='COMPLETA' && $ficha->estado=='ACTIVO')
                                     @if($ficha->categoria=='Estudiante')
                                         <a href="{{URL::action('CarnetController@generarCarnetEstudiante',$ficha->id)}}" target="_blank"><button title="Generar Carnet" name="carnet" type="submit" class="btn" style="background-color:#5C6BC0;"><i class="fa fa-credit-card text-dark"></i></button></a>
                                     @elseif ($ficha->categoria=='Familiar')

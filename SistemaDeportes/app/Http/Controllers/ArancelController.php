@@ -118,11 +118,11 @@ class ArancelController extends Controller
             if ($ficha->estado == 'ACTIVO') $nroValido=true;
             else {
                 $nroValido=false;
-                Session::flash('error_en_pago_arancel','La Ficha Nº '.$nro.' no se encuentra ACTIVA.');       
+                Session::flash('error_en_pago_arancel','El carnet Nº '.$nro.' no se encuentra ACTIVO.');       
             }
         } else {
             $nroValido=false;
-            Session::flash('error_en_pago_arancel','No se encontró la Ficha Nº '.$nro.' por favor vuelva a ingresar un número.');       
+            Session::flash('error_en_pago_arancel','No se encontró el carnet Nº '.$nro.' por favor vuelva a ingresar un número.');       
         }
 
         return response()->json([

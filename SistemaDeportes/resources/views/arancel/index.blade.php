@@ -49,7 +49,7 @@
                 <table class="table table-borderless table-hover text-center" id="data-table-aranceles" cellspacing="0" width="100%" style="border-bottom:2px solid #D8D8D8; border-top:2px solid #D8D8D8 ">
                     <thead class="thead-dark">
                         <th>Nº Pago</th>
-                        <th>Nº de Ficha</th>
+                        <th>Nº de Carnet</th>
                         <th>DNI</th>
                         <th>Fecha de Pago</th>
                         <th>Importe</th>
