@@ -69,7 +69,7 @@
 					{data: 'hora_ingreso', name:'hora_ingreso'},
 					{data: 'ultimo_arancel', name:'ultimo_arancel'}
 				],
-				order: [[0, 'asc']]
+				order: [[0, 'desc']]
 			});
 		});
 	</script>
