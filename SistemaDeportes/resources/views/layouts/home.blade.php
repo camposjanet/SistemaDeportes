@@ -105,6 +105,14 @@
                             </a>
                         </li>
                     @endif   
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador")   
+                        <li class="treeview">
+                            <a href="{{url('configuracion/')}}"  class="text-white">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                <span>Configuración</span>
+                            </a>
+                        </li>
+                    @endif 
                                 
                 </ul>
             </section>
