@@ -17,11 +17,15 @@ class Arancel extends Model
         'id_user',
         'importe',
         'fecha_de_pago',
-        'fecha_de_vencimiento'
+        'fecha_de_vencimiento',
+        'nro_recibo',
+        'fecha_de_inicio',
+        'cantidad_meses'
     ];
 
     protected $dates = [
         'fecha_de_pago',
-        'fecha_de_vencimiento'
+        'fecha_de_vencimiento',
+        'fecha_de_inicio'
     ];
 }
