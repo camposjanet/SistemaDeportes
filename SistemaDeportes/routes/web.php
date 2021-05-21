@@ -58,6 +58,7 @@ Route::patch('ficha/edit/familiar/{idFicha}','FichaController@updateFichaFamilia
 Route::patch('ficha/edit/profesional/{idFicha}','FichaController@updateFichaProfesional')->name('ficha.profesional.update');
 Route::patch('ficha/edit/estudiante/{idFicha}','FichaController@updateFichaEstudiante')->name('ficha.estudiante.update');
 Route::get('fichas/show/{id}','FichaController@show');
+Route::get('fichas/info/{id}','FichaController@obtenerInfoParaModalArancel');
 
 //  CARNET DEL USUARIO
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
