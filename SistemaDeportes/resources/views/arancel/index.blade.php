@@ -104,6 +104,9 @@
                             document.getElementById('num_ficha_arancel').value=respuesta.ficha.idficha;
                             document.getElementById('nombre_apellido_arancel').value=respuesta.ficha.nombre_usuario;
                             document.getElementById('dni_arancel').value=respuesta.ficha.dni;
+                            document.getElementById('importe_arancel').value=respuesta.importe;
+                            document.getElementById('importe_arancel_hidden').value=respuesta.importe;
+                            document.getElementById('mensaje').innerHTML=respuesta.mensaje;
                             $('#verModalRegistrarArancel').modal('show');
                         } else $(location).attr('href',"/arancel/index");
                         
@@ -124,11 +127,20 @@
                 $("#btnRegistrarArancel").click(function (e) {
                     var importe = $('#importe_arancel').val();
                     var idFicha = $('#num_ficha_arancel').val();
+                    var fecha_de_inicio = $('#fecha_de_inicio').val();
+                    var fecha_de_vencimiento = $('#fecha_de_vencimiento').val();
+                    var cantidad_meses = $('#cantidad_meses').val();
+                    var nro_recibo = $('#nro_recibo').val();
+                    console.log(importe, idFicha, fecha_de_inicio, fecha_de_vencimiento, cantidad_meses, nro_recibo);
                     $.ajax({
                         type: "post",
                         url: "index/create/"+idFicha,
                         data: {
-                            importe: importe
+                            importe: importe,
+                            fecha_de_inicio: fecha_de_inicio,
+                            fecha_de_vencimiento: fecha_de_vencimiento,
+                            cantidad_meses: cantidad_meses,
+                            nro_recibo: nro_recibo,
                         }, success: function (result) {
                             console.log(result);
                             $('#verModalRegistrarArancel').modal('hide');
@@ -140,5 +152,13 @@
                 });
             });
         </script>
+    <script type="text/javascript">
+    	function calcular_importe(){
+            var importe = $('#importe_arancel_hidden').val();
+            var meses = $('#cantidad_meses').val();
+            var importe_total = importe * meses;
+            document.getElementById('importe_arancel').value=importe_total;
+		}
+    </script>
 @endpush
 
