@@ -15,6 +15,7 @@ use App\DocumentacionFamiliar;
 use App\ReciboSueldo;
 use App\Categoria;
 use App\UnidadAcademica;
+use App\ArancelPorCategoria;
 
 use DB;
 use Illuminate\Support\Collection;
@@ -501,6 +502,41 @@ class FichaController extends Controller
             'vencimientoCertificadoAR' => $vencimiento_certificado_alumno,
             'ultimo_arancel' => $vencimiento_ultimo_arancel,
             'fecha_de_nacimiento' => Carbon::parse($ficha->fecha_de_nacimiento)->format('d/m/Y')
+        ]);
+    }
+
+    public function obtenerInfoParaModalArancel($id){
+        
+        $ficha = DB::table('fichas as f')
+        ->join('usuarios as u','f.id_usuario','=','u.id')
+        ->join('categorias as c','f.id_categoria','=','c.id')
+        ->join('estados as e','f.id_estado','=','e.id')
+        ->select('f.id as idficha','f.fecha as fecha','f.lu_legajo','f.lugar_de_trabajo','f.ultimo_arancel','f.id_usuario as idusuario','f.id_unidad_academica',
+                    'e.estado as estado','c.categoria as categoria','f.id_categoria',
+                    DB::raw('CONCAT(u.apellido," ",u.nombre)AS nombre_usuario'), 'u.dni', 'u.fecha_de_nacimiento', 'u.email','u.domicilio','u.foto')
+        ->where('f.id',$id)
+        ->first();
+
+        if ($ficha!=null) {
+            $idTipoDeArancel= DB::table('tipo_de_arancel as t')->where('t.nombre','=','SALA DE MUSCULACION')->value('id');
+            $arancel_por_categoria = ArancelPorCategoria::where("id_categoria", $ficha->id_categoria)
+                ->where("id_tipo_de_arancel",$idTipoDeArancel)
+                ->where("estado",'VIGENTE')->first();
+            $importe = $arancel_por_categoria->importe;
+
+            if ($ficha->ultimo_arancel!=null){
+                $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
+                $fecha_actual = Carbon::now();
+                if($fechaUltimoArancel->gt($fecha_actual)){
+                    $mensaje = 'El último pago de arancel sigue vigente. Vence el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.';
+                } else $mensaje = 'El último pago de arancel venció el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.'; 
+            }  else $mensaje = 'Aun no se ha realizado ningún registro de arancel al Carnet Nº '.$id.'.';
+        } 
+
+        return response()->json([
+            'ficha' => $ficha,
+            'mensaje' => $mensaje,
+            'importe' => $importe
         ]);
     }
 }
