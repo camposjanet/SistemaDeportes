@@ -17,6 +17,13 @@
 			@endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div align="left">
+                <a class="btn btn-info" href="{{url('configuracion/importes')}}" name="regresar"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Regresar</a>
+            </div>
+        </div>
+    </div>
     <div class="d-flex flex-column">
         <div class="col-md-12 text-center" >
             <h1>REGISTRAR IMPORTE </h1>
