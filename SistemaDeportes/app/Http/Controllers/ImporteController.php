@@ -12,6 +12,8 @@ use App\ArancelPorCategoria;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\session;
 use Carbon\Carbon;
+use Yajra\Datatables\Datatables;
+use DB;
 
 class ImporteController extends Controller
 {
@@ -50,9 +52,25 @@ class ImporteController extends Controller
                 $arancel_anterior->estado ="NO VIGENTE";
                 $arancel_anterior->update();
                 Session::flash('exito_registrar_importe','El importe se registró con éxito. El importe anterior quedó no vigente');
-                return Redirect::to('configuracion/importes/create');
+                return Redirect::to('configuracion/importes');
             }
             
         }
+    }
+
+    public function index(){
+        $importes = DB::table('arancel_por_categoria as a')
+        ->join('tipo_de_arancel as t','a.id_tipo_de_arancel','=','t.id')
+        ->join('categorias as c','a.id_categoria','=','c.id')
+        ->select('a.id','t.nombre as nombre','c.categoria as categoria','a.nro_resolucion as resolucion','a.importe','a.estado')
+        ->get();
+
+        if(request()->ajax()) {
+            return datatables()->of($importes)
+            ->make(true);
+        };
+
+        return view("configuracion.importes.index");
+        
     }
 }

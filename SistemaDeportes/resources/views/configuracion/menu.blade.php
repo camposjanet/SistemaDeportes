@@ -13,11 +13,11 @@
 
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador")
             <div class="col-md-3">
-                <a role="button" href="configuracion/importes/create" style="padding:0px;">
+                <a role="button" href="configuracion/importes" style="padding:0px;">
                         <div class="card border-warning mb-2 mr-2" style="width:100%;">
                             <div class="card-header bg-warning text-white">Gestión de Importes</div>
                             <div class="card-body text-warning mx-auto" style="font-size: 6rem;">
-                                <a href="configuracion/importes/create" class="text-warning">
+                                <a href="configuracion/importes" class="text-warning">
                                 <i class="fa fa-folder"></i>
                                 </a>
                             </div>
