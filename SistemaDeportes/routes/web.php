@@ -26,6 +26,9 @@ Route::get('/inicio', 'HomeController@index')->name('inicio');
 Route::get('usuario/create','UsuarioController@create');
 Route::post('usuario/create','UsuarioController@store')->name('usuario.store');
 Route::get('usuarios','UsuarioController@index')->name('usuario.index');
+Route::get('usuario/{id}/edit','UsuarioController@edit')->name('usuario.edit');
+Route::patch('usuario/{id}','UsuarioController@update_usuario')->name('usuario.update');
+
 
 //Route::resource('socio','SocioController');
 Route::post('login','Auth\LoginController@login')->name('login');
