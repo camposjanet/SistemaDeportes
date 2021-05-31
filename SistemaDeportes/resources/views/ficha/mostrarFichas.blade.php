@@ -86,7 +86,7 @@
                                     <a href="{{URL::action('FichaController@editFichaProfesional',$ficha->id)}}"><button title="Modificar Ficha" name="modificar" class="btn btn-warning"><i class="fa fa-pencil"></i></button></a>
                                 @endif
                                 @if($ficha->estado=='ACTIVO')
-                                    <button title="Registrar Pago" name="arancel" class="btn btn-success" data-toggle="modal" id="arancel-ficha-{{$ficha->id}}" data-target="#modal-pago-arancel-{{$ficha->id}}"><i class="fa fa-usd text-dark"></i></button>
+                                    <button title="Registrar Pago" name="arancel" class="btn btn-success" data-toggle="modal" id="arancel-ficha-{{$ficha->id}}" data-target="#modal-pago-arancel-{{$ficha->id}}" onclick='mostrar_modal_arancel({{$ficha->id}});'><i class="fa fa-usd text-dark"></i></button>
                                 @endif 
                                 @if($ficha->documentacion=='COMPLETA' && $ficha->estado=='ACTIVO')
                                     @if($ficha->categoria=='Estudiante')
@@ -193,6 +193,23 @@
                 }
             });
             
+        }
+        function mostrar_modal_arancel(valor){
+            //console.log("mostrar arancel "+valor);
+            var id=valor;
+            
+            $.ajax({
+                type: "get",
+                url: "info/"+id,
+                success: function(respuesta) {
+                    //console.log(respuesta);
+                    document.getElementById('importe-'+id).value=respuesta.importe;
+                    document.getElementById('importe_arancel_hidden-'+id).value=respuesta.importe;
+                    document.getElementById('mensaje-'+id).innerHTML=respuesta.mensaje;
+                }, fail: function(){
+                    console.log("error");
+                }
+            });
         }
     </script>
 </div>

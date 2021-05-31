@@ -215,6 +215,9 @@ return [
         'nombre_rol' => 'nombre_rol',*/
         'oldpassword'              => 'Contraseña anterior *',
         'newpassword'   => 'Nueva contraseña * ',
-        'newpassword_confirmation' => 'Confirmar nueva contraseña'
+        'newpassword_confirmation' => 'Confirmar nueva contraseña',
+        'id_categoria'         =>'categoría *',
+        'id_tipo_de_arancel'         =>'tipo de arancel *',
+        'nro_resolucion' => 'número de resolución *'
     ],
 ];

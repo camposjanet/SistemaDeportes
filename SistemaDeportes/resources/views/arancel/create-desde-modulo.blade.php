@@ -9,6 +9,13 @@
                     <h2 class="text-center">REGISTRAR ARANCEL </h2>
                     <div class="ml-3 mr-2">
                         <div class="row">
+                            <div class="col-lg-12 mt-1">
+                                <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensaje">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-6" >
                                 <div class="form-group row">
                                     <label for="num_ficha_arancel" class="col-form-label "><b>Nº Ficha: </b></label>
@@ -43,24 +50,39 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Fecha de pago</label>
+                                <label>Fecha de Inicio</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-pago"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <input type ="date" name="fecha_pago" aria-describedby="basic-pago"value="<?php echo date('Y-m-d');?>" class="form-control" disabled="true">
+                                    <input type ="date" name="fecha_de_inicio" id="fecha_de_inicio" aria-describedby="basic-pago"value="<?php echo date('Y-m-d');?>" class="form-control">
                                 </div>
                             </div>   
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Vencimiento del pago</label>
+                                <label>Vencimiento del Pago</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-vencimiento"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <input type ="date" name="fecha_vencimiento" aria-describedby="basic-vencimiento"value="<?php echo date('Y-m-d', strtotime(now(). ' + 30 days'));?>" class="form-control" disabled="true">
+                                    <input type ="date" name="fecha_de_vencimiento" id="fecha_de_vencimiento" aria-describedby="basic-vencimiento"value="<?php echo date('Y-m-d', strtotime(now(). ' + 30 days'));?>" class="form-control">
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="cantidad_meses">Cantidad de meses a pagar:</label>
+                                <input type="numeric"  class="form-control" name="cantidad_meses" id="cantidad_meses" value="1" onchange="calcular_importe()">
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="nro_recibo">Nro Recibo:</label>
+                                <input type="text" class="form-control" name="nro_recibo" id="nro_recibo">
                             </div>
                         </div>
                     </div>
@@ -71,8 +93,11 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-importe"><b>$</b></span>
                                 </div>
-                                <input type="numeric" class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" name="importe_arancel" id="importe_arancel" value="{{old('importe')}}">
+                                <input type="numeric" readonly class="form-control" placeholder="0.00" aria-label="importe" aria-describedby="basic-importe" name="importe_arancel" id="importe_arancel" value="{{old('importe')}}">
                             </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="hidden" name="importe_arancel_hidden" id="importe_arancel_hidden">
                         </div>
                     </div>
 			    </div>

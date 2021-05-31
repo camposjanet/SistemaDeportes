@@ -64,11 +64,25 @@
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador")
             <div class="col-md-3">
                 <a role="button" href="users" style="padding:0px;">
-                        <div class="card border-secondary mb-2 mr-2" style="width:100%; ">
-                            <div class="card-header bg-secondary text-white">Personal DEFyD</div>
-                            <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                                <a href="users" class="text-secondary">
+                        <div class="card border-danger mb-2 mr-2" style="width:100%; ">
+                            <div class="card-header bg-danger text-white">Personal DEFyD</div>
+                            <div class="card-body text-danger mx-auto" style="font-size: 6rem;">
+                                <a href="users" class="text-danger">
                                     <i class="fa fa-user"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+        @endif
+        @if(Auth::user()->roles->first()->nombre_rol== "Administrador")
+            <div class="col-md-3">
+                <a role="button" href="configuracion" style="padding:0px;">
+                        <div class="card border-secondary mb-2 mr-2" style="width:100%; ">
+                            <div class="card-header bg-secondary text-white">Configuración</div>
+                            <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
+                                <a href="configuracion" class="text-secondary">
+                                    <i class="fa fa-cog"></i>
                                 </a>
                             </div>
                         </div>
