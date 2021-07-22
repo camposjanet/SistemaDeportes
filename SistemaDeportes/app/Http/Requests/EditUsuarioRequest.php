@@ -30,9 +30,9 @@ class EditUsuarioRequest extends FormRequest
             'fecha_de_nacimiento'=>'required',
             'domicilio'=>'required',
             'telefono_celular'=>'required',
-            'id_linea_telefono'=>'required',
+            'id_telcontacto'=>'required',
             'telefono_de_emergencia'=>'required',
-            'id_linea_telefono_emergencia'=>'required',
+            'id_emergencia'=>'required',
             'email'=>'required'
         ];
     }

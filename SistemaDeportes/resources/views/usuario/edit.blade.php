@@ -54,8 +54,6 @@
         <div class="col-md-12">
             <div class="form-group">
                 {!! Field::text('domicilio',null, ['class'=>'form-control'])!!}  
-                <!--{!! Form::label('domicilio','domicilio') !!}
-                {!! Form::text('domicilio',null,['class'=>'from-control'])!!}-->
             </div>
         </div>
         
