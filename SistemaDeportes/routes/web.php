@@ -60,6 +60,8 @@ Route::patch('ficha/edit/familiar/{idFicha}','FichaController@updateFichaFamilia
 Route::patch('ficha/edit/profesional/{idFicha}','FichaController@updateFichaProfesional')->name('ficha.profesional.update');
 Route::patch('ficha/edit/estudiante/{idFicha}','FichaController@updateFichaEstudiante')->name('ficha.estudiante.update');
 Route::get('fichas/show/{id}','FichaController@show');
+Route::get('fichas/info/{id}','FichaController@obtenerInfoParaModalArancel');
+
 //  CARNET DEL USUARIO
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
 Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional')->name('carnet.profesional');
@@ -83,3 +85,11 @@ Route::get('asistencia/mostrar_asistencia_turno', 'Planilla_asistenciasControlle
 Route::get('asistencia/mostrar_planilla','AsistenciasController@show')->name('asistencia.mostrar_planilla');
 Route::get('asistencia/buscar_asistencia/{id}','Planilla_asistenciasController@buscar_asistencia')->name('asistencia.buscar');
 Route::get('asistencia/mostrar_asistencia/{id}','Planilla_asistenciasController@mostrar_asistencia')->name('asistencia.ver');
+
+//CONFIGURACION
+Route::get('configuracion', 'ConfiguracionController@showMenu')->name('configuracion.menu');
+
+//GESTION DE IMPORTES
+Route::get('configuracion/importes/create','ImporteController@create');
+Route::post('configuracion/importes/create','ImporteController@store')->name('importe.store');
+Route::get('configuracion/importes','ImporteController@index')->name('importe.index');
