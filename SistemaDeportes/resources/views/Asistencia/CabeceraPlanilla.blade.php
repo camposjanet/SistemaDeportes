@@ -1,6 +1,14 @@
 @extends('layouts.home')
 
 @section('content')
+	<!--<style>
+		label.error{
+			color:red;
+		}
+		input.error{
+			border: 2px #FF0000;
+		}
+	</style> -->
 
 	<div class="container">
 		<div class="row d-flex justify-content-center mt-4">
@@ -21,14 +29,6 @@
 		<div class="alert alert-success" role="alert" name="mensaje" id="mensaje" style="display: none;">
   			<p class="text-center">Se ha registrado la asistencia ¡¡existosamente!!. </p>
 		</div>
-		@if(Session::has('error_ficha'))
-			<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{session('error_ficha')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-		@endif
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
@@ -90,40 +90,38 @@
 							type: "get",
 							url: "buscarcarnet/"+id,
 							success: function(result){
-								if(result.ficha_valida== true){
-									if(result.UsuarioValido==true){
+								if(result.UsuarioValido==true){
 									document.getElementById('Nombre_apellido_asistencia').value=result.fichas.nombre_usuario;
 									document.getElementById('dni_asistencia').value=result.fichas.dni;
 									document.getElementById('hora_ingreso_asistencia').value=result.hora_ingreso;
-									document.getElementById('mes_pagado_asistencia').value=result.fichas.ultimo_arancel;
+									document.getElementById('mes_pagado_asistencia').value=result.fichas.fecha_pago;
 									document.getElementById('registrar').disabled=false;
-									}else{
-									/*$("#modal").fadeIn(); */
-										$("#modal").click(function(){
-											var id=$("#Carnet_asistencia").val(); 
-											$.ajax({
-												type:"get",
-												url:"estado_documentacion/"+id,
-												success:function(resultado){
-													$("label[for='Carnet_modal']").text(id);
-													$("label[for='tipo_documento']").text(resultado.categoria);
-													document.getElementById('fecha_tipo').value=resultado.documentacion;
-													document.getElementById('fecha_tipo').style.color=resultado.color_documentacion;
-													document.getElementById('fecha_certificado_medico').value=resultado.certificado_medico;
-													document.getElementById('fecha_certificado_medico').style.color=resultado.color_certmed;
-													document.getElementById('fecha_ultimo_arancel').value=resultado.ultimo_arancel;
-													document.getElementById('fecha_ultimo_arancel').style.color=resultado.color_arancel;
-												}, fail: function(){
-													console.log("error");
-												}
-											});
-										});
-										$("#modal").show();
-									}	
 								}else{
-									//$(location).attr('href',"mostrar_asistencia_turno");
-									setInterval(location.reload(true),40000);
-								}	
+									/*$("#modal").fadeIn(); */
+									 	$("#modal").click(function(){
+										var id=$("#Carnet_asistencia").val();
+										$.ajax({
+											type:"get",
+											url:"estado_documentacion/"+id,
+											success:function(resultado){
+												/*document.getElementById('Carnet_modal').value=id; */
+												$("label[for='Carnet_modal']").text(id);
+												//document.getElementById('tipo_documento').value=resultado.categoria;
+												$("label[for='tipo_documento']").text(resultado.categoria);
+												document.getElementById('fecha_tipo').value=resultado.documentacion;
+												document.getElementById('fecha_tipo').style.color=resultado.color_documentacion;
+												document.getElementById('fecha_certificado_medico').value=resultado.certificado_medico;
+												document.getElementById('fecha_certificado_medico').style.color=resultado.color_certmed;
+												document.getElementById('fecha_ultimo_arancel').value=resultado.ultimo_arancel;
+												document.getElementById('fecha_ultimo_arancel').style.color=resultado.color_arancel;
+											}, fail: function(){
+												console.log("error");
+											}
+										});
+									});
+									$("#modal").show();
+								}
+								
 							}, fail: function(){
 								console.log("error");
 							}	
@@ -174,7 +172,7 @@
 				{data: 'hora_ingreso', nane:'hora_ingreso'},
 				{data: 'ultimo_arancel', name: 'ultimo_arancel'}
 				],
-				order: [[0, 'des']]
+				order: [[0, 'asc']]
 			});
 		});
 	</script>

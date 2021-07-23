@@ -26,6 +26,9 @@ Route::get('/inicio', 'HomeController@index')->name('inicio');
 Route::get('usuario/create','UsuarioController@create');
 Route::post('usuario/create','UsuarioController@store')->name('usuario.store');
 Route::get('usuarios','UsuarioController@index')->name('usuario.index');
+Route::get('usuario/{id}/edit','UsuarioController@edit')->name('usuario.edit');
+Route::patch('usuario/{id}','UsuarioController@update_usuario')->name('usuario.update');
+
 
 //Route::resource('socio','SocioController');
 Route::post('login','Auth\LoginController@login')->name('login');
@@ -46,7 +49,6 @@ Route::get('user/edit/defaultpassword','UserController@editDefaultPassword')->na
 Route::post('user/defaultpassword','UserController@changeDefaultPassword')->name('user.defaultPassword');
 Route::get('user/irmodificarcontrasenia', 'UserController@irmodificarcontrasenia')->name('user.irmodificarcontrasenia');
 Route::post('user/modificarcontrasenia/{id}','UserController@modificarcontrasenia')->name('user.modificarcontrasenia');
-
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
@@ -64,7 +66,6 @@ Route::get('fichas/info/{id}','FichaController@obtenerInfoParaModalArancel');
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
 Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional')->name('carnet.profesional');
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
-
 //DAR DE BAJA USUARIO
 Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 

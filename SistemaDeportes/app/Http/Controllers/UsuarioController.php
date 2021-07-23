@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\UsuarioRequest;
+use App\Http\Requests\EditUsuarioRequest;
 use App\Usuario;
 use App\LineaTelefonica;
 use App\Estados;
@@ -92,4 +93,71 @@ class UsuarioController extends Controller
     	$usuario->update();
     	return Redirect::to('usuarios');
     }
+
+    public function edit($id){
+        $lineas=DB::table('lineas_telefonica')->get();
+        $usuario=DB::table('usuarios as u')
+        ->join('telefonos as t','t.id_usuario','=','u.id')
+        ->join('lineas_telefonica as lt','t.id_linea_telefonica','=','lt.id')
+        ->select('u.id','apellido','u.nombre','dni','u.fecha_de_nacimiento','u.domicilio','u.email','u.foto as foto')
+        ->where('u.id','=',$id)
+        ->first();
+        $telefono_celular=DB::table('telefonos as t')
+                            ->join('lineas_telefonica as lt','lt.id','=','t.id_linea_telefonica')
+                            ->select('t.numero as numero','lt.id as id_celular','lt.linea as linea')
+                            ->where('t.id_usuario','=',$id)
+                            ->where('t.tipo_telefono','=','TELEFONO')
+                            ->first();
+        $telefono_de_emergencia=DB::table('telefonos as t')
+                            ->join('lineas_telefonica as lt','lt.id','=','t.id_linea_telefonica')
+                            ->select('t.numero as numero','lt.id as id_emergencia','lt.linea as linea')
+                            ->where('t.id_usuario','=',$id)
+                            ->where('t.tipo_telefono','=','CONTACTO DE EMERGENCIA')
+                            ->first();
+        return view("usuario.edit")->with('usuario',$usuario)
+                                    ->with('lineas', $lineas)
+                                    ->with('telefono_celular',$telefono_celular)
+                                    ->with('telefono_de_emergencia',$telefono_de_emergencia);
+    }
+
+    public function update_usuario(EditUsuarioRequest $request, $id){
+        $usuario=Usuario::findOrFail($id);
+        if($request->hasFile('foto')){
+            $file =$request->file('foto');
+            $extension=$file->getClientOriginalName();//nombre de img
+            $path=public_path().'/img/usuarios/';//donde guardamos img
+            $file->move($path,$extension);//guardar imagen
+            $usuario->update([
+                'nombre'=>$request->get('nombre'),
+                'apellido'=>$request->get('apellido'),
+                'fecha_de_nacimiento'=>$request->get('fecha_de_nacimiento'),
+                'dni'=>$request->get('dni'),
+                'email'=>$request->get('email'),
+                'domicilio'=>$request->get('domicilio'),
+                'foto'=>$extension
+            ]);
+        }else{
+            $usuario->update([
+                'nombre'=>$request->get('nombre'),
+                'apellido'=>$request->get('apellido'),
+                'fecha_de_nacimiento'=>$request->get('fecha_de_nacimiento'),
+                'dni'=>$request->get('dni'),
+                'email'=>$request->get('email'),
+                'domicilio'=>$request->get('domicilio')
+            ]);    
+        }      
+        $telefono_contacto=Telefono::where('id_usuario','=',$id)->where('tipo_telefono','=','TELEFONO');
+        $telefono_contacto->update([
+            'numero'=>$request->input('telefono_celular'),
+            'id_linea_telefonica'=>$request->input('telcontacto')
+        ]); 
+                
+        $telefono_emergencia=Telefono::where('id_usuario','=',$id)->where('tipo_telefono','=','CONTACTO DE EMERGENCIA');
+        $telefono_emergencia->update([
+            'numero'=>$request->input('telefono_de_emergencia'),
+            'id_linea_telefonica'=>$request->input('telemergencia')
+        ]);
+        return Redirect::to('usuarios');
+    }
+        
 }

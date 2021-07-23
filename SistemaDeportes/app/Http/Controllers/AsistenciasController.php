@@ -33,14 +33,14 @@ class AsistenciasController extends Controller
         $nom_turno=" ";
 
 
-         if($turno >=7 && $turno <14){
+         if($turno >=8 && $turno <=12){
             $nom_turno="Mañana";
          }
          else{
-            if($turno >=14 && $turno <=20){
+            if($turno >=16 && $turno <=20){
                 $nom_turno="Tarde";
             }else{
-                Session::flash('turno','¡¡Lo Sentimos!!. No está habilitado un horario de turno. Recuerde que el horario es 7 a 14 y de 14 a 21 hs');
+                Session::flash('turno','¡¡Lo Sentimos!!. No está habilitado un horario de turno. Recuerde que el horario es 8 a 13 y de 16 a 21 hs');
                 return Redirect('/inicio');
             }
          }
