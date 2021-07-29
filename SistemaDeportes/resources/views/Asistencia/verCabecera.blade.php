@@ -38,6 +38,7 @@
                         <th> DNI </th>
                        	<th> Hora de Ingreso </th> 
 						<th> Vencimiento de Arancel </th>
+						<th> Estado Asistencia </th>
                     </thead>
                 </table>
             </div>
@@ -67,7 +68,8 @@
 					{data: 'nombre_usuario', name:'nombre_usuario'},
 					{data: 'dni', name:'dni'},
 					{data: 'hora_ingreso', name:'hora_ingreso'},
-					{data: 'ultimo_arancel', name:'ultimo_arancel'}
+					{data: 'ultimo_arancel', name:'ultimo_arancel'},
+					{data: 'estado_asistencia', name: 'estado_asistencia'}
 				],
 				order: [[0, 'desc']]
 			});

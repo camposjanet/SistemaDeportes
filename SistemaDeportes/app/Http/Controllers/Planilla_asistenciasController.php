@@ -39,7 +39,8 @@ class Planilla_asistenciasController extends Controller
      */
     public function mostrar_fichas($id){
         $esUsuarioValido=false;
-        $ficha_existe=false;
+        //$ficha_existe=false;
+        $esArancelValido=false;
         $now=Carbon::now();
         $hora=Carbon::now()->format('H:i');
         
@@ -54,7 +55,6 @@ class Planilla_asistenciasController extends Controller
         //Comprueba el estado de la documentación y del Usuario
         $fecha_actual=Carbon::now()->format('Y-m-d');
         if(isset($fichas)){
-            //$esUsuarioValido=false;
             $ficha_existe=true;
             if($fichas->estado == 'ACTIVO'){
                 $ficha_valida=true;
@@ -89,26 +89,20 @@ class Planilla_asistenciasController extends Controller
                 }else{
                     $esUsuarioValido=false;
                 }
-                if($fecha_actual<= $fichas->ultimo_arancel){
-                    $esUsuarioValido=true;
+                if (!empty($fichas->ultimo_arancel)) {
+                    if ($fecha_actual<=$fichas->ultimo_arancel) {
+                        $esArancelValido=true;
+                    }else{
+                        $esArancelValido=false;
+                    }
                 }else{
-                    $esUsuarioValido=false;
+                    $esArancelValido=false;
                 }
-
-                /*return response()->json([
-                    'fichas'=> $fichas,
-                    'hora_ingreso'=>$hora,
-                    'UsuarioValido'=> $esUsuarioValido,
-                    'ficha_existe'=> $ficha_existe 
-                ]); */
             }else{
-                //else de estado activo
-                //$esUsuarioValido=false;
                 $ficha_valida=false;
                 Session::flash('error_ficha','El N° de Carnet '.$id.' no se encuentra ACTIVO, por favor vuelva a ingresar un número');
             }
         }else{
-            // ficha nula
             $ficha_valida=false;
             Session::flash('error_ficha','No se ha encontrado el N° de Carnet '.$id.' por favor vuelva a ingresar un número');
         }
@@ -116,6 +110,7 @@ class Planilla_asistenciasController extends Controller
                     'fichas'=> $fichas,
                     'hora_ingreso'=>$hora,
                     'UsuarioValido'=> $esUsuarioValido,
+                    'esArancelValido'=> $esArancelValido,
                     'ficha_valida'=> $ficha_valida
         ]);
     }
@@ -209,6 +204,24 @@ class Planilla_asistenciasController extends Controller
             'ultimo_arancel'=> $estadofecha
         ]); 
     }
+
+    public function estado_documentacion_sinarancel($id){
+        $ficha=Ficha::findOrFail($id);
+        $fecha= Carbon::now()->format('Y-m-d');
+
+        if(!empty($ficha->ultimo_arancel)){
+            if ($ficha->ultimo_arancel < $fecha) {
+                $estadofecha=$ficha->ultimo_arancel->format('d-m-Y');
+            }
+        }else{
+            $estadofecha="NO PRESENTO";
+        }
+        
+        return response()->json([
+            'idficha'=>$ficha->id,
+            'ultimo_arancel'=> $estadofecha
+        ]); 
+    }
     public function create($idAsistencia, $idficha)
     {
         $hora= Carbon::now()->format('H:i');
@@ -217,13 +230,23 @@ class Planilla_asistenciasController extends Controller
         $Planilla_asistencia->ficha_id= $idficha;
         $Planilla_asistencia->asistencia_id= $idAsistencia;
         $Planilla_asistencia->hora_ingreso=$hora;
+        $Planilla_asistencia->estado_asistencia="HABILITADO";
+        $Planilla_asistencia->save();
+    }
 
+    public function crear_asistencia_sin_arancel($idAsistencia,$idficha){
+        $hora= Carbon::now()->format('H:i');
+
+        $Planilla_asistencia= new Planilla_asistencia();
+        $Planilla_asistencia->ficha_id= $idficha;
+        $Planilla_asistencia->asistencia_id= $idAsistencia;
+        $Planilla_asistencia->hora_ingreso=$hora;
+        $Planilla_asistencia->estado_asistencia="SIN ARANCEL";
         $Planilla_asistencia->save();
     }
     public function mostrar_asistencia_turno(){
         $fecha= Carbon::now()->format('Y-m-d');
         $hora= Carbon::now()->hour;
-        //$hora= 12;
         $turno= " ";
         if($hora>= 7 && $hora<14){
             $turno="Mañana";
@@ -234,7 +257,7 @@ class Planilla_asistenciasController extends Controller
                         ->join('asistencias as a','pa.asistencia_id','=','a.id')
                         ->join('fichas as f','pa.ficha_id','=','f.id')
                         ->join('usuarios as u','f.id_usuario','=','u.id')
-                        ->select('pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni',DB::raw("DATE_FORMAT(pa.hora_ingreso,'%H:%i') as hora_ingreso"),DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"),'a.fecha_asistencia')
+                        ->select('pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni',DB::raw("DATE_FORMAT(pa.hora_ingreso,'%H:%i') as hora_ingreso"),DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"),'a.fecha_asistencia','pa.estado_asistencia')
                         ->where('a.turno','=',$turno)
                         ->where('a.fecha_asistencia','=',$fecha)                        
                         ->get(); 
@@ -249,10 +272,9 @@ class Planilla_asistenciasController extends Controller
                             ->join('asistencias as a','pa.asistencia_id','=','a.id')
                             ->join('fichas as f', 'pa.ficha_id','=','f.id')
                             ->join('usuarios as u','f.id_usuario','=','u.id')
-                            ->select('pa.asistencia_id','pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni',DB::raw("DATE_FORMAT(pa.hora_ingreso,'%H:%i') as hora_ingreso"),DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"))
+                            ->select('pa.asistencia_id','pa.id','pa.ficha_id',DB::raw('CONCAT(u.nombre," ",u.apellido)AS nombre_usuario'),'u.dni',DB::raw("DATE_FORMAT(pa.hora_ingreso,'%H:%i') as hora_ingreso"),DB::raw("DATE_FORMAT(f.ultimo_arancel,'%d/%m/%Y') as ultimo_arancel"),'pa.estado_asistencia')
                             ->where('pa.asistencia_id','=',$id)
                             ->get();
-
         if(request()->ajax()){
             return datatables()->of($asistencia)
                                 ->make(true);
