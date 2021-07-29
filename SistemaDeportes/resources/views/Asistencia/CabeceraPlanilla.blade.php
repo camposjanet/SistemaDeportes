@@ -1,14 +1,6 @@
 @extends('layouts.home')
 
 @section('content')
-	<!--<style>
-		label.error{
-			color:red;
-		}
-		input.error{
-			border: 2px #FF0000;
-		}
-	</style> -->
 
 	<div class="container">
 		<div class="row d-flex justify-content-center mt-4">
@@ -29,6 +21,14 @@
 		<div class="alert alert-success" role="alert" name="mensaje" id="mensaje" style="display: none;">
   			<p class="text-center">Se ha registrado la asistencia ¡¡existosamente!!. </p>
 		</div>
+		@if(Session::has('error_ficha'))
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{session('error_ficha')}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+		@endif
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
@@ -51,8 +51,11 @@
 					Registrar </button>
 				</div>
 			</div>
-			<div id="modal" name="modal" style="display: none;" class="alert alert-warning" role="alert">
+			<div id="modalDetalle" name="modalDetalle" style="display: none;" class="alert alert-danger" role="alert">
 				<p class="text-center"> No se puede registrar asistencia. <a href="#" data-toggle="modal" data-target="#ModalDetalles"> VER DETALLE>> </a> </p>
+			</div>
+			<div id="modalRegistrar" name="modalRegistrar" style="display: none;" class="alert alert-warning" role="alert">
+				<p class="text-center"> Debe verificar arancel. <a href="#" data-toggle="modal" data-target="#ModalDetalles"> VER DETALLE>> </a> </p>
 			</div>
 		</div>
 	</div>
@@ -68,6 +71,7 @@
                         <th> DNI </th>
                        	<th> Hora de Ingreso </th> 
 						<th> Vencimiento de Arancel </th>
+						<th> Estado Asistencia </th>
                     </thead>
                 </table>
             </div>
@@ -90,38 +94,64 @@
 							type: "get",
 							url: "buscarcarnet/"+id,
 							success: function(result){
-								if(result.UsuarioValido==true){
-									document.getElementById('Nombre_apellido_asistencia').value=result.fichas.nombre_usuario;
-									document.getElementById('dni_asistencia').value=result.fichas.dni;
-									document.getElementById('hora_ingreso_asistencia').value=result.hora_ingreso;
-									document.getElementById('mes_pagado_asistencia').value=result.fichas.fecha_pago;
-									document.getElementById('registrar').disabled=false;
-								}else{
-									/*$("#modal").fadeIn(); */
-									 	$("#modal").click(function(){
-										var id=$("#Carnet_asistencia").val();
-										$.ajax({
-											type:"get",
-											url:"estado_documentacion/"+id,
-											success:function(resultado){
-												/*document.getElementById('Carnet_modal').value=id; */
-												$("label[for='Carnet_modal']").text(id);
-												//document.getElementById('tipo_documento').value=resultado.categoria;
-												$("label[for='tipo_documento']").text(resultado.categoria);
-												document.getElementById('fecha_tipo').value=resultado.documentacion;
-												document.getElementById('fecha_tipo').style.color=resultado.color_documentacion;
-												document.getElementById('fecha_certificado_medico').value=resultado.certificado_medico;
-												document.getElementById('fecha_certificado_medico').style.color=resultado.color_certmed;
-												document.getElementById('fecha_ultimo_arancel').value=resultado.ultimo_arancel;
-												document.getElementById('fecha_ultimo_arancel').style.color=resultado.color_arancel;
-											}, fail: function(){
-												console.log("error");
+								if(result.ficha_valida== true){
+									if(result.UsuarioValido==true && result.esArancelValido== true){
+										document.getElementById('Nombre_apellido_asistencia').value=result.fichas.nombre_usuario;
+										document.getElementById('dni_asistencia').value=result.fichas.dni;
+										document.getElementById('hora_ingreso_asistencia').value=result.hora_ingreso;
+										document.getElementById('mes_pagado_asistencia').value=result.fichas.ultimo_arancel;
+										document.getElementById('registrar').disabled=false;
+									}else{
+										if(result.UsuarioValido==false && result.esArancelValido==false){
+											$("#modalDetalle").click(function(){
+												var id=$("#Carnet_asistencia").val(); 
+												var chequeo="detalle";
+												$.ajax({
+													type:"get",
+													url:"estado_documentacion/"+id,
+													success:function(resultado){
+														document.getElementById('chequear').value="detalle";
+														$("label[for='Carnet_modal']").text(id);
+														$("label[for='tipo_documento']").text(resultado.categoria);
+														document.getElementById('fecha_tipo').value=resultado.documentacion;
+														document.getElementById('fecha_tipo').style.color=resultado.color_documentacion;
+														document.getElementById('fecha_certificado_medico').value=resultado.certificado_medico;
+														document.getElementById('fecha_certificado_medico').style.color=resultado.color_certmed;
+														document.getElementById('fecha_ultimo_arancel').value=resultado.ultimo_arancel;
+														document.getElementById('fecha_ultimo_arancel').style.color=resultado.color_arancel;
+													}, fail: function(){
+													console.log("error");
+													}
+												});
+											});
+											//$("#modal").show();
+											$("#modalDetalle").show();
+										}else{
+											if(result.UsuarioValido==true && result.esArancelValido==false){
+												$("#modalRegistrar").click(function(){
+													var id=$("#Carnet_asistencia").val(); 
+													var idAsistencia=$("#idAsistencia").val();
+													$.ajax({
+														type:"get",
+														url:"estado_documentacion_sinarancel/"+id,
+														success:function(resultado){
+															document.getElementById('chequear').value="registrar";
+															document.getElementById('idficha').value=id;
+															document.getElementById('idasistencia').value=idAsistencia;
+															document.getElementById('fecha_ultimo_arancel_registrar').value=resultado.ultimo_arancel;
+														}, fail: function(){
+														console.log("error");
+														}
+													});
+												});
+												$("#modalRegistrar").show();
 											}
-										});
-									});
-									$("#modal").show();
-								}
-								
+										}
+										//$("#modal").show();
+									}	
+								}else{
+									setInterval(location.reload(true),40000);
+								}	
 							}, fail: function(){
 								console.log("error");
 							}	
@@ -142,7 +172,6 @@
 					console.log("se cargo con exito");
 					$("#mensaje").fadeIn();
 					setInterval(location.reload(true),40000);
-					//setTimeout(location.reload(true),40000);
 				}, fail: function(){
 					console.log("error");
 				}
@@ -170,9 +199,10 @@
 				{data: 'nombre_usuario', name:'nombre_usuario'},
 				{data: 'dni', name:'dni'},
 				{data: 'hora_ingreso', nane:'hora_ingreso'},
-				{data: 'ultimo_arancel', name: 'ultimo_arancel'}
+				{data: 'ultimo_arancel', name: 'ultimo_arancel'},
+				{data: 'estado_asistencia', name: 'estado_asistencia'}
 				],
-				order: [[0, 'asc']]
+				order: [[0, 'des']]
 			});
 		});
 	</script>

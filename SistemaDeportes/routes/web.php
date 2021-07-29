@@ -49,6 +49,7 @@ Route::get('user/edit/defaultpassword','UserController@editDefaultPassword')->na
 Route::post('user/defaultpassword','UserController@changeDefaultPassword')->name('user.defaultPassword');
 Route::get('user/irmodificarcontrasenia', 'UserController@irmodificarcontrasenia')->name('user.irmodificarcontrasenia');
 Route::post('user/modificarcontrasenia/{id}','UserController@modificarcontrasenia')->name('user.modificarcontrasenia');
+
 //  FICHAS DE USUARIO 
 Route::get('ficha/create/{idUsuario}','FichaController@create');
 Route::post('ficha/create/{idUsuario}','FichaController@store')->name('ficha.store');
@@ -66,6 +67,7 @@ Route::get('fichas/info/{id}','FichaController@obtenerInfoParaModalArancel');
 Route::get('carnet/estudiante/{id}','CarnetController@generarCarnetEstudiante')->name('carnet.estudiante');
 Route::get('carnet/profesional/{id}','CarnetController@generarCarnetProfesional')->name('carnet.profesional');
 Route::get('carnet/familiar/{id}','CarnetController@generarCarnetFamiliar')->name('carnet.familiar');
+
 //DAR DE BAJA USUARIO
 Route::delete('usuario/delete/{id}','UsuarioController@deleteUsuario');
 
@@ -85,11 +87,18 @@ Route::get('asistencia/mostrar_asistencia_turno', 'Planilla_asistenciasControlle
 Route::get('asistencia/mostrar_planilla','AsistenciasController@show')->name('asistencia.mostrar_planilla');
 Route::get('asistencia/buscar_asistencia/{id}','Planilla_asistenciasController@buscar_asistencia')->name('asistencia.buscar');
 Route::get('asistencia/mostrar_asistencia/{id}','Planilla_asistenciasController@mostrar_asistencia')->name('asistencia.ver');
+Route::get('asistencia/crear_asistencia_sin_arancel/{idAsistencia}/{idficha}','Planilla_asistenciasController@crear_asistencia_sin_arancel');
+Route::get('asistencia/estado_documentacion_sinarancel/{id}', 'Planilla_asistenciasController@estado_documentacion_sinarancel')->name('asistencia.estadosinarancel');
 
 //CONFIGURACION
 Route::get('configuracion', 'ConfiguracionController@showMenu')->name('configuracion.menu');
 
+//NOTIFICACIONES
+Route::get('notificaciones','NotificacionArancelController@index')->name('Notificaciones.index');
+Route::get('notificaciones/create','NotificacionArancelController@create')->name('notificaciones.create');
+Route::post('notificaciones/store/{idUser}','NotificacionArancelController@store')->name('Notificaciones.store');
+
 //GESTION DE IMPORTES
 Route::get('configuracion/importes/create','ImporteController@create');
-Route::post('configuracion/importes/create','ImporteController@store')->name('importe.store');
+Route::get('configuracion/importes/create','ImporteController@store')->name('importe.store');
 Route::get('configuracion/importes','ImporteController@index')->name('importe.index');

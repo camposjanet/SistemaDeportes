@@ -75,6 +75,24 @@
                     </a>
             </div>
         @endif
+
+        @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario") 
+            <div class="col-md-3">
+                    <a role="button" href="notificaciones" style="padding:0px;">
+                        <div class="card border-warning mb-2 mr-2" style="width:100%;">
+                            <div class="card-header bg-warning text-white">Notificaciones</div>
+                            <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
+                                <a href="notificaciones" class="text-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+        @endif
+        
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador")
             <div class="col-md-3">
                 <a role="button" href="configuracion" style="padding:0px;">
