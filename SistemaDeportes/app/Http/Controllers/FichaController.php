@@ -29,7 +29,7 @@ class FichaController extends Controller
     public function create($idUsuario)
 	{
         $usuario =Usuario::findOrFail($idUsuario);
-        $categorias = DB::table('categorias as c')->get();
+        $categorias = DB::table('categorias as c')->where('c.tipo','=','SALA DE MUSCULACIÓN')->get();
         $unidades=UnidadAcademica::all()->pluck('unidad','id')->ToArray();
         
         $anio = date("Y");

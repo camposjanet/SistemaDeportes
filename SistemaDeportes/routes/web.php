@@ -99,6 +99,6 @@ Route::get('notificaciones/create','NotificacionArancelController@create')->name
 Route::post('notificaciones/store/{idUser}','NotificacionArancelController@store')->name('Notificaciones.store');
 
 //GESTION DE IMPORTES
-Route::get('configuracion/importes/create','ImporteController@create');
-Route::get('configuracion/importes/create','ImporteController@store')->name('importe.store');
+Route::get('configuracion/importes/create','ImporteController@create')->name('importe.create');
+Route::post('configuracion/importes/create','ImporteController@store')->name('importe.store');
 Route::get('configuracion/importes','ImporteController@index')->name('importe.index');
