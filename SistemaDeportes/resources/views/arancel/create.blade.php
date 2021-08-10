@@ -49,14 +49,14 @@
                 <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="cantidad_meses">Cantidad de meses a pagar:</label>
+                                <label for="cantidad_meses">Cantidad de meses a pagar *</label>
                                 <input type="numeric"  class="form-control" name="cantidad_meses" id="cantidad_meses" value="1" onchange="calcular_importe({{$ficha->id}})">
                             </div>
                             
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="nro_recibo">Nro Recibo:</label>
+                                <label for="nro_recibo">Nro Recibo *</label>
                                 <input type="text" class="form-control" name="nro_recibo" id="nro_recibo">
                             </div>
                         </div>
@@ -77,9 +77,9 @@
                     </div>
 			</div>
 			<div class="modal-footer">
-				<div class=" form-group mx-auto">
+				<div class=" form-group mx-auto" >
                     <a class="btn btn-danger" data-dismiss="modal" name="cancelar">Cancelar</a>
-                    <button type="button " class="btn btn-primary" type="submit"> <i class="fa fa-save"></i> Guardar</button>
+                    <button type="button " id="btn_guardar_arancel" class="btn btn-primary" type="submit" hidden> <i class="fa fa-save"></i> Guardar</button>
                 </div>
 			</div>
 		</div>	

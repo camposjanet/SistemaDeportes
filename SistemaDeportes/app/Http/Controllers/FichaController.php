@@ -29,7 +29,7 @@ class FichaController extends Controller
     public function create($idUsuario)
 	{
         $usuario =Usuario::findOrFail($idUsuario);
-        $categorias = DB::table('categorias as c')->get();
+        $categorias = DB::table('categorias as c')->where('c.tipo','=','SALA DE MUSCULACIÓN')->get();
         $unidades=UnidadAcademica::all()->pluck('unidad','id')->ToArray();
         
         $anio = date("Y");
@@ -522,21 +522,29 @@ class FichaController extends Controller
             $arancel_por_categoria = ArancelPorCategoria::where("id_categoria", $ficha->id_categoria)
                 ->where("id_tipo_de_arancel",$idTipoDeArancel)
                 ->where("estado",'VIGENTE')->first();
-            $importe = $arancel_por_categoria->importe;
-
-            if ($ficha->ultimo_arancel!=null){
-                $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
-                $fecha_actual = Carbon::now();
-                if($fechaUltimoArancel->gt($fecha_actual)){
-                    $mensaje = 'El último pago de arancel sigue vigente. Vence el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.';
-                } else $mensaje = 'El último pago de arancel venció el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.'; 
-            }  else $mensaje = 'Aun no se ha realizado ningún registro de arancel al Carnet Nº '.$id.'.';
+            if ($arancel_por_categoria!=null){
+                $nroValido=true;
+                $importe = $arancel_por_categoria->importe;
+                if ($ficha->ultimo_arancel!=null){
+                    $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
+                    $fecha_actual = Carbon::now();
+                    if($fechaUltimoArancel->gt($fecha_actual)){
+                        $mensaje = 'El último pago de arancel sigue vigente. Vence el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.';
+                    } else $mensaje = 'El último pago de arancel venció el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.'; 
+                }  else $mensaje = 'Aun no se ha realizado ningún registro de arancel al Carnet Nº '.$id.'.';
+            } else { 
+                $nroValido=false;
+                $importe ="0"; 
+                $mensaje = 'Comuniquese con un administrador porque no se registro el importe de la categoria correspondiente en Gestión de Importes. ';
+            }
+            
         } 
 
         return response()->json([
             'ficha' => $ficha,
             'mensaje' => $mensaje,
-            'importe' => $importe
+            'importe' => $importe,
+            'nroValido' => $nroValido
         ]);
     }
 }

@@ -202,10 +202,16 @@
                 type: "get",
                 url: "info/"+id,
                 success: function(respuesta) {
-                    //console.log(respuesta);
+                    console.log(respuesta);
                     document.getElementById('importe-'+id).value=respuesta.importe;
                     document.getElementById('importe_arancel_hidden-'+id).value=respuesta.importe;
                     document.getElementById('mensaje-'+id).innerHTML=respuesta.mensaje;
+                    if (respuesta.nroValido == true){
+                        let btnGuardarArancel = document.getElementById('btn_guardar_arancel');
+                        btnGuardarArancel.removeAttribute("hidden");
+                    } else  {
+                        console.log("no mostrar btn");
+                    }
                 }, fail: function(){
                     console.log("error");
                 }
