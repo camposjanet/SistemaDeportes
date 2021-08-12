@@ -21,6 +21,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/inicio', 'HomeController@index')->name('inicio');
+Route::get('/salamusculacion','HomeController@index_salamusculacion')->name('salamusculacion');
+Route::get('/albergue','HomeController@index_albergue')->name('albergue');
 
 //  USUARIOS (antes era socios)
 Route::get('usuario/create','UsuarioController@create');
@@ -102,3 +104,7 @@ Route::post('notificaciones/store/{idUser}','NotificacionArancelController@store
 Route::get('configuracion/importes/create','ImporteController@create');
 Route::get('configuracion/importes/create','ImporteController@store')->name('importe.store');
 Route::get('configuracion/importes','ImporteController@index')->name('importe.index');
+
+
+//ALBERGUE
+Route::get('albergue/menu_albergue','AlbergueController@index')->name('albergue.menu');
