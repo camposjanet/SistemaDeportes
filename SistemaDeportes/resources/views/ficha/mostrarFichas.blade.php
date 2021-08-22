@@ -202,7 +202,7 @@
                 type: "get",
                 url: "info/"+id,
                 success: function(respuesta) {
-                    console.log(respuesta);
+                    // console.log(respuesta);
                     document.getElementById('importe-'+id).value=respuesta.importe;
                     document.getElementById('importe_arancel_hidden-'+id).value=respuesta.importe;
                     let arrayDeMensajes = respuesta.mensaje.split('.');
@@ -215,7 +215,7 @@
                         let btnGuardarArancel = document.getElementById('btn_guardar_arancel');
                         btnGuardarArancel.removeAttribute("hidden");
                     } else  {
-                        console.log("no mostrar btn");
+                        // console.log("no mostrar btn");
                     }
                 }, fail: function(){
                     console.log("error");
