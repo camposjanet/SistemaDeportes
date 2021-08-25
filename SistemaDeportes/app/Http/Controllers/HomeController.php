@@ -28,4 +28,12 @@ class HomeController extends Controller
     {
         return view('inicio');
     }
+
+    public function index_salamusculacion(){
+        return view('salamusculacion');
+    }
+
+    public function index_albergue(){
+        return view('albergue');
+    }
 }

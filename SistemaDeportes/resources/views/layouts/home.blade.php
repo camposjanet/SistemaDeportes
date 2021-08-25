@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{{asset('bootstrap-4.5.0/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('style.css')}}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
+    <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}"> 
+    <!--<link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">-->
+    <script src="https://kit.fontawesome.com/53e0ed4112.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="{{asset('DataTables-1.10.21/css/jquery.dataTables.min.css')}}">
  </head>
@@ -68,35 +70,88 @@
                             <i class="fa fa-home fa-fw"></i>
                             <span>Inicio</span>
                         </a>
-                    </li>
-                    
-                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
-                        <li class="treeview">
-                            <a href="{{url('usuarios/')}}" class="text-white">
-                                <i class="fa fa-users"></i>
-                                <span>Usuarios</span>
-                            </a>
-                        </li>
-                    @endif
-
-                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Profesor")
-                        <li class="treeview">
-                            <a href="{{url('asistencia/menuasistencia')}}" class="text-white">
-                                <i class="fa fa-calendar"></i>
-                                <span>Control de Asistencia</span>
-                            </a>
-                        </li>
-                    @endif
+                    </li> 
 
                     @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
-                        <li class="treeview" >
-                            <a href="{{url('arancel/index')}}"  class="text-white">
-                                <i class="fa fa-usd"></i>
-                                <span>Pagos</span>
+                        <!--<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="albergue" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-hotel"></i>
+                                Albergue
                             </a>
-                        </li>
-                    @endif
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-bed"></i> Albergue </a>
+                                    <a class="dropdown-item" href="#"> <i class="fas fa-couch"></i> Bienes Patrimoniales </a>
+                            </div>
+                        </li> -->
+
+                        <!--<a href="#demo4" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 4  <i class="fa fa-caret-down"></i></a>
+                            <div class="collapse" id="demo4">
+                                <a href="" class="list-group-item">Subitem 1</a>
+                                <a href="" class="list-group-item">Subitem 2</a>
+                                <a href="" class="list-group-item">Subitem 3</a>
+                            </div> -->
+
+                        <!--<a href="#demo3" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu"><i class="fas fa-hotel"></i> Albergue</a>
+                        <div class="collapse" id="albergue">
+                            <a href="#Submenu1" class="list-group-item" data-toggle="collapse" data-parent="#Submenu1">
+                            <div class="collapse list-group-submenu" id="albergue">
+                                <a href="#" class="list-group-item" data-parent="#SubMenu1"><i class="fas fa-bed"></i> Albergue</a>
+                                <a href="#" class="list-group-item" data-parent="#SubMenu1"></i> Bienes Patrimoniales </a>
+                            </div>
+                        </div> -->
+                        <li class="treeview">
+                            <a href="#MenuAlbergue" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white" aria-controls="collapseExample"> <i class="fas fa-hotel"> </i><span> Albergue </span></a>
+                            <ul class="collapse"id="MenuAlbergue">
+                                <li>
+                                    <a class="text-white" href="#"><i class="fas fa-bed"></i> <span> Albergue </span> </a>
+                                </li>
+                                <li>
+                                   <a class="text-white" href="#"> <i class="fas fa-couch"></i><span> Bienes Patrimoniales </span></a> 
+                                </li>
+                            </ul>
+                        </li> 
+                    @endif  
                     
+                    @if(Auth::user()->roles->first()->nombre_rol=="Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario" || Auth::user()->roles->first()->nombre_rol== "Profesor")
+                        <!--<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="salamusculacion" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-dumbbell"></i>
+
+                                Sala de Musculación
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Operario")
+                                    <a class="dropdown-item" href="usuarios"><i class="fa fa-users"></i> Usuarios</a>
+                                    @endif
+                                    @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Profesor")
+                                    <a class="dropdown-item" href="{{url('asistencia/menuasistencia')}}"><i class="fa fa-calendar"></i>Control Asistencia</a>
+                                    @endif
+                                    @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Operario")
+                                    <a class="dropdown-item" href="{{url('arancel/index')}}"> <i class="fa fa-usd"></i> Pagos</a>
+                                    @endif
+                            </div>
+                        </li> -->
+                        <li class="treeview">
+                            <a href="#MenuSalamusculacion" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white"> <i class="fas fa-dumbbell"></i><span> Sala de Musculación </span></a>
+                            <ul class="collapse" id="MenuSalamusculacion">
+                                @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Operario")
+                                    <li>
+                                        <a class="text-white" href="usuarios"><i class="fa fa-users"></i><span> Usuarios </span></a>
+                                    </li>
+                                @endif
+                                @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Profesor")
+                                    <li>
+                                        <a class="text-white" href="{{url('asistencia/menuasistencia')}}"><i class="fa fa-calendar"></i><span> Control Asistencia </span></a>
+                                    </li>
+                                @endif
+                                @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Operario")
+                                    <li>
+                                        <a class="text-white" href="{{url('arancel/index')}}"> <i class="fa fa-usd"></i><span> Pagos </span></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif  
+
                     @if(Auth::user()->roles->first()->nombre_rol=="Administrador")   
                         <li class="treeview">
                             <a href="{{url('users/')}}"  class="text-white">
