@@ -102,9 +102,8 @@ Route::post('notificaciones/store/{idUser}','NotificacionArancelController@store
 
 //GESTION DE IMPORTES
 Route::get('configuracion/importes/create','ImporteController@create');
-Route::get('configuracion/importes/create','ImporteController@store')->name('importe.store');
+Route::post('configuracion/importes/create','ImporteController@store')->name('importe.store');
 Route::get('configuracion/importes','ImporteController@index')->name('importe.index');
-
 
 //ALBERGUE
 Route::get('albergue/menu_albergue','AlbergueController@index')->name('albergue.menu');

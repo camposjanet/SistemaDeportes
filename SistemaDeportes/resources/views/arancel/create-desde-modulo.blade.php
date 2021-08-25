@@ -74,14 +74,14 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="cantidad_meses">Cantidad de meses a pagar:</label>
+                                <label for="cantidad_meses">Cantidad de meses a pagar *</label>
                                 <input type="numeric"  class="form-control" name="cantidad_meses" id="cantidad_meses" value="1" onchange="calcular_importe()">
                             </div>
                             
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="nro_recibo">Nro Recibo:</label>
+                                <label for="nro_recibo">Nro Recibo *</label>
                                 <input type="text" class="form-control" name="nro_recibo" id="nro_recibo">
                             </div>
                         </div>

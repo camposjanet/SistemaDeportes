@@ -23,10 +23,12 @@ class ArancelController extends Controller
 	{
        $validator = Validator::make($request->all(), [
             'importe'=>'required|numeric|between:0,9999.99',
+            'cantidad_meses'=>'required|numeric',
+            'nro_recibo'=>'required',
         ]);
 
         if ($validator->fails()) {
-            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque se ingresó un importe no válido.');
+            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque no se completaron todos campos obligatorios.');
             return Redirect::back();         
         }
 
@@ -126,12 +128,20 @@ class ArancelController extends Controller
             $arancel_por_categoria = ArancelPorCategoria::where("id_categoria", $ficha->id_categoria)
                 ->where("id_tipo_de_arancel",$idTipoDeArancel)
                 ->where("estado",'VIGENTE')->first();
-            $importe = $arancel_por_categoria->importe;
-            if ($ficha->estado == 'ACTIVO') $nroValido=true;
-            else {
+            
+            if ($arancel_por_categoria!=null){
+                $importe = $arancel_por_categoria->importe;
+                if ($ficha->estado == 'ACTIVO') $nroValido=true;
+                else {
+                    $nroValido=false;
+                    Session::flash('error_en_pago_arancel','El carnet Nº '.$nro.' no se encuentra ACTIVO.');       
+                }
+            } else {
                 $nroValido=false;
-                Session::flash('error_en_pago_arancel','El carnet Nº '.$nro.' no se encuentra ACTIVO.');       
+                $importe="0";
+                Session::flash('error_en_pago_arancel','Comuniquese con un administrador porque no se registro el importe de la categoria correspondiente en Gestión de Importes. ');
             }
+            
         } else {
             $nroValido=false;
             Session::flash('error_en_pago_arancel','No se encontró el carnet Nº '.$nro.' por favor vuelva a ingresar un número.');       
@@ -157,9 +167,11 @@ class ArancelController extends Controller
     public function registrarArancelDesdeModulo(Request $request,$idFicha){
        $validator = Validator::make($request->all(), [
             'importe'=>'required|numeric|between:0,9999.99',
+            'cantidad_meses'=>'required|numeric',
+            'nro_recibo'=>'required',
         ]);
         if ($validator->fails()) {
-            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque se ingresó un importe no válido.');       
+            Session::flash('error_en_pago_arancel','No se registró el pago del arancel a la Ficha Nº '.$idFicha.' porque no se completaron todos campos obligatorios.');       
             return response()->json([
                 'mensaje' => 'importe no valido'
             ]);
