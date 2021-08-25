@@ -10,8 +10,8 @@
                     <div class="ml-3 mr-2">
                         <div class="row">
                             <div class="col-lg-12 mt-1">
-                                <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensaje">
-                                    
+                                <div class="alert alert-info alert-dismissible fade show" role="alert" >
+                                    <ul id="mensaje"></ul>
                                 </div>
                             </div>
                         </div>

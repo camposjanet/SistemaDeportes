@@ -106,7 +106,12 @@
                             document.getElementById('dni_arancel').value=respuesta.ficha.dni;
                             document.getElementById('importe_arancel').value=respuesta.importe;
                             document.getElementById('importe_arancel_hidden').value=respuesta.importe;
-                            document.getElementById('mensaje').innerHTML=respuesta.mensaje;
+                            let arrayDeMensajes = respuesta.mensaje.split('.');
+                            let mensaje = '';
+                            for (var i=0; i < arrayDeMensajes.length-1; i++) {
+                                mensaje = mensaje+'<li>'+arrayDeMensajes[i]+'</li>';
+                            }
+                            document.getElementById('mensaje').innerHTML=mensaje;
                             $('#verModalRegistrarArancel').modal('show');
                         } else $(location).attr('href',"/arancel/index");
                         

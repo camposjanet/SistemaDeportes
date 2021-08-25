@@ -9,6 +9,10 @@ use App\User;
 use App\Arancel;
 use App\Ficha;
 use App\ArancelPorCategoria;
+use App\CertificadoAlumnoRegular;
+use App\CertificadoMedico;
+use App\DocumentacionFamiliar;
+use App\ReciboSueldo;
 
 use DB;
 use Illuminate\Support\Collection;
@@ -121,8 +125,10 @@ class ArancelController extends Controller
                     DB::raw('CONCAT(u.apellido," ",u.nombre)AS nombre_usuario'), 'u.dni', 'u.fecha_de_nacimiento', 'u.email','u.domicilio','u.foto')
         ->where('f.id',$nro)
         ->first();
-
+        $idEstadoNoPresento = DB::table('estados_de_documento as e')->where('e.estado','=','NO PRESENTO')->value('id');
         $idTipoDeArancel= DB::table('tipo_de_arancel as t')->where('t.nombre','=','SALA DE MUSCULACION')->value('id');
+        $fecha= Carbon::now()->format('Y-m-d');
+        $mensaje = "";
 
         if ($ficha!=null) {
             $arancel_por_categoria = ArancelPorCategoria::where("id_categoria", $ficha->id_categoria)
@@ -131,30 +137,70 @@ class ArancelController extends Controller
             
             if ($arancel_por_categoria!=null){
                 $importe = $arancel_por_categoria->importe;
-                if ($ficha->estado == 'ACTIVO') $nroValido=true;
-                else {
+                if ($ficha->estado == 'ACTIVO') {
+                    $nroValido=true;
+                    // * CERTIFICADO MÉDICO *
+                    $certmedico=CertificadoMedico::where('id_ficha',$ficha->idficha)->first();
+                    if( $certmedico->id_estado_documento == $idEstadoNoPresento ){
+                        $mensaje= "NO PRESENTÓ CERTIFICADO MÉDICO.";
+                    } else {
+                        if ($certmedico->fecha_de_vencimiento < $fecha) {
+                            $mensaje="EL CERTIFICADO MÉDICO VENCIÓ EL ".$certmedico->fecha_de_vencimiento->format('d/m/Y').".";
+                        }
+                    }
+
+                    if ($ficha->categoria=='Estudiante'){
+                        // * CERTIFICADO DE ALUMNO REGULAR *
+                        $car=CertificadoAlumnoRegular::where('id_ficha',$ficha->idficha)->first();
+                        if($car->id_estado_documento == $idEstadoNoPresento){
+                            $mensaje= $mensaje."NO PRESENTÓ CERTIFICADO DE ALUMNO REGULAR.";
+                            
+                        } else {
+                            if ($car->fecha_de_vencimiento < $fecha) {
+                                $mensaje = $mensaje."EL CERTIFICADO DE ALUMNO REGULAR VENCIÓ EL ".$car->fecha_de_vencimiento->format('d/m/Y').".";
+                            }
+                        }
+                    } elseif ($ficha->categoria=='Docente' || $ficha->categoria=='PAU') {
+                        // * CONSTANCIA DE TRABAJO PAU - DOCENTE (recibo de sueldo) *
+                        $recibo=ReciboSueldo::where('id_ficha',$ficha->idficha)->first();
+                        if($recibo->id_estado_documento == $idEstadoNoPresento){
+                            $mensaje= $mensaje."NO PRESENTÓ CONSTANCIA DE TRABAJO.";
+                        }
+                        
+                    } else {
+                        if ($ficha->categoria == 'Familiar'){
+                            // * DOCUMENTACIÓN FAMILIAR *
+                            $doc=DocumentacionFamiliar::where('id_ficha',$ficha->idficha)->first();
+                            if($doc->id_estado_documento == $idEstadoNoPresento){
+                                $mensaje= $mensaje."NO PRESENTÓ DOCUMENTACIÓN FAMILIAR.";
+                            }
+                        }
+                    }
+
+                    if ($ficha->ultimo_arancel!=null){
+                        $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
+                        $fecha_actual = Carbon::now();
+                        if($fechaUltimoArancel->gt($fecha_actual)){
+                            $mensaje = $mensaje.'El último pago de arancel sigue vigente, vence el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.';
+                        } else $mensaje = $mensaje.'El último pago de arancel  venció el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.'; 
+                    }  else $mensaje = $mensaje.'Aún no se ha realizó ningún registro de arancel al Carnet Nº '.$nro.'.';
+                    
+                } else {
                     $nroValido=false;
+                    $importe="0";
                     Session::flash('error_en_pago_arancel','El carnet Nº '.$nro.' no se encuentra ACTIVO.');       
                 }
             } else {
                 $nroValido=false;
                 $importe="0";
-                Session::flash('error_en_pago_arancel','Comuniquese con un administrador porque no se registro el importe de la categoria correspondiente en Gestión de Importes. ');
+                Session::flash('error_en_pago_arancel','Comuníquese con un administrador porque no se realizó el registro de importe para la categoria '.$ficha->categoria.' en Gestión de Importes. ');
             }
             
         } else {
             $nroValido=false;
+            $importe="0";
             Session::flash('error_en_pago_arancel','No se encontró el carnet Nº '.$nro.' por favor vuelva a ingresar un número.');       
         }
-
-        if ($ficha->ultimo_arancel!=null){
-            $fechaUltimoArancel = Carbon::parse($ficha->ultimo_arancel);
-            $fecha_actual = Carbon::now();
-            if($fechaUltimoArancel->gt($fecha_actual)){
-                $mensaje = 'El último pago de arancel  sigue vigente. Vence el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.';
-            } else $mensaje = 'El último pago de arancel  venció el '.Carbon::parse($ficha->ultimo_arancel)->format('d/m/Y').'.'; 
-        }  else $mensaje = 'Aun no se ha realizado ningún registro de arancel al Carnet Nº '.$nro.'.';
-        
 
         return response()->json([
             'nroValido' => $nroValido,

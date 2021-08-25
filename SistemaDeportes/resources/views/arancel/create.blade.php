@@ -18,7 +18,8 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12 mt-1">
-                        <div class="alert alert-info alert-dismissible fade show" role="alert" id="mensaje-{{$ficha->id}}">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert" >
+                            <ul id="mensaje-{{$ficha->id}}"></ul>
                         </div>
                     </div>
                 </div>
