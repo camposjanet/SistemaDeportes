@@ -107,3 +107,4 @@ Route::get('configuracion/importes','ImporteController@index')->name('importe.in
 
 //ALBERGUE
 Route::get('albergue/menu_albergue','AlbergueController@index')->name('albergue.menu');
+Route::get('albergues','AlbergueController@mostrar_albergues')->name('albergue.mostrar');

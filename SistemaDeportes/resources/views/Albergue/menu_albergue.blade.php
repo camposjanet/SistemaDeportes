@@ -10,12 +10,12 @@
     <div class="row justify-content-center">
         @if(Auth::user()->roles->first()->nombre_rol== "Administrador" || Auth::user()->roles->first()->nombre_rol=="Operario")
             <div class="col-md-3">
-                <a role="button" href="#" style="padding:0px;">
+                <a role="button" href="{{url('albergues')}}" style="padding:0px;">
                     <div class="card border-primary mb-2 mr-2"  style="width:100%;">
                     
                         <div class="card-header bg-primary text-white">Albergue</div>
                         <div class="card-body text-secondary mx-auto" style="font-size: 6rem;">
-                            <a href="#" class="text-primary">
+                            <a href="{{url('albergues')}}" class="text-primary">
                                 <i class="fas fa-bed"></i>
 
                             </a>
