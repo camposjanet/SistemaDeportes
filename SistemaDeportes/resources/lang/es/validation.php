@@ -218,6 +218,9 @@ return [
         'newpassword_confirmation' => 'Confirmar nueva contraseña',
         'id_categoria'         =>'categoría *',
         'id_tipo_de_arancel'         =>'tipo de arancel *',
-        'nro_resolucion' => 'número de resolución *'
+        'nro_resolucion' => 'número de resolución *',
+        'nombrebp' => 'nombre *',
+        'id_albergue' => 'albergue',
+        'nombre_bienpatrimonial' => 'nombre',
     ],
 ];
