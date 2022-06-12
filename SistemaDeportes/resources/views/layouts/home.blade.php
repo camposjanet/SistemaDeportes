@@ -80,7 +80,7 @@
                                     <a class="text-white" href="{{url('albergues')}}"><i class="fas fa-bed"></i> <span> Albergue </span> </a>
                                 </li>
                                 <li>
-                                   <a class="text-white" href="#"> <i class="fas fa-couch"></i><span> Bienes Patrimoniales </span></a> 
+                                   <a class="text-white" href="{{url('bienespatrimoniales')}}"> <i class="fas fa-couch"></i><span> Bienes Patrimoniales </span></a> 
                                 </li>
                             </ul>
                         </li> 
@@ -92,7 +92,7 @@
                             <ul class="collapse" id="MenuSalamusculacion">
                                 @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Operario")
                                     <li>
-                                        <a class="text-white" href="usuarios"><i class="fa fa-users"></i><span> Usuarios </span></a>
+                                        <a class="text-white" href="{{url('usuarios')}}"><i class="fa fa-users"></i><span> Usuarios </span></a>
                                     </li>
                                 @endif
                                 @if(Auth::user()->roles()->first()->nombre_rol=="Administrador" || Auth::user()->roles()->first()->nombre_rol=="Profesor")
